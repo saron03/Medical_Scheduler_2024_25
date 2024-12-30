@@ -10,7 +10,7 @@ import {
 import { RolesService } from './roles.service';
 import { Role } from './roles.entity';
 
-@Controller('api/v1/roles') // REST API Versioning
+@Controller('v1/roles') // REST API Versioning
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
@@ -20,11 +20,13 @@ export class RolesController {
    * @returns Array of roles
    */
   @Get()
-  async findAll(): Promise<{ roles: String[] }> {
+  async findAll(): Promise<Role[]> {
     const roles = this.rolesService.findAll();
-    return {
-      roles: (await roles).map((role) => role.name),
-    };
+    return roles;
+    // ! Implement it later
+    // return {
+    //   roles: (await roles).map((role) => role.name),
+    // };
   }
 
   /**
