@@ -1,6 +1,3 @@
-// src/components/index.ts
-
-// Sample data
 interface User {
     name: string;
     id: string;
@@ -9,6 +6,7 @@ interface User {
     time?: string;
 }
 
+// Sample data
 const users: User[] = [
     { name: "John Doe", id: "001", age: 30, status: "Not Pending" },
     { name: "Jane Doe", id: "002", age: 25, status: "Not Pending" },
@@ -18,7 +16,7 @@ let totalCompleted: number = 0;
 let totalPending: number = users.filter(user => user.status === "Pending").length;
 let resolvedPending: number = 0;
 
-// Function to render users in the table
+// Renders the queue database in a table
 function renderUsers(users: User[]): void {
     const userTableBody = document.getElementById('userTableBody') as HTMLElement;
     userTableBody.innerHTML = '';
@@ -31,6 +29,7 @@ function renderUsers(users: User[]): void {
             <td>${user.status}</td>
             <td>
                 <button class="btn btn-secondary btn-sm" onclick="pendUser(${index})">Pend</button>
+                <button class="btn btn-warning btn-sm" onclick="updateUser(${index})">Update</button>
                 <button class="btn btn-success btn-sm" onclick="completeUser(${index})">Complete</button>
             </td>
         </tr>`;
@@ -39,38 +38,28 @@ function renderUsers(users: User[]): void {
     updateCounters();
 }
 
-// Function to delete a user and add to completed list
+// deletes users from queue table when service is completed
 function completeUser(index: number): void {
-    const completedUser: User = users.splice(index, 1)[0];
+    const completedUser = users.splice(index, 1)[0];
     completedUser.time = new Date().toLocaleString();
     totalCompleted++;
     renderUsers(users);
 
-    // Store completed user in local storage
+    // It caches serviced users for review if needed
     const completedUsers: User[] = JSON.parse(localStorage.getItem('completedUsers') || '[]');
     completedUsers.push(completedUser);
     localStorage.setItem('completedUsers', JSON.stringify(completedUsers));
 }
 
-// Function to add a new user
-function addUser(event: Event): void {
-    event.preventDefault();
-    const name = (document.getElementById('userName') as HTMLInputElement).value;
-    const id = (document.getElementById('userId') as HTMLInputElement).value;
-    const age = parseInt((document.getElementById('userAge') as HTMLInputElement).value, 10);
-    users.push({ name, id, age, status: "Not Pending" });
-    renderUsers(users);
-    closeAddUserModal();
-}
 
-// Function to pend a user
+// pends users
 function pendUser(index: number): void {
     users[index].status = "Pending";
     totalPending++;
     renderUsers(users);
 }
 
-// Function to resolve a pending user
+// listens for an update from receptioist side
 function resolvePendingUser(index: number): void {
     users[index].status = "Resolved Pending";
     totalPending--;
@@ -78,11 +67,11 @@ function resolvePendingUser(index: number): void {
     renderUsers(users);
 }
 
-// Function to filter users based on the search input
+// implements search mechanism
 function filterUsers(): void {
     const searchValue = (document.getElementById('searchInput') as HTMLInputElement).value.toLowerCase();
-    const filteredUsers = users.filter(user =>
-        user.name.toLowerCase().includes(searchValue) ||
+    const filteredUsers = users.filter(user => 
+        user.name.toLowerCase().includes(searchValue) || 
         user.id.toLowerCase().includes(searchValue) ||
         user.age.toString().toLowerCase().includes(searchValue) ||
         user.status.toLowerCase().includes(searchValue)
@@ -97,15 +86,6 @@ function updateCounters(): void {
     (document.getElementById('resolvedPending') as HTMLElement).innerText = resolvedPending.toString();
 }
 
-// Functions to open and close Add User Modal
-function openAddUserModal(): void {
-    (document.getElementById('addUserModal') as HTMLElement).style.display = "block";
-}
-
-function closeAddUserModal(): void {
-    (document.getElementById('addUserModal') as HTMLElement).style.display = "none";
-}
-
 // Save the state before navigating away
 function saveState(): void {
     localStorage.setItem('users', JSON.stringify(users));
@@ -114,21 +94,21 @@ function saveState(): void {
     localStorage.setItem('resolvedPending', resolvedPending.toString());
 }
 
-(document.querySelector('a[href="completed.html"]') as HTMLElement).addEventListener('click', saveState);
+(document.querySelector('a[href="completed.html"]') as HTMLAnchorElement).addEventListener('click', saveState);
 
 // Load the state when the page loads
-document.addEventListener('DOMContentLoaded', (event) => {
-    const savedUsers: User[] = JSON.parse(localStorage.getItem('users') || '[]');
+document.addEventListener('DOMContentLoaded', () => {
+    const savedUsers = JSON.parse(localStorage.getItem('users') || '[]');
     const savedTotalCompleted = localStorage.getItem('totalCompleted');
     const savedTotalPending = localStorage.getItem('totalPending');
     const savedResolvedPending = localStorage.getItem('resolvedPending');
 
-    if (savedUsers.length > 0) {
+    if (savedUsers) {
         users.length = 0; // Clear the existing users array
         users.push(...savedUsers); // Load saved users
-        totalCompleted = parseInt(savedTotalCompleted || '0', 10);
-        totalPending = parseInt(savedTotalPending || '0', 10);
-        resolvedPending = parseInt(savedResolvedPending || '0', 10);
+        totalCompleted = parseInt(savedTotalCompleted, 10);
+        totalPending = parseInt(savedTotalPending, 10);
+        resolvedPending = parseInt(savedResolvedPending, 10);
         renderUsers(users);
     }
 });
