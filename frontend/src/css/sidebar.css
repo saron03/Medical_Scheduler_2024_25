@@ -1,16 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-/* SideBar */
-
 ::after,
 ::before {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-
 a {
     text-decoration: none;
+    
 }
 
 li {
@@ -80,6 +78,10 @@ body {
     display: none;
 }
 
+a[href="#"] {
+    text-decoration: none;
+}
+
 .sidebar-nav {
     padding: 2rem 0;
     flex: 1 1 auto;
@@ -89,6 +91,7 @@ a.sidebar-link {
     padding: .625rem 1.625rem;
     color: #FFF;
     display: block;
+    text-decoration: none;
     font-size: 0.9rem;
     white-space: nowrap;
     border-left: 3px solid transparent;
@@ -141,4 +144,18 @@ a.sidebar-link:hover {
 #sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
     transform: rotate(45deg);
     transition: all .2s ease-out;
+}
+
+header {
+    width: 100%;
+    margin: 0;
+    padding: .5rem 2rem;
+    background-color: #e4e4e4;
+    display: flex;
+    justify-content: flex-end;
+}
+
+header> img {
+    height: 2rem;
+    width: 2rem;
 }

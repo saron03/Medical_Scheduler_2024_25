@@ -11,81 +11,117 @@
     <title>Doctor Queue</title>
 </head>
 <body>
-<div class="container mt-5">
-    <h2 class="mb-4">User Table</h2>
+
+
+    <div class="wrapper">
+        <aside id="sidebar">
+            <div class="d-flex">
+                <button class="toggle-btn" type="button">
+                    <i class="lni lni-grid-alt"></i>
+                </button>
+                <div class="sidebar-logo">
+                    <a href="#">Medicare</a>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="serviced_paitients.html" class="sidebar-link">
+                        <i class="lni lni-users"></i>
+                        <span>Serviced Patients</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-exit"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <div class="main">
+        <header>
+            <img src="imgs/profile.png" alt="">
+        </header>
+        <div class="container mt-5">
+            <h2 class="mb-4">Paitient Queue</h2>
+            <!-- Cards Section -->
+            <div class="card-deck">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Completed</h5>
+                        <p class="card-text" id="totalCompleted">0</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Pending</h5>
+                        <p class="card-text" id="totalPending">0</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Resolved Pending</h5>
+                        <p class="card-text" id="resolvedPending">0</p>
+                    </div>
+                </div>
+            </div>
+        
+            <button class="btn btn-primary mb-3" onclick="openAddUserModal()">Add User</button>
+            <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search for users..." oninput="filterUsers()">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>ID</th>
+                        <th>Age</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody">
+                    <!-- Rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Add User Modal -->
+        <div id="addUserModal" class="modal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                        <span class="close" onclick="closeAddUserModal()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addUserForm" onsubmit="addUser(event)">
+                            <div class="form-group">
+                                <label for="userName">Name</label>
+                                <input type="text" class="form-control" id="userName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="userId">ID</label>
+                                <input type="text" class="form-control" id="userId" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="userAge">Age</label>
+                                <input type="number" class="form-control" id="userAge" required>
+                            </div>
+                            <button type="submit" class="btn">Add User</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        </div>
+    </div>
+
     
-    <!-- Cards Section -->
-    <div class="card-deck">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Total Completed</h5>
-                <p class="card-text" id="totalCompleted">0</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Pending</h5>
-                <p class="card-text" id="totalPending">0</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Resolved Pending</h5>
-                <p class="card-text" id="resolvedPending">0</p>
-            </div>
-        </div>
-    </div>
-
-    <button class="btn btn-primary mb-3" onclick="openAddUserModal()">Add User</button>
-    <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search for users..." oninput="filterUsers()">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>ID</th>
-                <th>Age</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="userTableBody">
-            <!-- Rows will be dynamically added here -->
-        </tbody>
-    </table>
-    <a href="completed.html" class="btn btn-secondary">View Completed</a>
-</div>
-
-<!-- Add User Modal -->
-<div id="addUserModal" class="modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
-                <span class="close" onclick="closeAddUserModal()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <form id="addUserForm" onsubmit="addUser(event)">
-                    <div class="form-group">
-                        <label for="userName">Name</label>
-                        <input type="text" class="form-control" id="userName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="userId">ID</label>
-                        <input type="text" class="form-control" id="userId" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="userAge">Age</label>
-                        <input type="number" class="form-control" id="userAge" required>
-                    </div>
-                    <button type="submit" class="btn">Add User</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
     <script src="scripts/js/bootstrap.bundle.js"></script>
     <script src="scripts/js/sidebar.js"></script>
     <script src="scripts/js/doctor_queue.js"></script>

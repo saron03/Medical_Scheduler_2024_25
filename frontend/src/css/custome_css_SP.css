@@ -1,0 +1,37 @@
+.card {
+    margin-bottom: 1rem;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+}
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.card-body h5 {
+    font-weight: bold;
+}
+.table thead {
+    background-color: #6a11cb;
+    color: white;
+}
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+.table tbody tr.completed {
+    border-left: 5px solid green;
+    border-radius: 0 10px 10px 0;
+}
+.btn {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    border: none;
+    transition: background 0.3s ease-in-out, transform 0.3s;
+}
+.btn:hover {
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+}
+.btn:active {
+    transform: scale(0.95);
+}

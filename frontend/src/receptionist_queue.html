@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receptionist Queue</title>
+    <link rel="stylesheet" href="css/custome_receptionist.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+    <div class="wrapper">
+        <aside id="sidebar">
+            <div class="d-flex">
+                <button class="toggle-btn" type="button">
+                    <i class="lni lni-grid-alt"></i>
+                </button>
+                <div class="sidebar-logo">
+                    <a href="#">Medicare</a>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-exit"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <div class="main">
+            <header>
+                <img src="imgs/profile.png" alt="">
+            </header>
+            <div class="container mt-5">
+                <h2 class="mb-4">Receptionist Queue</h2>
+                
+                <!-- Active Entries Count Card -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Active Entries</h5>
+                        <p class="card-text" id="activeEntries">0</p>
+                    </div>
+                </div>
+                
+                        <!-- Pending Entries Count Card -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Pending Entries</h5>
+                        <p class="card-text" id="pendingEntries">0</p>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary mb-3" onclick="openAddUserModal()">Add Paitient</button>
+                <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search for users..." oninput="filterUsers()">
+        
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date and Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                        <!-- Rows will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+                
+                    <!-- Add User Modal -->
+            <div class="modal" id="addUserModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Paitient</h5>
+                            <button type="button" class="btn-close" onclick="closeAddUserModal()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addUserForm" onsubmit="addUser(event)">
+                                <div class="mb-3">
+                                    <label for="userName" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="userName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="userDob" class="form-label">Date of Birth</label>
+                                    <input type="date" class="form-control" id="userDob" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="userContact" class="form-label">Contact Info</label>
+                                    <input type="text" class="form-control" id="userContact" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="userEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="userEmail" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Paitient</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        <script src="scripts/js/bootstrap.min.js"></script>
+        <script src="scripts/js/sidebar.js"></script>
+        <script src="scripts/js/receptionist.js"></script>
+    </body>
+</html>
+    
