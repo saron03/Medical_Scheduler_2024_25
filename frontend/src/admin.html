@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/custome_admin.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <div class="wrapper">
+        
+        <aside id="sidebar">
+            <div class="d-flex">
+                <button class="toggle-btn" type="button">
+                    <i class="lni lni-grid-alt"></i>
+                </button>
+                <div class="sidebar-logo">
+                    <a href="#">Medicare</a>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-exit"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <div class="main">
+            <header>
+                <img src="imgs/profile.png" alt="">
+            </header>
+
+            <div class="container mt-5">
+                <h2 class="mb-4">Admin Dashboard</h2>
+                <div class="card-deck mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Doctors</h5>
+                            <p class="card-text" id="totalDoctors">0</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Receptionists</h5>
+                            <p class="card-text" id="totalReceptionists">0</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Restricted Accounts</h5>
+                            <p class="card-text" id="restrictedAccounts">0</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search for users..." oninput="filterUsers()">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Account Status</th>
+                            <th>Role</th>
+                            <th>Operations</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="scripts/js/bootstrap.bundle.js"></script>
+    <script src="scripts/js/sidebar.js"></script>
+    <script src="scripts/js/admin.js"></script>
+</body>
+</html>

@@ -58,11 +58,6 @@ function completeUser(index: number): void {
     completedUser.time = new Date().toLocaleString();
     totalCompleted++;
     renderUsers(users);
-
-    // It caches serviced users for review if needed
-    const completedUsers: User[] = JSON.parse(localStorage.getItem('completedUsers') || '[]');
-    completedUsers.push(completedUser);
-    localStorage.setItem('completedUsers', JSON.stringify(completedUsers));
 }
 
 // Pends users
@@ -105,42 +100,15 @@ function updateCounters(): void {
     (document.getElementById('resolvedPending') as HTMLElement).innerText = resolvedPending.toString();
 }
 
-// Save the state before navigating away
-function saveState(): void {
-    localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('totalCompleted', totalCompleted.toString());
-    localStorage.setItem('totalPending', totalPending.toString());
-    localStorage.setItem('resolvedPending', resolvedPending.toString());
-}
 
-(document.querySelector('a[href="completed.html"]') as HTMLAnchorElement).addEventListener('click', saveState);
+// Placeholder function to simulate fetching users from the database
+// function fetchUsersFromDatabase(): Promise<User[]> {
+//     // Replace this with actual database fetching logic
+//     return new Promise(resolve => {
+//         setTimeout(() => {
+//             resolve(users);
+//         }, 1000);
+//     });
+// }
 
-// Load the state when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    const savedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    const savedTotalCompleted = localStorage.getItem('totalCompleted');
-    const savedTotalPending = localStorage.getItem('totalPending');
-    const savedResolvedPending = localStorage.getItem('resolvedPending');
-
-    if (savedUsers.length > 0) {
-        users.length = 0; // Clear the existing users array
-        users.push(...savedUsers); // Load saved users
-    }
-
-    if (savedTotalCompleted !== null) {
-        totalCompleted = parseInt(savedTotalCompleted, 10);
-    }
-
-    if (savedTotalPending !== null) {
-        totalPending = parseInt(savedTotalPending, 10);
-    }
-
-    if (savedResolvedPending !== null) {
-        resolvedPending = parseInt(savedResolvedPending, 10);
-    }
-
-    renderUsers(users);
-});
-
-// Initial rendering of users
-renderUsers(users);
+renderUsers(users)

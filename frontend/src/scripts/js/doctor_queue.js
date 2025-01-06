@@ -38,10 +38,6 @@ function completeUser(index) {
     completedUser.time = new Date().toLocaleString();
     totalCompleted++;
     renderUsers(users);
-    // It caches serviced users for review if needed
-    var completedUsers = JSON.parse(localStorage.getItem('completedUsers') || '[]');
-    completedUsers.push(completedUser);
-    localStorage.setItem('completedUsers', JSON.stringify(completedUsers));
 }
 // Pends users
 function pendUser(index) {
@@ -79,35 +75,22 @@ function updateCounters() {
     document.getElementById('totalPending').innerText = totalPending.toString();
     document.getElementById('resolvedPending').innerText = resolvedPending.toString();
 }
-// Save the state before navigating away
-function saveState() {
-    localStorage.setItem('users', JSON.stringify(users));
-    localStorage.setItem('totalCompleted', totalCompleted.toString());
-    localStorage.setItem('totalPending', totalPending.toString());
-    localStorage.setItem('resolvedPending', resolvedPending.toString());
-}
-document.querySelector('a[href="completed.html"]').addEventListener('click', saveState);
-// Load the state when the page loads
-document.addEventListener('DOMContentLoaded', function () {
-    var savedUsers = JSON.parse(localStorage.getItem('users') || '[]');
-    var savedTotalCompleted = localStorage.getItem('totalCompleted');
-    var savedTotalPending = localStorage.getItem('totalPending');
-    var savedResolvedPending = localStorage.getItem('resolvedPending');
-    if (savedUsers.length > 0) {
-        users.length = 0; // Clear the existing users array
-        users.push.apply(// Clear the existing users array
-        users, savedUsers); // Load saved users
-    }
-    if (savedTotalCompleted !== null) {
-        totalCompleted = parseInt(savedTotalCompleted, 10);
-    }
-    if (savedTotalPending !== null) {
-        totalPending = parseInt(savedTotalPending, 10);
-    }
-    if (savedResolvedPending !== null) {
-        resolvedPending = parseInt(savedResolvedPending, 10);
-    }
-    renderUsers(users);
-});
-// Initial rendering of users
+// Initial rendering of users when the page loads
+// document.addEventListener('DOMContentLoaded', () => {
+//     // Assuming a fetch from the database to load users
+//     fetchUsersFromDatabase().then(fetchedUsers => {
+//         users.length = 0; // Clear the existing users array
+//         users.push(...fetchedUsers); // Load fetched users
+//         ;
+//     });
+// });
+// Placeholder function to simulate fetching users from the database
+// function fetchUsersFromDatabase(): Promise<User[]> {
+//     // Replace this with actual database fetching logic
+//     return new Promise(resolve => {
+//         setTimeout(() => {
+//             resolve(users);
+//         }, 1000);
+//     });
+// }
 renderUsers(users);
