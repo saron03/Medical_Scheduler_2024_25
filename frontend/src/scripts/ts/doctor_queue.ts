@@ -8,12 +8,12 @@ interface User {
 
 // Sample data
 const users: User[] = [
-    { name: "John Doe", id: "001", age: 30, status: "Not Pending" },
-    { name: "Jane Doe", id: "002", age: 25, status: "Not Pending" },
+    { name: "John Doe", id: "001", age: 30, status: "not pending" },
+    { name: "Jane Doe", id: "002", age: 25, status: "not pending" },
 ];
 
 let totalCompleted: number = 0;
-let totalPending: number = users.filter(user => user.status === "Pending").length;
+let totalPending: number = users.filter(user => user.status === "pending").length;
 let resolvedPending: number = 0;
 
 // Renders the queue database in a table
@@ -21,24 +21,38 @@ function renderUsers(users: User[]): void {
     const userTableBody = document.getElementById('userTableBody') as HTMLElement;
     userTableBody.innerHTML = '';
     users.forEach((user, index) => {
-        const rowClass = user.status === "Pending" ? "pending" : (user.status === "Resolved Pending" ? "resolved" : "");
+        const rowClass = user.status === "pending" ? "pending" : (user.status === "Resolved Pending" ? "resolved" : "");
         const row = `<tr class="${rowClass}">
             <td>${user.name}</td>
             <td>${user.id}</td>
             <td>${user.age}</td>
             <td>${user.status}</td>
             <td>
-                <button class="btn btn-secondary btn-sm" onclick="pendUser(${index})">Pend</button>
-                <button class="btn btn-warning btn-sm" onclick="updateUser(${index})">Update</button>
+                <button class="btn btn-secondary btn-sm pend-btn" onclick="pendUser(${index})">${user.status === "pending" ? "unpend" : "pend"}</button>
                 <button class="btn btn-success btn-sm" onclick="completeUser(${index})">Complete</button>
             </td>
         </tr>`;
         userTableBody.innerHTML += row;
     });
+    addPendEventListeners();
     updateCounters();
 }
 
-// deletes users from queue table when service is completed
+// Adds event listeners to all pend buttons
+function addPendEventListeners(): void {
+    const pendButtons = document.querySelectorAll('.pend-btn');
+    pendButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            if (button.textContent === "pend") {
+                button.textContent = "unpend";
+            } else {
+                button.textContent = "pend";
+            }
+        });
+    });
+}
+
+// Deletes users from queue table when service is completed
 function completeUser(index: number): void {
     const completedUser = users.splice(index, 1)[0];
     completedUser.time = new Date().toLocaleString();
@@ -51,15 +65,20 @@ function completeUser(index: number): void {
     localStorage.setItem('completedUsers', JSON.stringify(completedUsers));
 }
 
-
-// pends users
+// Pends users
 function pendUser(index: number): void {
-    users[index].status = "Pending";
-    totalPending++;
+    if (users[index].status === "not pending") {
+        users[index].status = "pending";
+        totalPending++;
+    }
+    else {
+        users[index].status = "not pending";
+        totalPending--;
+    }
     renderUsers(users);
 }
 
-// listens for an update from receptioist side
+// Listens for an update from receptionist side
 function resolvePendingUser(index: number): void {
     users[index].status = "Resolved Pending";
     totalPending--;
@@ -67,14 +86,14 @@ function resolvePendingUser(index: number): void {
     renderUsers(users);
 }
 
-// implements search mechanism
+// Implements search mechanism
 function filterUsers(): void {
     const searchValue = (document.getElementById('searchInput') as HTMLInputElement).value.toLowerCase();
     const filteredUsers = users.filter(user => 
-        user.name.toLowerCase().includes(searchValue) || 
-        user.id.toLowerCase().includes(searchValue) ||
-        user.age.toString().toLowerCase().includes(searchValue) ||
-        user.status.toLowerCase().includes(searchValue)
+        user.name.toLowerCase().startsWith(searchValue) || 
+        user.id.toLowerCase().startsWith(searchValue) ||
+        user.age.toString().toLowerCase().startsWith(searchValue) ||
+        user.status.toLowerCase().startsWith(searchValue)
     );
     renderUsers(filteredUsers);
 }
@@ -103,14 +122,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const savedTotalPending = localStorage.getItem('totalPending');
     const savedResolvedPending = localStorage.getItem('resolvedPending');
 
-    if (savedUsers) {
+    if (savedUsers.length > 0) {
         users.length = 0; // Clear the existing users array
         users.push(...savedUsers); // Load saved users
-        totalCompleted = parseInt(savedTotalCompleted, 10);
-        totalPending = parseInt(savedTotalPending, 10);
-        resolvedPending = parseInt(savedResolvedPending, 10);
-        renderUsers(users);
     }
+
+    if (savedTotalCompleted !== null) {
+        totalCompleted = parseInt(savedTotalCompleted, 10);
+    }
+
+    if (savedTotalPending !== null) {
+        totalPending = parseInt(savedTotalPending, 10);
+    }
+
+    if (savedResolvedPending !== null) {
+        resolvedPending = parseInt(savedResolvedPending, 10);
+    }
+
+    renderUsers(users);
 });
 
 // Initial rendering of users

@@ -12,27 +12,12 @@ function renderUsers(users) {
     userTableBody.innerHTML = '';
     users.forEach(function (user, index) {
         var rowClass = user.status === "pending" ? "pending" : (user.status === "Resolved Pending" ? "resolved" : "");
-        var row = "<tr class=\"".concat(rowClass, "\">\n            <td>").concat(user.name, "</td>\n            <td>").concat(user.id, "</td>\n            <td>").concat(user.age, "</td>\n            <td>").concat(user.status, "</td>\n            <td>\n                <button class=\"btn btn-secondary btn-sm pend-btn\" onclick=\"pendUser(").concat(index, ")\">").concat(user.status === "pending" ? "unpend" : "pend", "</button>\n                <button class=\"btn btn-success btn-sm\" onclick=\"completeUser(").concat(index, ")\">Complete</button>\n            </td>\n        </tr>");
+        var row = "<tr class=\"".concat(rowClass, "\">\n            <td>").concat(user.name, "</td>\n            <td>").concat(user.id, "</td>\n            <td>").concat(user.age, "</td>\n            <td>").concat(user.status, "</td>\n            <td>\n                <button class=\"btn btn-secondary btn-sm\" onclick=\"pendUser(").concat(index, ")\">Pend</button>\n                <button class=\"btn btn-success btn-sm\" onclick=\"completeUser(").concat(index, ")\">Complete</button>\n            </td>\n        </tr>");
         userTableBody.innerHTML += row;
     });
-    addPendEventListeners();
     updateCounters();
 }
-// Adds event listeners to all pend buttons
-function addPendEventListeners() {
-    var pendButtons = document.querySelectorAll('.pend-btn');
-    pendButtons.forEach(function (button, index) {
-        button.addEventListener('click', function () {
-            if (button.textContent === "pend") {
-                button.textContent = "unpend";
-            }
-            else {
-                button.textContent = "pend";
-            }
-        });
-    });
-}
-// Deletes users from queue table when service is completed
+// deletes users from queue table when service is completed
 function completeUser(index) {
     var completedUser = users.splice(index, 1)[0];
     completedUser.time = new Date().toLocaleString();
@@ -43,33 +28,27 @@ function completeUser(index) {
     completedUsers.push(completedUser);
     localStorage.setItem('completedUsers', JSON.stringify(completedUsers));
 }
-// Pends users
+// pends users
 function pendUser(index) {
-    if (users[index].status === "not pending") {
-        users[index].status = "pending";
-        totalPending++;
-    }
-    else {
-        users[index].status = "not pending";
-        totalPending--;
-    }
+    users[index].status = "pending";
+    totalPending++;
     renderUsers(users);
 }
-// Listens for an update from receptionist side
+// listens for an update from receptioist side
 function resolvePendingUser(index) {
     users[index].status = "Resolved Pending";
     totalPending--;
     resolvedPending++;
     renderUsers(users);
 }
-// Implements search mechanism
+// implements search mechanism
 function filterUsers() {
     var searchValue = document.getElementById('searchInput').value.toLowerCase();
     var filteredUsers = users.filter(function (user) {
-        return user.name.toLowerCase().startsWith(searchValue) ||
-            user.id.toLowerCase().startsWith(searchValue) ||
-            user.age.toString().toLowerCase().startsWith(searchValue) ||
-            user.status.toLowerCase().startsWith(searchValue);
+        return user.name.toLowerCase().includes(searchValue) ||
+            user.id.toLowerCase().includes(searchValue) ||
+            user.age.toString().toLowerCase().includes(searchValue) ||
+            user.status.toLowerCase().includes(searchValue);
     });
     renderUsers(filteredUsers);
 }
@@ -93,21 +72,15 @@ document.addEventListener('DOMContentLoaded', function () {
     var savedTotalCompleted = localStorage.getItem('totalCompleted');
     var savedTotalPending = localStorage.getItem('totalPending');
     var savedResolvedPending = localStorage.getItem('resolvedPending');
-    if (savedUsers.length > 0) {
+    if (savedUsers) {
         users.length = 0; // Clear the existing users array
         users.push.apply(// Clear the existing users array
         users, savedUsers); // Load saved users
-    }
-    if (savedTotalCompleted !== null) {
         totalCompleted = parseInt(savedTotalCompleted, 10);
-    }
-    if (savedTotalPending !== null) {
         totalPending = parseInt(savedTotalPending, 10);
-    }
-    if (savedResolvedPending !== null) {
         resolvedPending = parseInt(savedResolvedPending, 10);
+        renderUsers(users);
     }
-    renderUsers(users);
 });
 // Initial rendering of users
 renderUsers(users);
