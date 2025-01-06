@@ -75,7 +75,6 @@ button[ onclick="openAddUserModal()"] {
 
 .table tbody tr:hover > td {
     background-color: transparent;
-    border: none;
 }
 
 
