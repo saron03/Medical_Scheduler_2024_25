@@ -88,7 +88,6 @@ if (!loginForm || !signupForm || !toggleButton || !loginButton || !signupButton)
   // Signup Functionality
   const handleSignup = async (event: Event): Promise<void> => {
     event.preventDefault();
-
     const form = event.target as HTMLFormElement;
     const username = (form.name as HTMLInputElement).value;
     const roleId = parseInt((form.role as HTMLInputElement).value, 10); // Role ID as a number
