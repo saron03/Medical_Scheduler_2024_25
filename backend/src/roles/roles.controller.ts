@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { Role } from './roles.entity';
-
+// localhost/api/v1/roles
 @Controller('v1/roles') // REST API Versioning
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
