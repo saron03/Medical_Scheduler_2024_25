@@ -12,7 +12,7 @@ function renderUsers(users) {
     users.forEach(function (user, index) {
         var rowClass = user.status === "Pending" ? "pending" : (user.status === "Resolved Pending" ? "resolved" : "");
         var resolveButtonDisabled = user.status !== "Pending";
-        var row = "\n            <tr class=\"".concat(rowClass, "\">\n                <td>").concat(user.name, "</td>\n                <td>").concat(user.dateTime, "</td>\n                <td>").concat(user.status, "</td>\n                <td>\n                    <button class=\"btn btn-warning btn-sm\" onclick=\"resolvePendingUser(").concat(index, ")\" ").concat(resolveButtonDisabled ? 'disabled' : '', ">Resolve Pending</button>\n                    <button class=\"btn btn-danger btn-sm\" onclick=\"deleteUser(").concat(index, ")\">Delete</button>\n                </td>\n            </tr>");
+        var row = "\n            <tr class=\"".concat(rowClass, "\">\n                <td>").concat(user.name, "</td>\n                <td>").concat(user.dateTime, "</td>\n                <td>").concat(user.status, "</td>\n                <td>\n                    <button style=\"border: none; color: white;\" class=\"btn btn-sm\" onclick=\"resolvePendingUser(").concat(index, ")\" ").concat(resolveButtonDisabled ? 'disabled' : '', ">Resolve Pending</button>\n                    <button style=\"border: none; color: white;\" class=\"btn btn-sm\" onclick=\"deleteUser(").concat(index, ")\">Delete</button>\n                </td>\n            </tr>");
         userTableBody.innerHTML += row;
     });
     updateCounters();
@@ -21,14 +21,14 @@ function renderUsers(users) {
 function addUser(event) {
     event.preventDefault();
     var userName = document.getElementById('userName').value;
-    var userDob = document.getElementById('userDob').value;
-    var userContact = document.getElementById('userContact').value;
-    var userEmail = document.getElementById('userEmail').value;
-    var userPassword = document.getElementById('userPassword').value;
+    // const userDob = (document.getElementById('userDob') as HTMLInputElement).value;
+    // const userContact = (document.getElementById('userContact') as HTMLInputElement).value;
+    // const userEmail = (document.getElementById('userEmail') as HTMLInputElement).value;
+    // const userPassword = (document.getElementById('userPassword') as HTMLInputElement).value;
     var newUser = {
         name: userName,
         dateTime: new Date().toLocaleString(),
-        status: "Not Pending"
+        status: "Not Pending",
     };
     users.push(newUser);
     activeEntries++;

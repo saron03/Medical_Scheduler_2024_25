@@ -8,8 +8,8 @@ interface User {
 
 // Sample data
 const users: User[] = [
-    { name: "John Doe", id: "001", age: 30, status: "not pending" },
-    { name: "Jane Doe", id: "002", age: 25, status: "not pending" },
+    { name: "John Doe", id: "001", age: 30, status: "Not Pending" },
+    { name: "Jane Doe", id: "002", age: 25, status: "Not Pending" },
 ];
 
 let totalCompleted: number = 0;
@@ -21,14 +21,14 @@ function renderUsers(users: User[]): void {
     const userTableBody = document.getElementById('userTableBody') as HTMLElement;
     userTableBody.innerHTML = '';
     users.forEach((user, index) => {
-        const rowClass = user.status === "pending" ? "pending" : (user.status === "Resolved Pending" ? "resolved" : "");
+        const rowClass = user.status.toLocaleLowerCase() === "pending" ? "pending" : (user.status === "Resolved Pending" ? "resolved" : "");
         const row = `<tr class="${rowClass}">
             <td>${user.name}</td>
             <td>${user.id}</td>
             <td>${user.age}</td>
             <td>${user.status}</td>
             <td>
-                <button class="btn btn-secondary btn-sm pend-btn" onclick="pendUser(${index})">${user.status === "pending" ? "unpend" : "pend"}</button>
+                <button class="btn btn-secondary btn-sm pend-btn" onclick="pendUser(${index})">${user.status.toLowerCase() === "pending" ? "unpend" : "pend"}</button>
                 <button class="btn btn-success btn-sm" onclick="completeUser(${index})">Complete</button>
             </td>
         </tr>`;
@@ -62,12 +62,12 @@ function completeUser(index: number): void {
 
 // Pends users
 function pendUser(index: number): void {
-    if (users[index].status === "not pending") {
-        users[index].status = "pending";
+    if (users[index].status.toLowerCase() === "not pending") {
+        users[index].status = "Pending";
         totalPending++;
     }
     else {
-        users[index].status = "not pending";
+        users[index].status = "Not Pending";
         totalPending--;
     }
     renderUsers(users);

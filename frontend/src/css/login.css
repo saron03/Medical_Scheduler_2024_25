@@ -28,19 +28,21 @@ body{
     height: 500px;
     border-radius: 10px;
     position: relative;
-    margin: 20px;
+    margin: 2rem;
     background-color: #fff;
     overflow: hidden;
+    padding: 2rem;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
 .button{
     position: relative;
     width: 220px;
     margin: 35px auto;
-    box-shadow: 0 0 20px 9px #ff61241f;
+    box-shadow: 0 0 20px 9px rgba(106, 17, 203, 0.12);
     border-radius: 20px;
     background-color: transparent;
-    border: 2px solid #6a11cb;
+    border: 2px solid #003366; /* Dark blue */
 }
 #btn{
     position: absolute;
@@ -49,11 +51,11 @@ body{
     width: 50%;
     height: 100%;
     border-radius: 20px;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    background: linear-gradient(135deg, #003366 0%, #6699CC 100%);
     transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
-
+.button .toggle-btn.active { color: #fff; }
 .toggle-btn{
     padding: 10px 30px;
     cursor: pointer;
@@ -64,7 +66,7 @@ body{
 }
 
 #btn:hover{
-    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    background: linear-gradient(135deg, #6699CC 0%, #003366 100%);
 }
 
 #btn:active{
@@ -96,7 +98,7 @@ body{
     margin: 5px 0;
     border: none;
     outline: none;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    background: linear-gradient(135deg, #003366 0%, #6699CC 100%);
     color: #fff;
     border-radius: 20px;
     cursor: pointer;
@@ -104,7 +106,7 @@ body{
 }
 
 .submit-btn:hover{
-    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    background: linear-gradient(135deg, #6699CC 0%, #003366 100%);
 }
 
 .submit-btn:active{
@@ -138,4 +140,8 @@ p{
 
 #signup{
     left: 450px;
+}
+
+button[onclick="signup()"] {
+    margin-left: 1rem;
 }

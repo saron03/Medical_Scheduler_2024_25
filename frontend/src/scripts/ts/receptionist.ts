@@ -27,8 +27,8 @@ function renderUsers(users: User[]): void {
                 <td>${user.dateTime}</td>
                 <td>${user.status}</td>
                 <td>
-                    <button class="btn btn-warning btn-sm" onclick="resolvePendingUser(${index})" ${resolveButtonDisabled ? 'disabled' : ''}>Resolve Pending</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteUser(${index})">Delete</button>
+                    <button style="border: none; color: white;" class="btn btn-sm" onclick="resolvePendingUser(${index})" ${resolveButtonDisabled ? 'disabled' : ''}>Resolve Pending</button>
+                    <button style="border: none; color: white;" class="btn btn-sm" onclick="deleteUser(${index})">Delete</button>
                 </td>
             </tr>`;
         userTableBody.innerHTML += row;
@@ -40,15 +40,15 @@ function renderUsers(users: User[]): void {
 function addUser(event: Event): void {
     event.preventDefault();
     const userName = (document.getElementById('userName') as HTMLInputElement).value;
-    const userDob = (document.getElementById('userDob') as HTMLInputElement).value;
-    const userContact = (document.getElementById('userContact') as HTMLInputElement).value;
-    const userEmail = (document.getElementById('userEmail') as HTMLInputElement).value;
-    const userPassword = (document.getElementById('userPassword') as HTMLInputElement).value;
+    // const userDob = (document.getElementById('userDob') as HTMLInputElement).value;
+    // const userContact = (document.getElementById('userContact') as HTMLInputElement).value;
+    // const userEmail = (document.getElementById('userEmail') as HTMLInputElement).value;
+    // const userPassword = (document.getElementById('userPassword') as HTMLInputElement).value;
     
     const newUser: User = {
         name: userName,
         dateTime: new Date().toLocaleString(),
-        status: "Not Pending"
+        status: "Not Pending",
     };
     
     users.push(newUser);
