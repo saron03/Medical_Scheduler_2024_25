@@ -4,9 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="./css/profile.css">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
 </head>
 <body>
-    <h1>Profile</h1>
-    
+    <div class="wrapper">
+        <aside id="sidebar">
+            <div class="d-flex">
+                <button class="toggle-btn" type="button">
+                    <i class="lni lni-grid-alt"></i>
+                </button>
+                <div class="sidebar-logo">
+                    <a href="#">Medicare</a>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a href="profile.html" class="sidebar-link">
+                        <i class="lni lni-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="serviced_paitients.html" class="sidebar-link">
+                        <i class="lni lni-users"></i>
+                        <span>Serviced Patients</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="signup.html" class="sidebar-link">
+                        <i class="lni lni-exit"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        <div class="main">
+            <header>
+                <img src="imgs/profile.png" alt="Profile Picture">
+            </header>
+            <div class="container mt-5">
+                <div class="box">
+                    <div class="form-box">
+                        <div class="button">
+                            <div id="btn"></div>
+                            <button type="button" class="toggle-btn" onclick="showProfile()">Profile</button>
+                            <button type="button" class="toggle-btn  target-button" onclick="editProfile()">Edit Profile</button>
+                        </div>
+                        <div class="profile cards" id="profile">
+                            <img src="imgs/profile.png" alt="Profile Picture">
+                            <h3>John Doe</h3>
+                            <p>Admin</p>
+                            <p>email@example.com</p>
+                        </div>
+                        
+                        <form class="cards" id="edit-profile" method="post">
+                            <input type="text" class="input-field" placeholder="User Name" name="name" required>
+                            <input type="email" class="input-field" placeholder="Email" name="email" required>
+                            <input type="text" class="input-field" placeholder="Enter Password" name="password" required>
+                            <input type="text" class="input-field" placeholder="New Password" name="newPassword" required>
+                            <input type="text" class="input-field" placeholder="Confirm Password" name="confirmPassword" required>
+                            <button type="submit" class="submit-btn">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="scripts/js/bootstrap.bundle.js"></script>
+<script src="scripts/js/sidebar.js"></script>
+<script src="scripts/js/doctor_queue.js"></script>
+<script src="scripts/js/profile.js?v=1.0" defer></script>
 </body>
 </html>

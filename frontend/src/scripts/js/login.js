@@ -46,7 +46,6 @@ if (!loginForm || !signupForm || !toggleButton || !loginButton || !signupButton)
     console.error("One or more DOM elements are missing. Please check your HTML structure.");
 }
 else {
-    // Function to handle the signup form display
     function signup() {
         loginForm.style.left = "-400px";
         signupForm.style.left = "50px";
@@ -54,7 +53,6 @@ else {
         loginButton.classList.remove('active');
         signupButton.classList.add('active');
     }
-    // Function to handle the login form display
     function login() {
         loginForm.style.left = "50px";
         signupForm.style.left = "450px";
@@ -62,7 +60,6 @@ else {
         signupButton.classList.remove('active');
         loginButton.classList.add('active');
     }
-    // Attach functions to the global scope for use in the HTML
     window.signup = signup;
     window.login = login;
 }
