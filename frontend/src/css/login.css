@@ -28,9 +28,10 @@ body{
     height: 500px;
     border-radius: 10px;
     position: relative;
-    margin: 20px;
+    margin: 2rem;
     background-color: #fff;
     overflow: hidden;
+    padding: 2rem;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
@@ -139,4 +140,8 @@ p{
 
 #signup{
     left: 450px;
+}
+
+button[onclick="signup()"] {
+    margin-left: 1rem;
 }
