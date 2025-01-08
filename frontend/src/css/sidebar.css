@@ -78,11 +78,6 @@ body {
     display: none;
 }
 
-#sidebar.expand a {
-    opacity: 1;
-    transition: opacity 5s ease-in-out;
-}
-
 a[href="#"] {
     text-decoration: none;
 }
@@ -163,13 +158,4 @@ header {
 header> img {
     height: 2rem;
     width: 2rem;
-}
-#sidebar:not(.expand) a {
-    opacity: 0;
-    transition: opacity 0.25s ease-in-out;
-}
-
-#sidebar.expand a {
-    opacity: 1;
-    transition: opacity 0.25s ease-in-out;
 }

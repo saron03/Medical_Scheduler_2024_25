@@ -37,6 +37,7 @@
     transition: all 0.3s ease-in-out;
     background: linear-gradient(135deg, #003366 0%, #6699CC 100%);
     color: white;
+    border: none;
 }
 .card-text {
     margin-left: 2rem;
