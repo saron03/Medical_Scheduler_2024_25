@@ -40,15 +40,15 @@ function renderUsers(users: User[]): void {
 function addUser(event: Event): void {
     event.preventDefault();
     const userName = (document.getElementById('userName') as HTMLInputElement).value;
-    const userDob = (document.getElementById('userDob') as HTMLInputElement).value;
-    const userContact = (document.getElementById('userContact') as HTMLInputElement).value;
-    const userEmail = (document.getElementById('userEmail') as HTMLInputElement).value;
-    const userPassword = (document.getElementById('userPassword') as HTMLInputElement).value;
+    // const userDob = (document.getElementById('userDob') as HTMLInputElement).value;
+    // const userContact = (document.getElementById('userContact') as HTMLInputElement).value;
+    // const userEmail = (document.getElementById('userEmail') as HTMLInputElement).value;
+    // const userPassword = (document.getElementById('userPassword') as HTMLInputElement).value;
     
     const newUser: User = {
         name: userName,
         dateTime: new Date().toLocaleString(),
-        status: "Not Pending"
+        status: "Not Pending",
     };
     
     users.push(newUser);
