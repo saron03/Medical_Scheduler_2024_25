@@ -1,7 +1,7 @@
 // Sample data
 var users = [
-    { name: "John Doe", id: "001", age: 30, status: "not pending" },
-    { name: "Jane Doe", id: "002", age: 25, status: "not pending" },
+    { name: "John Doe", id: "001", age: 30, status: "Not Pending" },
+    { name: "Jane Doe", id: "002", age: 25, status: "Not Pending" },
 ];
 var totalCompleted = 0;
 var totalPending = users.filter(function (user) { return user.status === "pending"; }).length;
@@ -11,8 +11,8 @@ function renderUsers(users) {
     var userTableBody = document.getElementById('userTableBody');
     userTableBody.innerHTML = '';
     users.forEach(function (user, index) {
-        var rowClass = user.status === "pending" ? "pending" : (user.status === "Resolved Pending" ? "resolved" : "");
-        var row = "<tr class=\"".concat(rowClass, "\">\n            <td>").concat(user.name, "</td>\n            <td>").concat(user.id, "</td>\n            <td>").concat(user.age, "</td>\n            <td>").concat(user.status, "</td>\n            <td>\n                <button class=\"btn btn-secondary btn-sm pend-btn\" onclick=\"pendUser(").concat(index, ")\">").concat(user.status === "pending" ? "unpend" : "pend", "</button>\n                <button class=\"btn btn-success btn-sm\" onclick=\"completeUser(").concat(index, ")\">Complete</button>\n            </td>\n        </tr>");
+        var rowClass = user.status.toLocaleLowerCase() === "pending" ? "pending" : (user.status === "Resolved Pending" ? "resolved" : "");
+        var row = "<tr class=\"".concat(rowClass, "\">\n            <td>").concat(user.name, "</td>\n            <td>").concat(user.id, "</td>\n            <td>").concat(user.age, "</td>\n            <td>").concat(user.status, "</td>\n            <td>\n                <button class=\"btn btn-secondary btn-sm pend-btn\" onclick=\"pendUser(").concat(index, ")\">").concat(user.status.toLowerCase() === "pending" ? "unpend" : "pend", "</button>\n                <button class=\"btn btn-success btn-sm\" onclick=\"completeUser(").concat(index, ")\">Complete</button>\n            </td>\n        </tr>");
         userTableBody.innerHTML += row;
     });
     addPendEventListeners();
@@ -41,12 +41,12 @@ function completeUser(index) {
 }
 // Pends users
 function pendUser(index) {
-    if (users[index].status === "not pending") {
-        users[index].status = "pending";
+    if (users[index].status.toLowerCase() === "not pending") {
+        users[index].status = "Pending";
         totalPending++;
     }
     else {
-        users[index].status = "not pending";
+        users[index].status = "Not Pending";
         totalPending--;
     }
     renderUsers(users);
@@ -75,15 +75,6 @@ function updateCounters() {
     document.getElementById('totalPending').innerText = totalPending.toString();
     document.getElementById('resolvedPending').innerText = resolvedPending.toString();
 }
-// Initial rendering of users when the page loads
-// document.addEventListener('DOMContentLoaded', () => {
-//     // Assuming a fetch from the database to load users
-//     fetchUsersFromDatabase().then(fetchedUsers => {
-//         users.length = 0; // Clear the existing users array
-//         users.push(...fetchedUsers); // Load fetched users
-//         ;
-//     });
-// });
 // Placeholder function to simulate fetching users from the database
 // function fetchUsersFromDatabase(): Promise<User[]> {
 //     // Replace this with actual database fetching logic
