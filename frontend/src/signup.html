@@ -13,7 +13,7 @@
                     <button type="button" class="toggle-btn" onclick="login()">Login</button>
                     <button type="button" class="toggle-btn" onclick="signup()">Signup</button>
                 </div>
-                <form class="input-group" id="login" action="login.php" method="post">
+                <form class="input-group" id="login" method="post">
                     <input type="text" class="input-field" placeholder="Role" name="role" required>
                     <input type="email" class="input-field" placeholder="Email" name="email" required>
                     <input type="text" class="input-field" placeholder="Enter Password" name="password" required>
@@ -21,7 +21,7 @@
                     <p class="forgot-password">Forgot Password?</p>
                     <button type="submit" class="submit-btn">Login</button>
                 </form>
-                <form class="input-group" id="signup" action="signup.php" method="post">
+                <form class="input-group" id="signup"  method="post">
                     <input type="text" class="input-field" placeholder="Name" name="name" required>
                     <input type="text" class="input-field" placeholder="Role" name="role" required>
                     <input type="email" class="input-field" placeholder="Email" name="email" required>
@@ -33,6 +33,7 @@
                 </form>
             </div>
         </div>
-        <script src="scripts/js/login.js"></script>
+        <script src="scripts/js/login.js?v=1.0" defer></script>
+
     </body>
 </html>
