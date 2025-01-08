@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/tables.css">
+    <link rel="stylesheet" href="./css/profile.css">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
 
     <title>Doctor Queue</title>
@@ -25,7 +26,7 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="profile.html" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>Profile</span>
                     </a>
@@ -37,7 +38,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="signup.html" class="sidebar-link">
                         <i class="lni lni-exit"></i>
                         <span>Logout</span>
                     </a>
@@ -46,8 +47,22 @@
         </aside>
         <div class="main">
         <header>
-            <img src="imgs/profile.png" alt="">
+            <img src="imgs/profile.png" onclick="toggleMenu()" alt="Profile Picture">
         </header>
+        <div class="sub-menu-wrap" id="subMenu">
+            <div class="sub-menu">
+                <div class="user-info">
+                    <img src="imgs/profile.png" alt="Profile Picture">
+                    <h3>John Doe</h3>
+                </div>
+                <hr>
+                <a onclick="storeActionAndNavigate()" class="sub-menu-link">
+                    <img src="imgs/profile.png" alt="Profile Picture">
+                    <p>Edit Profile</p>
+                    <span>></span>
+                </a>
+            </div> 
+        </div>
         <div class="container mt-5">
             <h2 class="mb-4">Paitient Queue</h2>
             <!-- Cards Section -->
@@ -97,7 +112,7 @@
     <script src="scripts/js/bootstrap.bundle.js"></script>
     <script src="scripts/js/sidebar.js"></script>
     <script src="scripts/js/doctor_queue.js"></script>
-
-    
+    <script src="scripts/js/profile.js?v=1.0" defer></script>
+ 
 </body>
 </html>

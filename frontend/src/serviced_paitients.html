@@ -7,6 +7,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="serviced_paitients.html">
     <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="./css/profile.css">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
 
 </head>
@@ -23,7 +24,7 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="profile.html" class="sidebar-link">
                         <i class="lni lni-user"></i>
                         <span>Profile</span>
                     </a>
@@ -35,7 +36,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="signup.html" class="sidebar-link">
                         <i class="lni lni-exit"></i>
                         <span>Logout</span>
                     </a>
@@ -44,9 +45,22 @@
         </aside>
         <div class="main">
             <header>
-                <img src="imgs/profile.png" alt="">
-            </header>
-
+                <img src="imgs/profile.png"  onclick="toggleMenu()" alt="Profile Picture">
+        </header>
+        <div class="sub-menu-wrap" id="subMenu">
+            <div class="sub-menu">
+                <div class="user-info">
+                    <img src="imgs/profile.png" alt="Profile Picture">
+                    <h3>John Doe</h3>
+                </div>
+                <hr>
+                <a onclick="storeActionAndNavigate()" class="sub-menu-link">
+                    <img src="imgs/profile.png" alt="Profile Picture">
+                    <p>Edit Profile</p>
+                    <span>></span>
+                </a>
+            </div> 
+        </div>
             <div class="container mt-5">
                 <h2 class="mb-4">Completed Users</h2>
                 <table class="table table-bordered">
@@ -69,5 +83,6 @@
         <script src="scripts/js/serviced_paitients.js"></script>
         <script src="scripts/js/bootstrap.bundle.js"></script>
         <script src="scripts/js/sidebar.js"></script>
+        <script src="scripts/js/profile.js?v=1.0" defer></script>
     </body>
 </html>
