@@ -1,0 +1,141 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: azure;
+}
+
+.page{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-box{
+    width: 400px;
+    height: 500px;
+    border-radius: 10px;
+    position: relative;
+    margin: 20px;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.button{
+    position: relative;
+    width: 220px;
+    margin: 35px auto;
+    box-shadow: 0 0 20px 9px #ff61241f;
+    border-radius: 20px;
+    background-color: transparent;
+    border: 2px solid #6a11cb;
+}
+#btn{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.toggle-btn{
+    padding: 10px 30px;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: none;
+    position: relative;
+}
+
+#btn:hover{
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+}
+
+#btn:active{
+    transform: scale(0.95);
+}
+
+.input-group{
+    position: absolute;
+    width: 300px;
+    top: 100px;
+    transition: all 0.3s ease-in-out;
+}
+
+.input-field{
+    width: 100%;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1px solid #999;
+    outline: none;
+    background: transparent;
+}
+
+.submit-btn{
+    width: 100%;
+    padding: 10px 0;
+    margin: 5px 0;
+    border: none;
+    outline: none;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.submit-btn:hover{
+    background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+}
+
+.submit-btn:active{
+    transform: scale(0.95);
+}
+
+.check-box{
+    margin: 30px 0px 30px 0px;
+}
+
+span{
+    color: #777;
+    font-size: 12px;
+    position: absolute;
+    bottom: 76px;
+    left: 15px;
+}
+
+p{
+    color: #777;
+    font-size: 12px;
+    position: absolute;
+    top: 150px;
+    left: 0;
+    text-align: center; 
+}
+
+#login{
+    left: 50px;
+}
+
+#signup{
+    left: 450px;
+}
