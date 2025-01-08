@@ -27,8 +27,8 @@ function renderUsers(users: User[]): void {
                 <td>${user.dateTime}</td>
                 <td>${user.status}</td>
                 <td>
-                    <button class="btn btn-warning btn-sm" onclick="resolvePendingUser(${index})" ${resolveButtonDisabled ? 'disabled' : ''}>Resolve Pending</button>
-                    <button class="btn btn-danger btn-sm" onclick="deleteUser(${index})">Delete</button>
+                    <button style="border: none; color: white;" class="btn btn-sm" onclick="resolvePendingUser(${index})" ${resolveButtonDisabled ? 'disabled' : ''}>Resolve Pending</button>
+                    <button style="border: none; color: white;" class="btn btn-sm" onclick="deleteUser(${index})">Delete</button>
                 </td>
             </tr>`;
         userTableBody.innerHTML += row;
