@@ -6,7 +6,7 @@
     <title>Receptionist Queue</title>
     <link rel="stylesheet" href="css/custome_receptionist.css" />
     <link rel="stylesheet" href="css/sidebar.css" />
-
+    <link rel="stylesheet" href="css/profile.css" />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
   </head>
   <body>
@@ -100,8 +100,22 @@
       </aside>
       <div class="main">
         <header>
-          <img src="imgs/profile.png" alt="" />
-        </header>
+          <img src="imgs/profile.png" onclick="toggleMenu()" alt="Profile Picture">
+      </header>
+      <div class="sub-menu-wrap" id="subMenu">
+          <div class="sub-menu">
+              <div class="user-info">
+                  <img src="imgs/profile.png" alt="Profile Picture">
+                  <h3>John Doe</h3>
+              </div>
+              <hr>
+              <a onclick="storeActionAndNavigateReceptionist()" class="sub-menu-link">
+                  <img src="imgs/profile.png" alt="Profile Picture">
+                  <p>Edit Profile</p>
+                  <span>></span>
+              </a>
+          </div> 
+      </div>
         <div class="container mt-5">
           <h2 class="mb-4">Receptionist Queue</h2>
 
@@ -307,5 +321,6 @@
     <script src="scripts/js/bootstrap.min.js"></script>
     <script src="scripts/js/sidebar.js"></script>
     <script src="scripts/js/receptionist.js"></script>
+    <script src="scripts/js/profile.js"></script>
   </body>
 </html>

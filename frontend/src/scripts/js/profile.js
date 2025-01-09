@@ -45,3 +45,17 @@ if (action === "clickButton") {
   // Clear the action to avoid repeated clicks on reload
   localStorage.removeItem("action");
 }
+
+function storeActionAndNavigateReceptionist() {
+  localStorage.setItem("action", "clickButton");
+  window.location.href = "receptionist_profile.html";
+}
+var action = localStorage.getItem("action");
+if (action === "clickButton") {
+  var targetButton = document.querySelector(".target-button");
+  if (targetButton) {
+    targetButton.click();
+  }
+  // Clear the action to avoid repeated clicks on reload
+  localStorage.removeItem("action");
+}
