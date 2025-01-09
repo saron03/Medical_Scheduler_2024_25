@@ -229,7 +229,7 @@ var resolvePendingUser = function (index) {
             fetch(
               "http://localhost:4000/api/v1/queues/".concat(user.queue_id),
               {
-                method: "PATCH",
+                method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ status: 3 }),
               }

@@ -99,7 +99,7 @@ const resolvePendingUser = async (index: number): Promise<void> => {
     user.status = 3;
     try {
       await fetch(`http://localhost:4000/api/v1/queues/${user.queue_id}`, {
-        method: "PATCH",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: 3 }),
       });

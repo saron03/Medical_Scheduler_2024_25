@@ -68,11 +68,19 @@ var fetchData = function () { return __awaiter(_this, void 0, void 0, function (
 }); };
 // Renders the queue database in a table
 function renderUsers(users) {
-    var userTableBody = document.getElementById('userTableBody');
-    userTableBody.innerHTML = '';
+    var userTableBody = document.getElementById("userTableBody");
+    userTableBody.innerHTML = "";
     users.forEach(function (user, index) {
-        var rowClass = user.status === 2 ? "pending" : (user.status === 3 ? "resolved" : "");
-        var row = "<tr class=\"".concat(rowClass, "\">\n            <td>").concat(user.patient.name, "</td>\n            <td>").concat(user.patient.id, "</td>\n            <td>").concat(user.patient.age, "</td>\n            <td>").concat(user.status === 2 ? "Pending" : (user.status === 3 ? "Resolved Pending" : "Not Pending"), "</td>\n            <td>\n                <button class=\"btn btn-secondary btn-sm pend-btn\" onclick=\"pendUser(").concat(index, ")\">\n                    ").concat(user.status === 2 ? "Unpend" : (user.status === 3 ? "Pend" : "Pend"), "\n                </button>\n                <button class=\"btn btn-success btn-sm\" onclick=\"completeUser(").concat(index, ")\">Complete</button>\n            </td>\n        </tr>");
+        var rowClass = user.status === 2 ? "pending" : user.status === 3 ? "resolved" : "";
+        var row = "<tr class=\"".concat(rowClass, "\">\n            <td>").concat(user.patient.first_name, " ").concat(user.patient.last_name, "</td>\n            <td>").concat(user.patient.patient_id, "</td>\n            <td>").concat(user.patient.date_of_birth, "</td>\n            <td>").concat(user.status === 2
+            ? "Pending"
+            : user.status === 3
+                ? "Resolved Pending"
+                : "Not Pending", "</td>\n            <td>\n                <button class=\"btn btn-secondary btn-sm pend-btn\" onclick=\"pendUser(").concat(index, ")\">\n                    ").concat(user.status === 2
+            ? "Unpend"
+            : user.status === 3
+                ? "Pend"
+                : "Pend", "\n                </button>\n                <button class=\"btn btn-success btn-sm\" onclick=\"completeUser(").concat(index, ")\">Complete</button>\n            </td>\n        </tr>");
         userTableBody.innerHTML += row;
     });
     updateCounters();
@@ -131,41 +139,56 @@ var completeUser = function (index) { return __awaiter(_this, void 0, void 0, fu
 // }
 // Pends users
 var pendUser = function (index) { return __awaiter(_this, void 0, void 0, function () {
-    var user, error_3;
+    var user, response, currentQueue, newStatus, putResponse, error_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 user = users[index];
-                if (user.status === 2) {
-                    user.status = 1; // Move from Pending to Not Pending
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 5, , 6]);
+                return [4 /*yield*/, fetch("http://localhost:4000/api/v1/queues/".concat(user.queue_id))];
+            case 2:
+                response = _a.sent();
+                if (!response.ok) {
+                    throw new Error("Failed to fetch user details: ".concat(response.statusText));
+                }
+                return [4 /*yield*/, response.json()];
+            case 3:
+                currentQueue = _a.sent();
+                newStatus = void 0;
+                if (currentQueue.status === 2) {
+                    newStatus = 1; // Move from Pending to Not Pending
                     pending--;
                 }
-                else if (user.status === 3) {
-                    user.status = 2; // Move from Resolved Pending to Pending
+                else if (currentQueue.status === 3) {
+                    newStatus = 2; // Move from Resolved Pending to Pending
                     resolvedPending--;
                     pending++;
                 }
                 else {
-                    user.status = 2; // Move from Not Pending to Pending
+                    newStatus = 2; // Move from Not Pending to Pending
                     pending++;
                 }
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, fetch("http://localhost:4000/api/v1/queues/".concat(user.queue_id), {
-                        method: "PATCH",
+                return [4 /*yield*/, fetch("http://localhost:4000/api/v1/queues/".concat(currentQueue.queue_id), {
+                        method: "PUT",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ status: user.status }),
+                        body: JSON.stringify({ status: newStatus }),
                     })];
-            case 2:
-                _a.sent();
+            case 4:
+                putResponse = _a.sent();
+                if (!putResponse.ok) {
+                    throw new Error("Failed to update user status: ".concat(putResponse.statusText));
+                }
+                // Step 4: Update the local user object and re-render
+                user.status = newStatus;
                 renderUsers(users);
-                return [3 /*break*/, 4];
-            case 3:
+                return [3 /*break*/, 6];
+            case 5:
                 error_3 = _a.sent();
                 console.error("Error resolving user:", error_3);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 6];
+            case 6: return [2 /*return*/];
         }
     });
 }); };
@@ -189,7 +212,7 @@ var pendUser = function (index) { return __awaiter(_this, void 0, void 0, functi
 // }
 // Implements search mechanism
 function filterUsers() {
-    var searchValue = document.getElementById('searchInput').value.toLowerCase();
+    var searchValue = document.getElementById("searchInput").value.toLowerCase();
     var filteredUsers = users.filter(function (user) {
         return user.patient.name.toLowerCase().startsWith(searchValue) ||
             user.patient.id.toLowerCase().startsWith(searchValue) ||
@@ -200,9 +223,12 @@ function filterUsers() {
 }
 // Function to update counters for total completed, pending, and resolved pending
 function updateCounters() {
-    document.getElementById('totalCompleted').innerText = totalCompleted.toString();
-    document.getElementById('totalPending').innerText = pending.toString();
-    document.getElementById('resolvedPending').innerText = resolvedPending.toString();
+    document.getElementById("totalCompleted").innerText =
+        totalCompleted.toString();
+    document.getElementById("totalPending").innerText =
+        pending.toString();
+    document.getElementById("resolvedPending").innerText =
+        resolvedPending.toString();
 }
 // Placeholder function to simulate fetching users from the database
 // function fetchUsersFromDatabase(): Promise<User[]> {
