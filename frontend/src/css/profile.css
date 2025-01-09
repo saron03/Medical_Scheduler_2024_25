@@ -146,6 +146,12 @@
     position: relative;
 }
 
+.box {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 #btn:hover{
     background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
 }
