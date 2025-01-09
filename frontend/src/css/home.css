@@ -1,0 +1,67 @@
+
+    /* Remove margins and padding between header and navbar */
+
+    header {
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      margin: 0;
+    }
+
+    /* Optional: Slight padding inside header for aesthetics */
+    header {
+      background: linear-gradient(135deg, #003366 0%, #6699CC 100%);
+
+    }
+    .container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    /* Navbar link styling for better visibility */
+    .navbar-nav .nav-link {
+      color: #ffffff !important; /* White color for better contrast */
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #007bff !important; /* Blue color on hover */
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: azure;
+    }
+
+    footer {
+      margin-top: auto;
+    }
+    .features .card {
+      border: 2px solid #007bff; /* Example: Blue border */
+      transition: transform 0.3s ease; /* Smooth scaling on hover */
+    }
+
+    .features .card:hover {
+      transform: scale(1.05); /* Slight scaling effect */
+    }
+
+    .gradient-background {
+        background: linear-gradient(135deg, #003366 0%, #6699CC 100%);
+    }
+    
+    .top{
+        padding: 10px;
+    }
+
+    .flex-part{
+        display: flex;
+        gap: 50px;
+        justify-content: center;
+        align-items: center;
+    }
+
+   
+    .lead{
+        text-align: start;
+    }
