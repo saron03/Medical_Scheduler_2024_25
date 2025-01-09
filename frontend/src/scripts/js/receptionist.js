@@ -299,9 +299,14 @@ var addUser = function (event) {
       dob,
       gender,
       address,
-      newUser,
-      response,
-      data,
+      registeredById,
+      doctorId,
+      patientData,
+      patientResponse,
+      patient,
+      queueData,
+      queueResponse,
+      queueEntry,
       error_4;
     return __generator(this, function (_a) {
       switch (_a.label) {
@@ -314,58 +319,68 @@ var addUser = function (event) {
           dob = document.getElementById("dob").value;
           gender = document.getElementById("gender").value;
           address = document.getElementById("address").value;
-          newUser = {
-            status: 1,
-            patient: {
-              patient_id: 0,
-              first_name: firstName,
-              last_name: lastName,
-              email: email,
-              phone_number: phoneNumber,
-              date_of_birth: dob,
-              gender: gender,
-              address: address,
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString(),
-            },
-            doctor: {
-              user_id: 0,
-              username: "",
-              email: "",
-              password: "",
-              created_at: new Date().toISOString(),
-              updated_at: new Date().toISOString(),
-            },
-            queue_id: Date.now(),
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
+          registeredById = 5;
+          doctorId = parseInt(document.getElementById("doctorId").value);
+          patientData = {
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            phone_number: phoneNumber,
+            date_of_birth: dob,
+            gender: gender,
+            address: address,
+            registered_by_id: registeredById,
           };
           _a.label = 1;
         case 1:
-          _a.trys.push([1, 4, , 5]);
+          _a.trys.push([1, 6, , 7]);
+          return [
+            4 /*yield*/,
+            fetch("http://localhost:4000/api/v1/patients", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(patientData),
+            }),
+          ];
+        case 2:
+          patientResponse = _a.sent();
+          if (patientResponse.status !== 201) {
+            throw new Error("Failed to register patient");
+          }
+          return [4 /*yield*/, patientResponse.json()];
+        case 3:
+          patient = _a.sent();
+          queueData = {
+            patient_id: patient.patient_id,
+            doctor_id: doctorId,
+            status: 1, // Default to "Not Pending"
+          };
           return [
             4 /*yield*/,
             fetch("http://localhost:4000/api/v1/queues", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(newUser),
+              body: JSON.stringify(queueData),
             }),
           ];
-        case 2:
-          response = _a.sent();
-          return [4 /*yield*/, response.json()];
-        case 3:
-          data = _a.sent();
-          users.push(data);
+        case 4:
+          queueResponse = _a.sent();
+          if (queueResponse.status !== 201) {
+            throw new Error("Failed to add patient to queue");
+          }
+          return [4 /*yield*/, queueResponse.json()];
+        case 5:
+          queueEntry = _a.sent();
+          users.push(queueEntry);
           activeEntries++;
           renderUsers(users);
           closeAddUserModal(); // Close the modal after adding a user
-          return [3 /*break*/, 5];
-        case 4:
+          return [3 /*break*/, 7];
+        case 6:
           error_4 = _a.sent();
           console.error("Error adding user:", error_4);
-          return [3 /*break*/, 5];
-        case 5:
+          return [3 /*break*/, 7];
+        case 7:
           return [2 /*return*/];
       }
     });

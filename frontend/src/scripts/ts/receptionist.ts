@@ -145,42 +145,58 @@ const addUser = async (event: Event): Promise<void> => {
   const gender = (document.getElementById("gender") as HTMLSelectElement).value;
   const address = (document.getElementById("address") as HTMLInputElement)
     .value;
+  const registeredById = 5; // Replace with dynamic receptionist user ID
+  const doctorId = parseInt(
+    (document.getElementById("doctorId") as HTMLSelectElement).value
+  );
 
-  const newUser: Queue = {
-    status: 1,
-    patient: {
-      patient_id: 0,
-      first_name: firstName,
-      last_name: lastName,
-      email: email,
-      phone_number: phoneNumber,
-      date_of_birth: dob,
-      gender: gender,
-      address: address,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    doctor: {
-      user_id: 0,
-      username: "",
-      email: "",
-      password: "",
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    queue_id: Date.now(),
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
+  // Step 1: Register the patient
+  const patientData = {
+    first_name: firstName,
+    last_name: lastName,
+    email: email,
+    phone_number: phoneNumber,
+    date_of_birth: dob,
+    gender: gender,
+    address: address,
+    registered_by_id: registeredById,
   };
 
   try {
-    const response = await fetch("http://localhost:4000/api/v1/queues", {
+    const patientResponse = await fetch(
+      "http://localhost:4000/api/v1/patients",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(patientData),
+      }
+    );
+
+    if (patientResponse.status !== 201) {
+      throw new Error("Failed to register patient");
+    }
+
+    const patient = await patientResponse.json();
+
+    // Step 2: Add patient to the queue
+    const queueData = {
+      patient_id: patient.patient_id,
+      doctor_id: doctorId,
+      status: 1, // Default to "Not Pending"
+    };
+
+    const queueResponse = await fetch("http://localhost:4000/api/v1/queues", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newUser),
+      body: JSON.stringify(queueData),
     });
-    const data: Queue = await response.json();
-    users.push(data);
+
+    if (queueResponse.status !== 201) {
+      throw new Error("Failed to add patient to queue");
+    }
+
+    const queueEntry: Queue = await queueResponse.json();
+    users.push(queueEntry);
     activeEntries++;
     renderUsers(users);
     closeAddUserModal(); // Close the modal after adding a user
