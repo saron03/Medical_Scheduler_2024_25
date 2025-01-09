@@ -1,107 +1,230 @@
-// User interface to define the shape of user objects
-interface User {
-    name: string;
-    dateTime: string;
-    status: string;
+// Interfaces for the Patient and Doctor Models
+interface Patient {
+  patient_id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  date_of_birth: string;
+  gender: string;
+  address: string;
+  created_at: string;
+  updated_at: string;
 }
 
-// Sample data
-let users: User[] = [
-    { name: "John Doe", dateTime: new Date().toLocaleString(), status: "Not Pending" },
-    { name: "Jane Doe", dateTime: new Date().toLocaleString(), status: "Not Pending" },
-];
-
-let activeEntries: number = users.length;
-let pendingEntries: number = users.filter(user => user.status === "Pending").length;
-
-// Renders the queue database in a table
-function renderUsers(users: User[]): void {
-    const userTableBody = document.getElementById('userTableBody') as HTMLTableSectionElement;
-    userTableBody.innerHTML = '';
-    users.forEach((user, index) => {
-        const rowClass = user.status === "Pending" ? "pending" : (user.status === "Resolved Pending" ? "resolved" : "");
-        const resolveButtonDisabled = user.status !== "Pending";
-        const row = `
-            <tr class="${rowClass}">
-                <td>${user.name}</td>
-                <td>${user.dateTime}</td>
-                <td>${user.status}</td>
-                <td>
-                    <button style="border: none; color: white;" class="btn btn-sm" onclick="resolvePendingUser(${index})" ${resolveButtonDisabled ? 'disabled' : ''}>Resolve Pending</button>
-                    <button style="border: none; color: white;" class="btn btn-sm" onclick="deleteUser(${index})">Delete</button>
-                </td>
-            </tr>`;
-        userTableBody.innerHTML += row;
-    });
-    updateCounters();
+interface Doctor {
+  user_id: number;
+  username: string;
+  email: string;
+  password: string;
+  created_at: string;
+  updated_at: string;
 }
 
-// Adds user to the queue
-function addUser(event: Event): void {
-    event.preventDefault();
-    const userName = (document.getElementById('userName') as HTMLInputElement).value;
-    // const userDob = (document.getElementById('userDob') as HTMLInputElement).value;
-    // const userContact = (document.getElementById('userContact') as HTMLInputElement).value;
-    // const userEmail = (document.getElementById('userEmail') as HTMLInputElement).value;
-    // const userPassword = (document.getElementById('userPassword') as HTMLInputElement).value;
-    
-    const newUser: User = {
-        name: userName,
-        dateTime: new Date().toLocaleString(),
-        status: "Not Pending",
-    };
-    
-    users.push(newUser);
-    activeEntries++;
+interface Queue {
+  status: number; // 1 - Not Pending, 2 - Pending, 3 - Resolved Pending
+  patient: Patient;
+  doctor: Doctor;
+  queue_id: number;
+  created_at: string;
+  updated_at: string;
+}
+
+// Global array for users
+let users: Queue[] = [];
+let activeEntries: number = 0;
+let pendingEntries: number = 0;
+
+// Fetch data from the API
+const fetchData = async (): Promise<void> => {
+  try {
+    const response = await fetch("http://localhost:4000/api/v1/queues");
+    const data: Queue[] = await response.json();
+    users = data;
+    activeEntries = users.length;
+    pendingEntries = users.filter((user) => user.status === 2).length;
     renderUsers(users);
-    closeAddUserModal();
-}
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
 
-// Deletes users from queue table when misentry
-function deleteUser(index: number): void {
-    const user = users[index];
-    if (user.status === "Pending") {
-        pendingEntries--;
+// Render the users in the table
+const renderUsers = (users: Queue[]): void => {
+  const userTableBody = document.getElementById(
+    "userTableBody"
+  ) as HTMLTableSectionElement;
+  userTableBody.innerHTML = "";
+
+  users.forEach((user, index) => {
+    const rowClass =
+      user.status === 2 ? "pending" : user.status === 3 ? "resolved" : "";
+    const resolveButtonDisabled = user.status !== 2;
+    const row = `
+        <tr class="${rowClass}">
+          <td>${user.patient.first_name} ${user.patient.last_name}</td>
+          <td>${new Date(user.created_at).toLocaleString()}</td>
+          <td>${
+            user.status === 1
+              ? "Not Pending"
+              : user.status === 2
+              ? "Pending"
+              : "Resolved Pending"
+          }</td>
+          <td>
+            <button style="border: none; color: white;" class="btn btn-sm" onclick="resolvePendingUser(${index})" ${
+      resolveButtonDisabled ? "disabled" : ""
+    }>Resolve Pending</button>
+            <button style="border: none; color: white;" class="btn btn-sm" onclick="deleteUser(${index})">Delete</button>
+          </td>
+        </tr>`;
+    userTableBody.innerHTML += row;
+  });
+
+  updateCounters();
+};
+
+// Update counters for active and pending entries
+const updateCounters = (): void => {
+  document.getElementById("activeEntries")!.innerText =
+    activeEntries.toString();
+  document.getElementById("pendingEntries")!.innerText =
+    pendingEntries.toString();
+};
+
+// Resolve pending user
+const resolvePendingUser = async (index: number): Promise<void> => {
+  const user = users[index];
+  if (user.status === 2) {
+    user.status = 3;
+    try {
+      await fetch(`http://localhost:4000/api/v1/queues/${user.queue_id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: 3 }),
+      });
+      pendingEntries--;
+      renderUsers(users);
+    } catch (error) {
+      console.error("Error resolving user:", error);
     }
+  }
+};
+
+// Delete user from the queue
+const deleteUser = async (index: number): Promise<void> => {
+  const user = users[index];
+  if (user.status === 2) {
+    pendingEntries--;
+  }
+  try {
+    await fetch(`http://localhost:4000/api/v1/queues/${user.queue_id}`, {
+      method: "DELETE",
+    });
     users.splice(index, 1);
     activeEntries--;
     renderUsers(users);
-}
+  } catch (error) {
+    console.error("Error deleting user:", error);
+  }
+};
 
-// Listens for an update from receptionist side
-function resolvePendingUser(index: number): void {
-    users[index].status = "Resolved Pending";
-    pendingEntries--;
+// Add a new user to the queue
+const addUser = async (event: Event): Promise<void> => {
+  event.preventDefault();
+
+  const firstName = (document.getElementById("firstName") as HTMLInputElement)
+    .value;
+  const lastName = (document.getElementById("lastName") as HTMLInputElement)
+    .value;
+  const email = (document.getElementById("email") as HTMLInputElement).value;
+  const phoneNumber = (
+    document.getElementById("phoneNumber") as HTMLInputElement
+  ).value;
+  const dob = (document.getElementById("dob") as HTMLInputElement).value;
+  const gender = (document.getElementById("gender") as HTMLSelectElement).value;
+  const address = (document.getElementById("address") as HTMLInputElement)
+    .value;
+
+  const newUser: Queue = {
+    status: 1,
+    patient: {
+      patient_id: 0,
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      phone_number: phoneNumber,
+      date_of_birth: dob,
+      gender: gender,
+      address: address,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    },
+    doctor: {
+      user_id: 0,
+      username: "",
+      email: "",
+      password: "",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    },
+    queue_id: Date.now(),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+
+  try {
+    const response = await fetch("http://localhost:4000/api/v1/queues", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newUser),
+    });
+    const data: Queue = await response.json();
+    users.push(data);
+    activeEntries++;
     renderUsers(users);
-}
+    closeAddUserModal(); // Close the modal after adding a user
+  } catch (error) {
+    console.error("Error adding user:", error);
+  }
+};
 
-// Implements search mechanism
-function filterUsers(): void {
-    const searchValue = (document.getElementById('searchInput') as HTMLInputElement).value.toLowerCase();
-    const filteredUsers = users.filter(user => 
-        user.name.toLowerCase().includes(searchValue) ||
-        user.dateTime.toLowerCase().includes(searchValue) ||
-        user.status.toLowerCase().includes(searchValue)
+// Search and filter users
+const filterUsers = (): void => {
+  const searchValue = (
+    document.getElementById("searchInput") as HTMLInputElement
+  ).value.toLowerCase();
+  const filteredUsers = users.filter((user) => {
+    return (
+      user.patient.first_name.toLowerCase().includes(searchValue) ||
+      user.patient.last_name.toLowerCase().includes(searchValue) ||
+      new Date(user.created_at)
+        .toLocaleString()
+        .toLowerCase()
+        .includes(searchValue) ||
+      (user.status === 1
+        ? "Not Pending"
+        : user.status === 2
+        ? "Pending"
+        : "Resolved Pending"
+      )
+        .toLowerCase()
+        .includes(searchValue)
     );
-    renderUsers(filteredUsers);
-}
-
-// Function to update counters for active and pending entries
-function updateCounters(): void {
-    (document.getElementById('activeEntries') as HTMLElement).innerText = activeEntries.toString();
-    (document.getElementById('pendingEntries') as HTMLElement).innerText = pendingEntries.toString();
-}
+  });
+  renderUsers(filteredUsers);
+};
 
 // Modal functions
-function openAddUserModal(): void {
-    (document.getElementById('addUserModal') as HTMLElement).style.display = 'block';
-}
+const openAddUserModal = (): void => {
+  document.getElementById("addUserModal")!.style.display = "block";
+};
 
-function closeAddUserModal(): void {
-    (document.getElementById('addUserModal') as HTMLElement).style.display = 'none';
-}
+const closeAddUserModal = (): void => {
+  document.getElementById("addUserModal")!.style.display = "none";
+};
 
-// Load the state when the page loads
-document.addEventListener('DOMContentLoaded', () => {
-    renderUsers(users);
+// Initialize the page by fetching users
+document.addEventListener("DOMContentLoaded", () => {
+  fetchData();
 });

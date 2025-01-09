@@ -1,29 +1,49 @@
+// Grab the elements from the DOM and ensure they're properly typed
+const loginForm = document.getElementById("login") as HTMLFormElement | null;
+const signupForm = document.getElementById("signup") as HTMLFormElement | null;
+const toggleButton = document.getElementById("btn") as HTMLDivElement | null;
+const loginButton = document.querySelector(
+  '.toggle-btn[onclick="login()"]'
+) as HTMLButtonElement | null;
+const signupButton = document.querySelector(
+  '.toggle-btn[onclick="signup()"]'
+) as HTMLButtonElement | null;
 
-    console.error("One or more DOM elements are missing. Please check your HTML structure.");
+// Check if the elements exist before proceeding
+if (
+  !loginForm ||
+  !signupForm ||
+  !toggleButton ||
+  !loginButton ||
+  !signupButton
+) {
+  console.error(
+    "One or more DOM elements are missing. Please check your HTML structure."
+  );
 } else {
-    
-    function signup(): void {
-        loginForm.style.left = "-400px";
-        signupForm.style.left = "50px";
-        toggleButton.style.left = "110px";
+  // Function to handle the signup form display
+  const signup = (): void => {
+    loginForm.style.left = "-400px";
+    signupForm.style.left = "50px";
+    toggleButton.style.left = "110px";
 
-        loginButton.classList.remove('active');
-        signupButton.classList.add('active');
-    }
+    loginButton.classList.remove("active");
+    signupButton.classList.add("active");
+  };
 
-    function login(): void {
-        loginForm.style.left = "50px";
-        signupForm.style.left = "450px";
-        toggleButton.style.left = "0px";
+  // Function to handle the login form display
+  const login = (): void => {
+    loginForm.style.left = "50px";
+    signupForm.style.left = "450px";
+    toggleButton.style.left = "0px";
 
-        signupButton.classList.remove('active');
-        loginButton.classList.add('active');
-    }
+    signupButton.classList.remove("active");
+    loginButton.classList.add("active");
+  };
 
-    (window as any).signup = signup;
-    (window as any).login = login;
-}
-
+  // Attach functions to the global scope for button actions
+  (window as any).signup = signup;
+  (window as any).login = login;
 
   // Login Functionality
   const handleLogin = async (event: Event): Promise<void> => {
@@ -46,7 +66,7 @@
       if (!response.ok) throw new Error("Login failed");
 
       const responseData: { roleId: number } = await response.json();
-      roleId = responseData.roleId; // Update roleId based on login response
+      const roleId = responseData.roleId; // Update roleId based on login response
 
       // Navigate based on roleId
       switch (roleId) {
@@ -60,13 +80,18 @@
           window.location.href = "/patient";
           break;
         case 4:
-          window.location.href = "/doctor";
+          // Updated navigation for doctor role
+          window.location.href =
+            "http://127.0.0.1:5500/frontend/src/doctor_queue.html";
           break;
         case 5:
-          window.location.href = "/receptionist";
+          // Updated navigation for receptionist role
+          window.location.href =
+            "http://127.0.0.1:5500/frontend/src/receptionist_queue.html";
           break;
         default:
-          window.location.href = "/";
+          window.location.href =
+            "http://127.0.0.1:5500/frontend/src/doctor_queue.html";
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -78,6 +103,7 @@
   // Signup Functionality
   const handleSignup = async (event: Event): Promise<void> => {
     event.preventDefault();
+
     const form = event.target as HTMLFormElement;
     const username = (form.name as HTMLInputElement).value;
     const roleId = parseInt((form.role as HTMLInputElement).value, 10); // Role ID as a number
@@ -105,7 +131,7 @@
       if (!response.ok) throw new Error("Signup failed");
 
       alert("Signup successful!");
-      toggleForms(true);
+      signup(); // Switch to signup form view
     } catch (error: unknown) {
       if (error instanceof Error) {
         alert(error.message);
@@ -113,6 +139,7 @@
     }
   };
 
-  // Attach event listeners
+  // Attach event listeners for form submissions
   loginForm.addEventListener("submit", handleLogin);
   signupForm.addEventListener("submit", handleSignup);
+}
