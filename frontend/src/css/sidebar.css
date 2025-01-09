@@ -52,7 +52,6 @@ body {
 }
 
 .toggle-btn {
-    margin-top: .5rem;
     background-color: transparent;
     cursor: pointer;
     border: 0;
