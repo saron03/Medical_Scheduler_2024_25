@@ -4,33 +4,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About - Medical Scheduler</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/home.css"> <!-- Reuse your existing home.css for consistency -->
 </head>
 <body>
-  <header>
-    <h1>Medical Scheduler</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+  <header class="bg-primary text-white">
+    <div class="top container d-flex justify-content-between align-items-center gradient-background">
+      <h1 class="mb-0">Medical Scheduler</h1>
+      <a href="signup.html" class="btn btn-light">Login/Signup</a>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
     </nav>
   </header>
 
-  <main>
+  <main class="container my-5">
     <section class="about">
-      <h2>About Medical Scheduler</h2>
-      <p>Medical Scheduler is an innovative system designed to simplify the process of managing medical appointments. Whether you are a patient looking to book a consultation, a receptionist managing schedules, or a doctor tracking appointments, Medical Scheduler is here to make it easier.</p>
-      <h3>Our Mission</h3>
-      <p>To provide a seamless experience for patients, doctors, and receptionists by leveraging technology to improve scheduling and communication in healthcare.</p>
-      <h3>Key Features</h3>
-      <ul>
-        <li>Automated scheduling system.</li>
-        <li>Instant appointment updates.</li>
-        <li>Clear communication between all parties.</li>
+      <h2 class="text-center mb-4">About Medical Scheduler</h2>
+      <p class="lead text-center">
+        Medical Scheduler is an innovative system designed to simplify the process of managing medical appointments. Whether you are a patient looking to book a consultation, a receptionist managing schedules, or a doctor tracking appointments, Medical Scheduler is here to make it easier.
+      </p>
+
+      <h3 class="text-center mt-5">Our Mission</h3>
+      <p class="text-center">
+        To provide a seamless experience for patients, doctors, and receptionists by leveraging technology to improve scheduling and communication in healthcare.
+      </p>
+
+      <h3 class="text-center mt-5">Key Features</h3>
+      <ul class="list-group list-group-flush w-75 mx-auto">
+        <li class="list-group-item">Automated scheduling system.</li>
+        <li class="list-group-item">Instant appointment updates.</li>
+        <li class="list-group-item">Clear communication between all parties.</li>
       </ul>
     </section>
   </main>
-  <footer>
+
+  <footer class="bg-dark text-white text-center py-3">
     <p>© 2025 Medical Scheduler. All Rights Reserved.</p>
   </footer>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
