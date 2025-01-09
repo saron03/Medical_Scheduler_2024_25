@@ -4,42 +4,69 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Medical Scheduler - Home</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-  <header>
-    <div class="top">
-        <h1>Medical Scheduler</h1>
-        <button type="button"><a href="login.html" class="btn">Login/Signup</a></button>
+  <header class="bg-primary text-white py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+      <h1 class="mb-0">Medical Scheduler</h1>
+      <a href="login.html" class="btn btn-light">Login/Signup</a>
     </div>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+      </div>
     </nav>
   </header>
-  <main>
-    <div class="top">
-        <h2>Welcome to Medical Scheduler</h2>
-        <img src="imgs/img1.webp" alt="hospital_img" width="500">
-        <p class="description">
-            Medical Scheduler is an easy-to-use system that helps patients book appointments with doctors in a simple and efficient way. It is designed to make the work of receptionists easier by managing schedules and keeping everything organized. This system allows patients and doctors to stay updated about appointments, making communication between them much smoother. Whether you are a patient looking for a quick way to book a visit, a doctor managing your schedule, or a receptionist coordinating everything, Medical Scheduler makes the process simple and stress-free. It saves time, avoids confusion, and ensures that everyone stays on the same page.
-        </p>    
-    </div>  
-    </section>
-    <section class="features">
-      <h3>Why Choose Medical Scheduler?</h3>
-      <ul>
-        <li><strong>Efficient Appointment Management:</strong> Book and manage appointments seamlessly.</li>
-        <li><strong>Coordination Simplified:</strong> Keeps patients and doctors connected.</li>
-        <li><strong>User-Friendly Interface:</strong> Intuitive and easy to use for all roles.</li>
-      </ul>
+
+  <main class="container my-5">
+    <div class="text-center">
+      <h2>Welcome to Medical Scheduler</h2>
+      <img src="imgs/img1.webp" alt="hospital_img" class="img-fluid rounded my-4" width="500">
+      <p class="lead">
+        Medical Scheduler is an easy-to-use system that helps patients book appointments with doctors in a simple and efficient way. It is designed to make the work of receptionists easier by managing schedules and keeping everything organized. This system allows patients and doctors to stay updated about appointments, making communication between them much smoother. Whether you are a patient looking for a quick way to book a visit, a doctor managing your schedule, or a receptionist coordinating everything, Medical Scheduler makes the process simple and stress-free. It saves time, avoids confusion, and ensures that everyone stays on the same page.
+      </p>
+    </div>
+
+    <section class="features my-5">
+      <h3 class="text-center">Why Choose Medical Scheduler?</h3>
+      <div class="row mt-4">
+        <div class="col-md-4 text-center">
+          <div class="card p-3 shadow">
+            <h5 class="card-title">Efficient Appointment Management</h5>
+            <p class="card-text">Book and manage appointments seamlessly.</p>
+          </div>
+        </div>
+        <div class="col-md-4 text-center">
+          <div class="card p-3 shadow">
+            <h5 class="card-title">Coordination Simplified</h5>
+            <p class="card-text">Keeps patients and doctors connected.</p>
+          </div>
+        </div>
+        <div class="col-md-4 text-center">
+          <div class="card p-3 shadow">
+            <h5 class="card-title">User-Friendly Interface</h5>
+            <p class="card-text">Intuitive and easy to use for all roles.</p>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer>
+  <footer class="bg-dark text-white text-center py-3">
     <p>© 2025 Medical Scheduler. All Rights Reserved.</p>
   </footer>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
