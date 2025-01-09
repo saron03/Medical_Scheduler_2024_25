@@ -38,11 +38,12 @@ body{
 .button{
     position: relative;
     width: 220px;
-    margin: 35px auto;
+    margin: 1rem auto;
     box-shadow: 0 0 20px 9px rgba(106, 17, 203, 0.12);
     border-radius: 20px;
     background-color: transparent;
     border: 2px solid #003366; /* Dark blue */
+    
 }
 #btn{
     position: absolute;
