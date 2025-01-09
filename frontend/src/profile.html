@@ -68,17 +68,14 @@
                     <div class="form-box">
                         <div class="button">
                             <div id="btn"></div>
-                            <button type="button" class="toggle-btn-profile" onclick="showProfile()">Profile</button>
+                            <button type="button" id="profile-button" class="toggle-btn-profile" onclick="showProfile()">Profile</button>
                             <button type="button" class="toggle-btn-profile  target-button" onclick="editProfile()">Edit Profile</button>
                         </div>
                         <div class="profile cards" id="profile">
                             <img src="imgs/profile.png" alt="Profile Picture">
-                            <h3>John Doe</h3>
-                            <p>Admin</p>
-                            <p>email@example.com</p>
                         </div>
                         
-                        <form class="cards" id="edit-profile" method="post">
+                        <form class="cards" id="edit-profile">
                             <input type="text" class="input-field" placeholder="User Name" name="name" required>
                             <input type="email" class="input-field" placeholder="Email" name="email" required>
                             <input type="text" class="input-field" placeholder="Enter Password" name="password" required>
@@ -96,5 +93,6 @@
 <script src="scripts/js/sidebar.js"></script>
 <script src="scripts/js/doctor_queue.js"></script>
 <script src="scripts/js/profile.js?v=1.0" defer></script>
+<script src="scripts/js/userData.js"></script>
 </body>
 </html>
