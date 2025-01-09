@@ -43,7 +43,6 @@ body{
     border-radius: 20px;
     background-color: transparent;
     border: 2px solid #003366; /* Dark blue */
-    
 }
 #btn{
     position: absolute;
@@ -79,6 +78,10 @@ body{
     width: 300px;
     top: 100px;
     transition: all 0.3s ease-in-out;
+}
+
+button[class="submit-btn"] {
+    margin-top: 2rem;
 }
 
 .input-field{
