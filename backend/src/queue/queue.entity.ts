@@ -23,8 +23,8 @@ export class Queue {
   @JoinColumn({ name: 'doctor_id' })
   doctor: User;
 
-  @Column({ default: true }) // `true` means the status is pending
-  status: boolean;
+  @Column({ type: 'int', default: 2 }) // 1: Unpending, 2: Pending, 3: Resolved
+  status: number;
 
   @CreateDateColumn()
   created_at: Date;

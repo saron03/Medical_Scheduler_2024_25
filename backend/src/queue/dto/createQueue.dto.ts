@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsBoolean, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateQueueDto {
   @IsNotEmpty()
@@ -9,7 +9,6 @@ export class CreateQueueDto {
   @IsNumber()
   doctor_id: number;
 
-  @IsNotEmpty()
-  @IsBoolean()
-  status: boolean;
+  @IsNumber()
+  status: number; // Optional status; defaults to 2 (Pending) if not provided
 }

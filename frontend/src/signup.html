@@ -1,37 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title> SignUp and Login pages </title>
-        <link rel="stylesheet" href="css/login.css">
-    </head>
-    <body>
-        <div class="page">
-            <div class="form-box">
-                <div class="button">
-                    <div id="btn"></div>
-                    <button type="button" class="toggle-btn" onclick="login()">Login</button>
-                    <button type="button" class="toggle-btn" onclick="signup()">Signup</button>
-                </div>
-                <form class="input-group" id="login" method="post">
-
-                    <input type="email" class="input-field" placeholder="Email" name="email" required>
-                    <input type="text" class="input-field" placeholder="Enter Password" name="password" required>
-                    <input type="checkbox" class="check-box"><span>Remember Password</span>
-                    <p class="forgot-password">Forgot Password?</p>
-                    <button type="submit" class="submit-btn">Login</button>
-                </form>
-                <form class="input-group" id="signup"  method="post">
-                    <input type="text" class="input-field" placeholder="Name" name="name" required>
-                    <input type="email" class="input-field" placeholder="Email" name="email" required>
-                    <input type="text" class="input-field" placeholder="Enter Password" name="password" required>
-                    <input type="text" class="input-field" placeholder="Confirm Password" name="confirmPassword" required>
-                    <input type="checkbox" class="check-box"><span>I agree to the Terms & Conditions</span>
-                    <button type="submit" class="submit-btn">Signup</button>
-                </form>
-            </div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SignUp and Login Pages</title>
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="form-box">
+        <div class="button">
+          <div id="btn"></div>
+          <button type="button" class="toggle-btn" onclick="login()">
+            Login
+          </button>
+          <button type="button" class="toggle-btn" onclick="signup()">
+            Signup
+          </button>
         </div>
-        <script src="scripts/js/login.js?v=1.0" defer></script>
-
-    </body>
+        <form class="input-group" id="login">
+          <input
+            type="text"
+            class="input-field"
+            placeholder="Role ID"
+            name="role"
+            required
+          />
+          <input
+            type="email"
+            class="input-field"
+            placeholder="Email"
+            name="email"
+            required
+          />
+          <input
+            type="password"
+            class="input-field"
+            placeholder="Enter Password"
+            name="password"
+            required
+          />
+          <input type="checkbox" class="check-box" />
+          <span>Remember Password</span>
+          <p class="forgot-password">Forgot Password?</p>
+          <button type="submit" class="submit-btn">Login</button>
+        </form>
+        <form class="input-group" id="signup">
+          <input
+            type="text"
+            class="input-field"
+            placeholder="Name"
+            name="name"
+            required
+          />
+          <input
+            type="text"
+            class="input-field"
+            placeholder="Role ID"
+            name="role"
+            required
+          />
+          <input
+            type="email"
+            class="input-field"
+            placeholder="Email"
+            name="email"
+            required
+          />
+          <input
+            type="password"
+            class="input-field"
+            placeholder="Enter Password"
+            name="password"
+            required
+          />
+          <input
+            type="password"
+            class="input-field"
+            placeholder="Confirm Password"
+            name="confirmPassword"
+            required
+          />
+          <input type="checkbox" class="check-box" />
+          <span>I agree to the Terms & Conditions</span>
+          <button type="submit" class="submit-btn">Signup</button>
+        </form>
+      </div>
+    </div>
+    <script src="scripts/js/login.js"></script>
+  </body>
 </html>
