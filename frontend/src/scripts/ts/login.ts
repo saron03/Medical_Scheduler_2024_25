@@ -65,9 +65,13 @@ if (
 
       if (!response.ok) throw new Error("Login failed");
 
-      const responseData: { roleId: number } = await response.json();
-      const roleId = responseData.roleId; // Update roleId based on login response
+      if (!response.ok) throw new Error("Login failed");
 
+      const { token } = await response.json();
+      // Store the JWT token
+      localStorage.setItem("jwtToken", token);
+
+      const roleId = parseInt(role); // Update roleId based on login response
       // Navigate based on roleId
       switch (roleId) {
         case 1:
@@ -130,8 +134,37 @@ if (
 
       if (!response.ok) throw new Error("Signup failed");
 
-      alert("Signup successful!");
-      signup(); // Switch to signup form view
+      const { token } = await response.json();
+      // Store the JWT token
+      localStorage.setItem("jwtToken", token);
+
+      // Navigate based on roleId
+      switch (roleId) {
+        case 1:
+          window.location.href = "/headoffice";
+          break;
+        case 2:
+          window.location.href = "/branch";
+          break;
+        case 3:
+          window.location.href = "/patient";
+          break;
+        case 4:
+          // Updated navigation for doctor role
+          window.location.href =
+            "http://127.0.0.1:5500/frontend/src/doctor_queue.html";
+          break;
+        case 5:
+          // Updated navigation for receptionist role
+          window.location.href =
+            "http://127.0.0.1:5500/frontend/src/receptionist_queue.html";
+          break;
+        default:
+          window.location.href =
+            "http://127.0.0.1:5500/frontend/src/doctor_queue.html";
+      }
+
+      login(); // Switch to signup form view
     } catch (error: unknown) {
       if (error instanceof Error) {
         alert(error.message);
