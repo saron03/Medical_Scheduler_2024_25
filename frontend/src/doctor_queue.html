@@ -63,13 +63,11 @@
         </aside>
         <div class="main">
         <header>
-            <img src="imgs/profile.png" onclick="toggleMenu()" alt="Profile Picture">
+            <img src="imgs/profile.png" onclick="toggleMenu()" id="menu-btn" alt="Profile Picture">
         </header>
         <div class="sub-menu-wrap" id="subMenu">
             <div class="sub-menu">
-                <div class="user-info">
-                    <img src="imgs/profile.png" alt="Profile Picture">
-                    <h3>John Doe</h3>
+                <div class="user-info" id="user-info">
                 </div>
                 <hr>
                 <a onclick="storeActionAndNavigate()" class="sub-menu-link">
@@ -148,6 +146,6 @@
     <script src="scripts/js/sidebar.js"></script>
     <script src="scripts/js/doctor_queue.js"></script>
     <script src="scripts/js/profile.js" defer></script>
- 
+    <script src="scripts/js/userData.js"></script>
 </body>
 </html>
