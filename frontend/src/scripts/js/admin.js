@@ -54,12 +54,12 @@ var fetchEmployeesData = function () { return __awaiter(_this, void 0, void 0, f
                 return [4 /*yield*/, response.json()];
             case 2:
                 users = _a.sent();
-                employees_1 = users.filter(function (user) {
-                    return user.role.name === "Receptionist" || user.role.name === "Doctor";
-                });
+                employees_1 = users.filter(function (user) { return user.role.name === "Receptionist" || user.role.name === "Doctor"; });
                 // Update the counters based on the fetched users
                 totalDoctors = employees_1.filter(function (user) { return user.role.name === "Doctor"; }).length;
                 totalReceptionists = employees_1.filter(function (user) { return user.role.name === "Receptionist"; }).length;
+                // You can add a function to render or use these variables as needed
+                renderEmployees(employees_1);
                 return [3 /*break*/, 4];
             case 3:
                 error_1 = _a.sent();
@@ -79,7 +79,7 @@ var renderEmployees = function (employees) {
     });
     updateEmployeeCounters();
 };
-//  Filter emplyees 
+//  Filter emplyees
 function filterEmployees() {
     var searchValue = document.getElementById("searchInput").value.toLowerCase();
     var filteredUsers = employees.filter(function (user) {
@@ -110,6 +110,7 @@ var deleteEmployee = function (user_id) { return __awaiter(_this, void 0, void 0
             case 1:
                 _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, fetch("http://localhost:4000/api/v1/users/".concat(user_id), {
+                        // Check userId or user_id
                         method: "DELETE",
                     })];
             case 2:
@@ -168,7 +169,7 @@ fetchEmployeesData();
 //       const row = `<tr class="${rowClass}">
 //           <td>${user.username}</td>
 //           <td>${user.email}</td>
-//           <td>${user.user_id}</td> 
+//           <td>${user.user_id}</td>
 //           <td>${user.role.name}</td>
 //           <td>
 //               <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.user_id})">Delete</button>
