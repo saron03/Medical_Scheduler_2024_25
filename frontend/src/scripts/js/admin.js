@@ -73,8 +73,8 @@ var fetchEmployeesData = function () { return __awaiter(_this, void 0, void 0, f
 var renderEmployees = function (employees) {
     var userTableBody = document.getElementById("userTableBody");
     userTableBody.innerHTML = "";
-    employees.forEach(function (user) {
-        var row = "\n        <tr>\n          <td>".concat(user.username, "</td>  // user_name doesnt exist\n          <td>").concat(user.email, "</td>\n          <td>").concat(user.user_id, "</td> \n          <td>").concat(user.role.name, "</td>\n          <td>\n              <button class=\"btn btn-danger btn-sm\" onclick=\"deleteEmployee(").concat(user.user_id, ")\">Delete</button>\n          </td>\n      </tr>");
+    employees.forEach(function (user, index) {
+        var row = "\n        <tr>\n          <td>".concat(user.username, "</td>\n          <td>").concat(user.email, "</td>\n          <td>").concat(user.user_id, "</td> \n          <td>").concat(user.role.name, "</td>\n          <td>\n              <button class=\"btn btn-danger btn-sm\" onclick=\"deleteEmployee(").concat(index, ")\">Delete</button>\n          </td>\n      </tr>");
         userTableBody.innerHTML += row;
     });
     updateEmployeeCounters();
@@ -100,16 +100,16 @@ function updateEmployeeCounters() {
     //   restrictedAccounts.toString(); remove
 }
 // Delete User
-var deleteEmployee = function (user_id) { return __awaiter(_this, void 0, void 0, function () {
+var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, function () {
     var userToBeDeleted, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                userToBeDeleted = employees[user_id];
+                userToBeDeleted = employees[index];
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, fetch("http://localhost:4000/api/v1/users/".concat(user_id), {
+                return [4 /*yield*/, fetch("http://localhost:4000/api/v1/users/".concat(userToBeDeleted.user_id), {
                         // Check userId or user_id
                         method: "DELETE",
                     })];
@@ -122,7 +122,7 @@ var deleteEmployee = function (user_id) { return __awaiter(_this, void 0, void 0
                     totalReceptionists--;
                 }
                 // employees = employees.filter((user) => user !== userToBeDeleted);
-                employees.splice(user_id, 1);
+                employees.splice(index, 1);
                 renderEmployees(employees);
                 return [3 /*break*/, 4];
             case 3:
