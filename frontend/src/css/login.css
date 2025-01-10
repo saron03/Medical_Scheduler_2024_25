@@ -149,3 +149,22 @@ p{
 button[onclick="signup()"] {
     margin-left: 1rem;
 }
+
+.back-to-home{
+    position: fixed;
+    top:20px;
+    right: 20px;  
+    background-color: #003366;
+    padding: 10px;
+    border-radius: 15px;
+    color: azure;
+    width: 150px;
+    text-decoration: underline;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.back-to-home:hover{
+    background-color: #6699CC; 
+    transform: scale(1.1);
+}
+
