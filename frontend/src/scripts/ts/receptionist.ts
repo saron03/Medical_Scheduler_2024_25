@@ -1,13 +1,3 @@
-// Check for JWT token on load
-const checkJwtToken = (): void => {
-  const jwtToken = localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
-  if (!jwtToken) {
-    window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
-  }
-};
-
-// Call the checkJwtToken function on load
-checkJwtToken();
 // Interfaces for the Patient and Doctor Models
 interface Patient {
   patient_id: number;
@@ -42,8 +32,8 @@ interface Queue {
 
 // Global array for users
 let users: Queue[] = [];
-let activeEntries: number = 0;
-let pendingEntries: number = 0;
+let activeEntries = 0;
+let pendingEntries = 0;
 
 // Fetch data from the API
 const fetchData = async (): Promise<void> => {
@@ -74,18 +64,20 @@ const renderUsers = (users: Queue[]): void => {
         <tr class="${rowClass}">
           <td>${user.patient.first_name} ${user.patient.last_name}</td>
           <td>${new Date(user.created_at).toLocaleString()}</td>
-          <td>${
-            user.status === 1
-              ? "Not Pending"
-              : user.status === 2
-              ? "Pending"
-              : "Resolved Pending"
-          }</td>
+          <td>$
+            {
+              user.status === 1
+                ? "Not Pending"
+                : user.status === 2
+                ? "Pending"
+                : "Resolved Pending"
+            }
+          </td>
           <td>
-            <button style="border: none; color: white;" class="btn btn-sm" onclick="resolvePendingUser(${index})" ${
+            <button class="btn btn-sm" onclick="resolvePendingUser(${index})" ${
       resolveButtonDisabled ? "disabled" : ""
     }>Resolve Pending</button>
-            <button style="border: none; color: white;" class="btn btn-sm" onclick="deleteUser(${index})">Delete</button>
+            <button class="btn btn-sm" onclick="deleteUser(${index})">Delete</button>
           </td>
         </tr>`;
     userTableBody.innerHTML += row;
@@ -143,6 +135,16 @@ const deleteUser = async (index: number): Promise<void> => {
 const addUser = async (event: Event): Promise<void> => {
   event.preventDefault();
 
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.error("No token found in local storage");
+    return;
+  }
+
+  const base64Payload = token.split(".")[1];
+  const payload = JSON.parse(atob(base64Payload));
+  const registeredById = payload.user_id;
+
   const firstName = (document.getElementById("firstName") as HTMLInputElement)
     .value;
   const lastName = (document.getElementById("lastName") as HTMLInputElement)
@@ -155,12 +157,10 @@ const addUser = async (event: Event): Promise<void> => {
   const gender = (document.getElementById("gender") as HTMLSelectElement).value;
   const address = (document.getElementById("address") as HTMLInputElement)
     .value;
-  const registeredById = 5; // Replace with dynamic receptionist user ID
   const doctorId = parseInt(
     (document.getElementById("doctorId") as HTMLSelectElement).value
   );
 
-  // Step 1: Register the patient
   const patientData = {
     first_name: firstName,
     last_name: lastName,
@@ -177,7 +177,10 @@ const addUser = async (event: Event): Promise<void> => {
       "http://localhost:4000/api/v1/patients",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(patientData),
       }
     );
@@ -188,16 +191,18 @@ const addUser = async (event: Event): Promise<void> => {
 
     const patient = await patientResponse.json();
 
-    // Step 2: Add patient to the queue
     const queueData = {
       patient_id: patient.patient_id,
       doctor_id: doctorId,
-      status: 1, // Default to "Not Pending"
+      status: 1,
     };
 
     const queueResponse = await fetch("http://localhost:4000/api/v1/queues", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(queueData),
     });
 
@@ -209,7 +214,7 @@ const addUser = async (event: Event): Promise<void> => {
     users.push(queueEntry);
     activeEntries++;
     renderUsers(users);
-    closeAddUserModal(); // Close the modal after adding a user
+    closeAddUserModal();
   } catch (error) {
     console.error("Error adding user:", error);
   }
@@ -220,6 +225,7 @@ const filterUsers = (): void => {
   const searchValue = (
     document.getElementById("searchInput") as HTMLInputElement
   ).value.toLowerCase();
+
   const filteredUsers = users.filter((user) => {
     return (
       user.patient.first_name.toLowerCase().includes(searchValue) ||
@@ -250,19 +256,7 @@ const closeAddUserModal = (): void => {
   document.getElementById("addUserModal")!.style.display = "none";
 };
 
-// Logs out the user by clearing the JWT and redirecting to the login page
-function logoutUser(): void {
-  localStorage.removeItem("jwtToken");
-  sessionStorage.removeItem("jwtToken");
-
-  window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
-}
-// Attach the logout function to the logout button
-document.getElementById("logout")?.addEventListener("click", logoutUser);
-
 // Initialize the page by fetching users
 document.addEventListener("DOMContentLoaded", () => {
   fetchData();
 });
-
-
