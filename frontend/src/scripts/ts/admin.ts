@@ -15,18 +15,15 @@ let totalReceptionists: number = 0;
 // Fetch data from the API
 const fetchEmployeesData = async (): Promise<void> => {
   try {
-    console.log("Fetching employees data...");
     const response = await fetch("http://localhost:4000/api/v1/users");
     const users: User[] = await response.json();
 
-    console.log("Fetched users:", users);
 
     // Filter users to show only Receptionists and Doctors
     employees = users.filter(
       (user) => user.role.name === "Receptionist" || user.role.name === "Doctor"
     );
 
-    console.log("Filtered employees:", employees);
 
     // Update the counters based on the fetched users
     totalDoctors = employees.filter(
@@ -36,8 +33,6 @@ const fetchEmployeesData = async (): Promise<void> => {
       (user) => user.role.name === "Receptionist"
     ).length;
 
-    console.log("Total Doctors:", totalDoctors);
-    console.log("Total Receptionists:", totalReceptionists);
 
     // Render the filtered employees
     renderEmployees(employees);
@@ -54,7 +49,7 @@ const renderEmployees = (employees: User[]): void => {
   employees.forEach((user, index) => {
     const row = `
       <tr>
-        <td>${user.name}</td>
+        <td>${user.username}</td>
         <td>${user.email}</td>
         <td>${user.user_id}</td>
         <td>${user.role.name}</td>
@@ -65,21 +60,18 @@ const renderEmployees = (employees: User[]): void => {
     userTableBody.innerHTML += row;
   });
 
-  console.log("Employees rendered on the table:", employees);
 
   updateEmployeeCounters();
 };
 
+
+
 // Delete User
 const deleteEmployee = async (index: number): Promise<void> => {
-  console.log("Delete button clicked, index:", index);
-  console.log("Current employees array:", employees);
 
   const userToBeDeleted = employees[index];
-  console.log("Attempting to delete user:", userToBeDeleted);
 
   if (!userToBeDeleted) {
-    console.error("User not found at index:", index);
     return;
   }
 
@@ -100,9 +92,8 @@ const deleteEmployee = async (index: number): Promise<void> => {
 
     employees.splice(index, 1);
     renderEmployees(employees);
-    console.log("Updated Employees List:", employees);
   } catch (error) {
-    console.error("Error deleting user:", error);
+    console.log(error);
   }
 };
 
@@ -111,16 +102,14 @@ function filterEmployees(): void {
   const searchValue = (
     document.getElementById("searchInput") as HTMLInputElement
   ).value.toLowerCase();
-  console.log("Filtering employees with search value:", searchValue);
 
   const filteredUsers = employees.filter(
     (user) =>
-      user.name.toLowerCase().startsWith(searchValue) ||
+      user.username.toLowerCase().startsWith(searchValue) ||
       user.email.toLowerCase().startsWith(searchValue) ||
       user.role.name.toLowerCase().startsWith(searchValue)
   );
   
-  console.log("Filtered users:", filteredUsers);
   renderEmployees(filteredUsers);
 }
 
@@ -130,7 +119,6 @@ function updateEmployeeCounters(): void {
     totalDoctors.toString();
   (document.getElementById("totalReceptionists") as HTMLElement).innerText =
     totalReceptionists.toString();
-  console.log("Employee counters updated: Doctors", totalDoctors, "Receptionists", totalReceptionists);
 }
 
 // Call the function to fetch and render employees on page load
