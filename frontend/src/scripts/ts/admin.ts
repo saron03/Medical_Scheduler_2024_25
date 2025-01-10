@@ -51,7 +51,7 @@ const renderEmployees = (employees: User[]): void => {
   employees.forEach((user) => {
     const row = `
         <tr>
-          <td>${user.name}</td>  // user_name doesnt exist
+          <td>${user.username}</td>  // user_name doesnt exist
           <td>${user.email}</td>
           <td>${user.user_id}</td> 
           <td>${user.role.name}</td>
@@ -106,12 +106,30 @@ const deleteEmployee = async (user_id: number): Promise<void> => {
     } else {
       totalReceptionists--;
     }
-    employees = employees.filter((user) => user !== userToBeDeleted);
+    // employees = employees.filter((user) => user !== userToBeDeleted);
+    employees.splice(user_id, 1);
     renderEmployees(employees);
   } catch (error) {
     console.error("Error deleting user:", error);
   }
 };
+
+// const deleteUser = async (index: number): Promise<void> => {
+//   const user = users[index];
+//   if (user.status === 2) {
+//     pendingEntries--;
+//   }
+//   try {
+//     await fetch(`http://localhost:4000/api/v1/queues/${user.queue_id}`, {
+//       method: "DELETE",
+//     });
+//     users.splice(index, 1);
+//     activeEntries--;
+//     renderUsers(users);
+//   } catch (error) {
+//     console.error("Error deleting user:", error);
+//   }
+// };
 
 fetchEmployeesData();
 
