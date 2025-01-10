@@ -74,7 +74,7 @@ var renderEmployees = function (employees) {
     var userTableBody = document.getElementById("userTableBody");
     userTableBody.innerHTML = "";
     employees.forEach(function (user) {
-        var row = "\n        <tr>\n          <td>".concat(user.name, "</td>  // user_name doesnt exist\n          <td>").concat(user.email, "</td>\n          <td>").concat(user.user_id, "</td> \n          <td>").concat(user.role.name, "</td>\n          <td>\n              <button class=\"btn btn-danger btn-sm\" onclick=\"deleteEmployee(").concat(user.user_id, ")\">Delete</button>\n          </td>\n      </tr>");
+        var row = "\n        <tr>\n          <td>".concat(user.username, "</td>  // user_name doesnt exist\n          <td>").concat(user.email, "</td>\n          <td>").concat(user.user_id, "</td> \n          <td>").concat(user.role.name, "</td>\n          <td>\n              <button class=\"btn btn-danger btn-sm\" onclick=\"deleteEmployee(").concat(user.user_id, ")\">Delete</button>\n          </td>\n      </tr>");
         userTableBody.innerHTML += row;
     });
     updateEmployeeCounters();
@@ -121,7 +121,8 @@ var deleteEmployee = function (user_id) { return __awaiter(_this, void 0, void 0
                 else {
                     totalReceptionists--;
                 }
-                employees = employees.filter(function (user) { return user !== userToBeDeleted; });
+                // employees = employees.filter((user) => user !== userToBeDeleted);
+                employees.splice(user_id, 1);
                 renderEmployees(employees);
                 return [3 /*break*/, 4];
             case 3:
@@ -132,6 +133,22 @@ var deleteEmployee = function (user_id) { return __awaiter(_this, void 0, void 0
         }
     });
 }); };
+// const deleteUser = async (index: number): Promise<void> => {
+//   const user = users[index];
+//   if (user.status === 2) {
+//     pendingEntries--;
+//   }
+//   try {
+//     await fetch(`http://localhost:4000/api/v1/queues/${user.queue_id}`, {
+//       method: "DELETE",
+//     });
+//     users.splice(index, 1);
+//     activeEntries--;
+//     renderUsers(users);
+//   } catch (error) {
+//     console.error("Error deleting user:", error);
+//   }
+// };
 fetchEmployeesData();
 // Nati
 // Fetches and renders the users from the API
