@@ -1,3 +1,14 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -76,14 +87,17 @@ var fetchCurrentUser = function () { return __awaiter(_this, void 0, void 0, fun
 // Render the profile for the current user
 var renderProfile = function (user) {
     var profileSection = document.getElementById("profile");
+    var userName = document.getElementById("user-info");
     if (!profileSection) {
         console.error("Profile section element not found.");
         return;
     }
     if (user) {
-        profileSection.innerHTML = "\n        <h3>".concat(user.username, "</h3>\n        <p>Role: ").concat(user.role.name, "</p>\n        <p>Email: ").concat(user.email, "</p>\n        <p>Created At: ").concat(new Date(user.created_at).toLocaleString(), "</p>\n      ");
+        userName.innerHTML = "\n          <img src=\"imgs/profile.png\" alt=\"Profile Picture\" />\n          <h3>".concat(user.username, "</h3>\n        ");
+        profileSection.innerHTML = "\n        <img src=\"imgs/profile.png\" alt=\"Profile Picture\" />\n        <h3>".concat(user.username, "</h3>\n        <p>Role: ").concat(user.role.name, "</p>\n        <p>Email: ").concat(user.email, "</p>\n        <p>Created At: ").concat(new Date(user.created_at).toLocaleString(), "</p>\n      ");
     }
     else {
+        userName.innerHTML = "<h3>User Not Found or Inactive</h3>";
         profileSection.innerHTML = "<h3>User not found.</h3>";
     }
 };
@@ -122,13 +136,13 @@ var editProfile = function (user) { return __awaiter(_this, void 0, void 0, func
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 4, , 5]);
-                        updatedData = {
-                            username: username,
-                            email: email,
-                            password: newPassword ? newPassword : undefined, // Include password only if it's provided
-                        };
+                        updatedData = __assign({ email: email || undefined, username: username || undefined }, (newPassword && { password: newPassword }));
                         return [4 /*yield*/, fetch("http://localhost:4000/api/v1/users/".concat(user.user_id), {
                                 method: "PUT",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: "Bearer ".concat(token),
+                                },
                                 body: JSON.stringify(updatedData),
                             })];
                     case 2:
@@ -157,7 +171,7 @@ var editProfile = function (user) { return __awaiter(_this, void 0, void 0, func
 }); };
 // Initialize the application
 var init = function () { return __awaiter(_this, void 0, void 0, function () {
-    var currentUser, profileButton, editProfileButton;
+    var currentUser, loginbtn, signupbtn, editProfileButton;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, fetchCurrentUser()];
@@ -167,10 +181,17 @@ var init = function () { return __awaiter(_this, void 0, void 0, function () {
                     console.error("Current user could not be loaded.");
                     return [2 /*return*/];
                 }
-                profileButton = document.getElementById("profile-button");
+                loginbtn = document.getElementById("login-btn");
+                signupbtn = document.getElementById("signup-btn");
                 editProfileButton = document.getElementById("edit-profile-button");
-                if (profileButton) {
-                    profileButton.addEventListener("click", function () { return renderProfile(currentUser); });
+                if (loginbtn) {
+                    loginbtn.addEventListener("click", function () { return renderProfile(currentUser); });
+                }
+                else {
+                    console.error("Profile button element not found.");
+                }
+                if (signupbtn) {
+                    signupbtn.addEventListener("click", function () { return renderProfile(currentUser); });
                 }
                 else {
                     console.error("Profile button element not found.");

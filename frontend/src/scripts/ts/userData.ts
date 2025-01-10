@@ -40,20 +40,26 @@ const fetchCurrentUser = async (): Promise<User | undefined> => {
 // Render the profile for the current user
 const renderProfile = (user: User): void => {
   const profileSection = document.getElementById("profile") as HTMLElement;
-
+  const userName = document.getElementById("user-info") as HTMLElement | null;
   if (!profileSection) {
     console.error("Profile section element not found.");
     return;
   }
 
   if (user) {
+    userName.innerHTML = `
+          <img src="imgs/profile.png" alt="Profile Picture" />
+          <h3>${user.username}</h3>
+        `;
     profileSection.innerHTML = `
+        <img src="imgs/profile.png" alt="Profile Picture" />
         <h3>${user.username}</h3>
         <p>Role: ${user.role.name}</p>
         <p>Email: ${user.email}</p>
         <p>Created At: ${new Date(user.created_at).toLocaleString()}</p>
       `;
   } else {
+    userName.innerHTML = `<h3>User Not Found or Inactive</h3>`;
     profileSection.innerHTML = `<h3>User not found.</h3>`;
   }
 };
@@ -93,10 +99,10 @@ const editProfile = async (user: User): Promise<void> => {
 
     try {
       // Prepare updated data
-      const updatedData = {
-        username,
-        email,
-        password: newPassword ? newPassword : undefined, // Include password only if it's provided
+      const updatedData: { email?: string; username?: string; password?: string } = {
+        email: email || undefined,
+        username: username || undefined,
+        ...(newPassword && { password: newPassword }), // Include password only if provided
       };
 
       // Update the user profile
@@ -104,6 +110,10 @@ const editProfile = async (user: User): Promise<void> => {
         `http://localhost:4000/api/v1/users/${user.user_id}`,
         {
           method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify(updatedData),
         }
       );
@@ -132,15 +142,21 @@ const init = async (): Promise<void> => {
     return;
   }
 
-  const profileButton = document.getElementById(
-    "profile-button"
-  ) as HTMLButtonElement | null;
+  
+const loginbtn= document.getElementById("login-btn") as HTMLImageElement | null;
+const signupbtn= document.getElementById("signup-btn") as HTMLImageElement | null;
   const editProfileButton = document.getElementById(
     "edit-profile-button"
   ) as HTMLButtonElement | null;
 
-  if (profileButton) {
-    profileButton.addEventListener("click", () => renderProfile(currentUser));
+  if (loginbtn) {
+    loginbtn.addEventListener("click", () => renderProfile(currentUser));
+  } else {
+    console.error("Profile button element not found.");
+  }
+
+  if (signupbtn) {
+    signupbtn.addEventListener("click", () => renderProfile(currentUser));
   } else {
     console.error("Profile button element not found.");
   }
