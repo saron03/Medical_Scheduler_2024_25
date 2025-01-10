@@ -1,101 +1,155 @@
-
-const profileButton = document.getElementById("profile-button") as HTMLButtonElement | null;
-const editProfileButton = document.getElementById("edit-profile-button") as HTMLButtonElement | null;
-const profileSection = document.getElementById("profile") as HTMLDivElement | null;
-const editProfileForm = document.getElementById("edit-profile") as HTMLFormElement | null;
-
-const profileUrl = "http://localhost:4000/api/v1/users/5"; // API route for profile
-
-// Function to show the active profile
-function showMyProfile(): void {
-    if (!profileSection) {
-        console.error("Profile section element not found.");
-        return;
-    }
-
-    fetch(profileUrl)
-        .then((res) => {
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-            return res.json();
-        })
-        .then((data) => {
-            if (data.accountStatus === "active") {
-                profileSection.innerHTML = `
-                    <h3>${data.username}</h3>
-                    <p>Role: ${data.role.name}</p>
-                    <p>Email: ${data.email}</p>
-                    <p>Created At: ${new Date(data.created_at).toLocaleString()}</p>
-                `;
-            } else {
-                profileSection.innerHTML = `<h3>Profile Not Found or Inactive</h3>`;
-            }
-        })
-        .catch((err) => {
-            console.error("Error fetching profile:", err);
-            profileSection.innerHTML = `<h3>Error loading profile</h3>`;
-        });
+// Define User Interface
+interface User {
+  user_id: number;
+  username: string;
+  email: string;
+  password?: string;
+  role: { role_id: number; name: string };
+  created_at: string;
+  updated_at?: string;
 }
 
-// Function to edit the profile
-function editProfile(): void {
-    if (!editProfileForm || !profileSection) {
-        console.error("Edit profile form or profile section element not found.");
-        return;
-    }
+// Fetch the current user based on the token
+const fetchCurrentUser = async (): Promise<User | undefined> => {
+  const token = localStorage.getItem("jwtToken"); // Retrieve token from localStorage
+  if (!token) {
+    console.error("Authorization token not found.");
+    return;
+  }
 
-    editProfileForm.addEventListener("submit", (e: Event) => {
-        e.preventDefault(); // Prevent form from reloading the page
-
-        // Collect form data and convert to JSON
-        const formData = new FormData(editProfileForm);
-        const updatedData = {
-            email: formData.get("email") as string,
-            username: formData.get("username") as string,
-            password: formData.get("password") as string,
-        };
-
-        fetch(profileUrl, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(updatedData),
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
-                return res.json();
-            })
-            .then((data) => {
-                console.log("Profile updated successfully:", data);
-
-                profileSection.innerHTML = `
-                    <h3>Profile Updated!</h3>
-                    <p>Updated Username: ${data.username}</p>
-                    <p>Updated Email: ${data.email}</p>
-                    <p>Updated At: ${new Date(data.updated_at).toLocaleString()}</p>
-                `;
-            })
-            .catch((err) => {
-                console.error("Error updating profile:", err);
-                profileSection.innerHTML = `
-                    <h3>Error updating profile. Please try again later.</h3>
-                `;
-            });
+  try {
+    const response = await fetch("http://localhost:4000/api/v1/users/user", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
-}
 
-if (profileButton) {
-    profileButton.addEventListener("click", showMyProfile);
-} else {
+    if (!response.ok) {
+      throw new Error(`Failed to fetch user: ${response.status}`);
+    }
+
+    const currentUser: User = await response.json();
+    console.log("Current user fetched:", currentUser);
+    return currentUser;
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+  }
+};
+
+// Render the profile for the current user
+const renderProfile = (user: User): void => {
+  const profileSection = document.getElementById("profile") as HTMLElement;
+
+  if (!profileSection) {
+    console.error("Profile section element not found.");
+    return;
+  }
+
+  if (user) {
+    profileSection.innerHTML = `
+        <h3>${user.username}</h3>
+        <p>Role: ${user.role.name}</p>
+        <p>Email: ${user.email}</p>
+        <p>Created At: ${new Date(user.created_at).toLocaleString()}</p>
+      `;
+  } else {
+    profileSection.innerHTML = `<h3>User not found.</h3>`;
+  }
+};
+
+// Edit the profile for the current user
+const editProfile = async (user: User): Promise<void> => {
+  const editProfileForm = document.getElementById(
+    "edit-profile"
+  ) as HTMLFormElement;
+  const profileSection = document.getElementById("profile") as HTMLElement;
+
+  if (!editProfileForm || !profileSection) {
+    console.error("Edit profile form or profile section element not found.");
+    return;
+  }
+
+  editProfileForm.addEventListener("submit", async (e: Event) => {
+    e.preventDefault();
+
+    const formData = new FormData(editProfileForm);
+    const username = formData.get("username") as string;
+    const email = formData.get("email") as string;
+    const newPassword = formData.get("newPassword") as string;
+    const confirmPassword = formData.get("confirmPassword") as string;
+
+    // Validate password fields
+    if (newPassword !== confirmPassword) {
+      alert("New password and confirmation password do not match.");
+      return;
+    }
+
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      console.error("Authorization token not found.");
+      return;
+    }
+
+    try {
+      // Prepare updated data
+      const updatedData = {
+        username,
+        email,
+        password: newPassword ? newPassword : undefined, // Include password only if it's provided
+      };
+
+      // Update the user profile
+      const updateResponse = await fetch(
+        `http://localhost:4000/api/v1/users/${user.user_id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(updatedData),
+        }
+      );
+
+      if (!updateResponse.ok) {
+        throw new Error(`HTTP error! status: ${updateResponse.status}`);
+      }
+
+      const updatedUser = await updateResponse.json();
+      console.log("Profile updated successfully:", updatedUser);
+
+      // Render the updated profile
+      renderProfile(updatedUser);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      profileSection.innerHTML = `<h3>Error updating profile. Please try again later.</h3>`;
+    }
+  });
+};
+
+// Initialize the application
+const init = async (): Promise<void> => {
+  const currentUser = await fetchCurrentUser();
+  if (!currentUser) {
+    console.error("Current user could not be loaded.");
+    return;
+  }
+
+  const profileButton = document.getElementById(
+    "profile-button"
+  ) as HTMLButtonElement | null;
+  const editProfileButton = document.getElementById(
+    "edit-profile-button"
+  ) as HTMLButtonElement | null;
+
+  if (profileButton) {
+    profileButton.addEventListener("click", () => renderProfile(currentUser));
+  } else {
     console.error("Profile button element not found.");
-}
+  }
 
-if (editProfileButton) {
-    editProfileButton.addEventListener("click", editProfile);
-} else {
+  if (editProfileButton) {
+    editProfileButton.addEventListener("click", () => editProfile(currentUser));
+  } else {
     console.error("Edit profile button element not found.");
-}
+  }
+};
+
+init();

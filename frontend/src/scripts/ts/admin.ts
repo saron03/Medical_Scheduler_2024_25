@@ -1,113 +1,115 @@
 interface User {
+  user_id: number;
   name: string;
   email: string;
   accountStatus: string;
-  role: string;
+  role: { name: string };
 }
 
-// Sample data
-const employees: User[] = [
-  {
-    name: "Dr. John Doe",
-    email: "johndoe@example.com",
-    accountStatus: "active",
-    role: "doctor",
-  },
-  {
-    name: "Jane Doe",
-    email: "janedoe@example.com",
-    accountStatus: "restricted",
-    role: "receptionist",
-  },
-  // Add more sample users as needed
-];
+// Sample data (initially empty)
+let employees: User[] = [];
+let totalDoctors: number = 0;
+let totalReceptionists: number = 0;
+let restrictedAccounts: number = 0;
 
-let totalDoctors: number = employees.filter(
-  (user) => user.role === "doctor"
-).length;
-let totalReceptionists: number = employees.filter(
-  (user) => user.role === "receptionist"
-).length;
-let restrictedAccounts: number = employees.filter(
-  (user) => user.accountStatus === "restricted"
-).length;
-
-// Renders the user table
-function renderUsers(employees: User[]): void {
+// Fetches and renders the users from the API
+document.addEventListener("DOMContentLoaded", function () {
+  const userListElement = document.getElementById("userList");
   const userTableBody = document.getElementById("userTableBody") as HTMLElement;
-  userTableBody.innerHTML = "";
-  employees.forEach((user, index) => {
-    const rowClass = user.accountStatus === "restricted" ? "restricted" : "";
-    const row = `<tr class="${rowClass}">
-            <td>${user.name}</td>
-            <td>${user.email}</td>
-            <td>${user.accountStatus}</td>
-            <td>${user.role}</td>
-            <td>
-                <button class="btn btn-danger btn-sm" onclick="deleteUser(${index})">Delete</button>
-                <button class="btn btn-warning btn-sm" onclick="restrictUser(${index})">${
-      user.accountStatus === "restricted" ? "Unrestrict" : "Restrict"
-    }</button>
-            </td>
-        </tr>`;
-    userTableBody.innerHTML += row;
-  });
-  updateCounters();
-}
 
-// Deletes a user
-function deleteUser(index: number): void {
-  const deletedUser = employees.splice(index, 1)[0];
-  if (deletedUser.role === "doctor") {
-    totalDoctors--;
-  } else if (deletedUser.role === "receptionist") {
-    totalReceptionists--;
+  // Fetch the list of users
+  fetch("http://localhost:4000/api/v1/users")
+    .then((response) => response.json())
+    .then((users: User[]) => {
+      // Filter users to show only Receptionists and Doctors
+      employees = users.filter(
+        (user) =>
+          user.role.name === "Receptionist" || user.role.name === "Doctor"
+      );
+
+      // Update the counters based on the fetched users
+      totalDoctors = employees.filter(
+        (user) => user.role.name === "Doctor"
+      ).length;
+      totalReceptionists = employees.filter(
+        (user) => user.role.name === "Receptionist"
+      ).length;
+      restrictedAccounts = employees.filter(
+        (user) => user.accountStatus === "restricted"
+      ).length;
+
+      // Render the users
+      renderUsers(employees);
+    })
+    .catch((error) => console.error("Error fetching users:", error));
+
+  // Renders the user table
+  function renderUsers(employees: User[]): void {
+    userTableBody.innerHTML = "";
+    employees.forEach((user) => {
+      const rowClass = user.accountStatus === "restricted" ? "restricted" : "";
+      const row = `<tr class="${rowClass}">
+          <td>${user.username}</td>
+          <td>${user.email}</td>
+          <td>${user.user_id}</td> 
+          <td>${user.role.name}</td>
+          <td>
+              <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.user_id})">Delete</button>
+          </td>
+      </tr>`;
+      userTableBody.innerHTML += row;
+    });
+    updateCounters();
   }
-  if (deletedUser.accountStatus === "restricted") {
-    restrictedAccounts--;
+
+  // Implements search functionality
+  function filterUsers(): void {
+    const searchValue = (
+      document.getElementById("searchInput") as HTMLInputElement
+    ).value.toLowerCase();
+    const filteredUsers = employees.filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchValue) ||
+        user.email.toLowerCase().includes(searchValue) ||
+        user.accountStatus.toLowerCase().includes(searchValue) ||
+        user.role.name.toLowerCase().includes(searchValue)
+    );
+    renderUsers(filteredUsers);
   }
-  renderUsers(employees);
-}
 
-// Restricts or unrestricts a user
-function restrictUser(index: number): void {
-  const user = employees[index];
-  if (user.accountStatus === "active") {
-    user.accountStatus = "restricted";
-    restrictedAccounts++;
-  } else {
-    user.accountStatus = "active";
-    restrictedAccounts--;
+  // Updates the counters for total doctors, receptionists, and restricted accounts
+  function updateCounters(): void {
+    (document.getElementById("totalDoctors") as HTMLElement).innerText =
+      totalDoctors.toString();
+    (document.getElementById("totalReceptionists") as HTMLElement).innerText =
+      totalReceptionists.toString();
+    (document.getElementById("restrictedAccounts") as HTMLElement).innerText =
+      restrictedAccounts.toString();
   }
+
+  // Initial rendering of users
   renderUsers(employees);
-}
 
-// Implements search functionality
-function filterUsers(): void {
-  const searchValue = (
-    document.getElementById("searchInput") as HTMLInputElement
-  ).value.toLowerCase();
-  const filteredUsers = employees.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchValue) ||
-      user.email.toLowerCase().includes(searchValue) ||
-      user.accountStatus.toLowerCase().includes(searchValue) ||
-      user.role.toLowerCase().includes(searchValue)
-  );
-  renderUsers(filteredUsers);
-}
-
-// Updates the counters for total doctors, receptionists, and restricted accounts
-function updateCounters(): void {
-  (document.getElementById("totalDoctors") as HTMLElement).innerText =
-    totalDoctors.toString();
-  (document.getElementById("totalReceptionists") as HTMLElement).innerText =
-    totalReceptionists.toString();
-  (document.getElementById("restrictedAccounts") as HTMLElement).innerText =
-    restrictedAccounts.toString();
-}
-
-// Initial rendering of users
-document.addEventListener("DOMContentLoaded", () => {
-  renderUsers(employees);
+  // Delete function defined globally
+  window.deleteUser = function deleteUser(userId: number): void {
+    fetch(`http://localhost:4000/api/v1/users/${userId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("User deleted successfully.");
+          employees = employees.filter((user) => user.user_id !== userId); // Remove user from employees
+          renderUsers(employees); // Re-render the updated list
+        } else {
+          alert("Failed to delete user.");
+        }
+      })
+      .catch((error) => {
+        alert("Error deleting user.");
+        console.error("Error deleting user:", error);
+      });
+  };
 });
+
+// Search input event listener
+document.getElementById("searchInput")?.addEventListener("input", filterUsers);
