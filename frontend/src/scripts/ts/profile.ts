@@ -1,3 +1,14 @@
+// Check for JWT token on load
+const checkJwtToken = (): void => {
+    const jwtToken = localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
+    if (!jwtToken) {
+      window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
+    }
+  };
+  
+  // Call the checkJwtToken function on load
+checkJwtToken();
+
 function toggleMenu(): void {
     const subMenu = document.getElementById("subMenu");
 
@@ -55,3 +66,13 @@ if (action === "clickButton") {
     // Clear the action to avoid repeated clicks on reload
     localStorage.removeItem("action");
 }
+
+// Logs out the user by clearing the JWT and redirecting to the login page
+function logoutUser(): void {
+    localStorage.removeItem("jwtToken");
+    sessionStorage.removeItem("jwtToken");
+  
+    window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
+  }
+  // Attach the logout function to the logout button
+  document.getElementById("logout")?.addEventListener("click", logoutUser);

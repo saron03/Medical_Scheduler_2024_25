@@ -1,3 +1,13 @@
+// Check for JWT token on load
+const checkJwtToken = (): void => {
+  const jwtToken = localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
+  if (!jwtToken) {
+    window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
+  }
+};
+
+// Call the checkJwtToken function on load
+checkJwtToken();
 // Interfaces for the Patient and Doctor Models
 interface Patient {
   patient_id: number;
@@ -240,7 +250,19 @@ const closeAddUserModal = (): void => {
   document.getElementById("addUserModal")!.style.display = "none";
 };
 
+// Logs out the user by clearing the JWT and redirecting to the login page
+function logoutUser(): void {
+  localStorage.removeItem("jwtToken");
+  sessionStorage.removeItem("jwtToken");
+
+  window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
+}
+// Attach the logout function to the logout button
+document.getElementById("logout")?.addEventListener("click", logoutUser);
+
 // Initialize the page by fetching users
 document.addEventListener("DOMContentLoaded", () => {
   fetchData();
 });
+
+
