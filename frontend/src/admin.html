@@ -173,7 +173,7 @@
                 <p class="card-text" id="totalReceptionists">0</p>
               </div>
             </div>
-            <div class="card">
+            <!-- <div class="card">
               <div class="card-body">
                 <h5 class="card-title">
                   <svg
@@ -209,7 +209,7 @@
                 </h5>
                 <p class="card-text" id="restrictedAccounts">0</p>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <input
@@ -219,12 +219,12 @@
             placeholder="Search for users..."
             oninput="filterUsers()"
           />
-          <table class="table table-bordered">
+          <table class="table table-bordered" id="userList">
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Account Status</th>
+                <th>User Id</th>
                 <th>Role</th>
                 <th>Operations</th>
               </tr>
