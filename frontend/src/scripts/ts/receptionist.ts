@@ -64,14 +64,12 @@ const renderUsers = (users: Queue[]): void => {
         <tr class="${rowClass}">
           <td>${user.patient.first_name} ${user.patient.last_name}</td>
           <td>${new Date(user.created_at).toLocaleString()}</td>
-          <td>$
-            {
-              user.status === 1
-                ? "Not Pending"
-                : user.status === 2
-                ? "Pending"
-                : "Resolved Pending"
-            }
+          <td>${
+                user.status === 1
+                  ? "Not Pending"
+                  : user.status === 2
+                  ? "Pending"
+                  : "Resolved Pending"}
           </td>
           <td>
             <button class="btn btn-sm" onclick="resolvePendingUser(${index})" ${
@@ -135,7 +133,7 @@ const deleteUser = async (index: number): Promise<void> => {
 const addUser = async (event: Event): Promise<void> => {
   event.preventDefault();
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("jwtToken");
   if (!token) {
     console.error("No token found in local storage");
     return;
