@@ -64,6 +64,8 @@ const renderEmployees = (employees: User[]): void => {
   updateEmployeeCounters();
 };
 
+
+
 // Delete User
 const deleteEmployee = async (index: number): Promise<void> => {
 
@@ -103,7 +105,7 @@ function filterEmployees(): void {
 
   const filteredUsers = employees.filter(
     (user) =>
-      user.name.toLowerCase().startsWith(searchValue) ||
+      user.username.toLowerCase().startsWith(searchValue) ||
       user.email.toLowerCase().startsWith(searchValue) ||
       user.role.name.toLowerCase().startsWith(searchValue)
   );
