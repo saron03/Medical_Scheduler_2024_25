@@ -46,22 +46,17 @@ var fetchEmployeesData = function () { return __awaiter(_this, void 0, void 0, f
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 3, , 4]);
-                console.log("Fetching employees data...");
                 return [4 /*yield*/, fetch("http://localhost:4000/api/v1/users")];
             case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];
             case 2:
                 users = _a.sent();
-                console.log("Fetched users:", users);
                 // Filter users to show only Receptionists and Doctors
                 employees = users.filter(function (user) { return user.role.name === "Receptionist" || user.role.name === "Doctor"; });
-                console.log("Filtered employees:", employees);
                 // Update the counters based on the fetched users
                 totalDoctors = employees.filter(function (user) { return user.role.name === "Doctor"; }).length;
                 totalReceptionists = employees.filter(function (user) { return user.role.name === "Receptionist"; }).length;
-                console.log("Total Doctors:", totalDoctors);
-                console.log("Total Receptionists:", totalReceptionists);
                 // Render the filtered employees
                 renderEmployees(employees);
                 return [3 /*break*/, 4];
@@ -78,10 +73,9 @@ var renderEmployees = function (employees) {
     var userTableBody = document.getElementById("userTableBody");
     userTableBody.innerHTML = "";
     employees.forEach(function (user, index) {
-        var row = "\n      <tr>\n        <td>".concat(user.name, "</td>\n        <td>").concat(user.email, "</td>\n        <td>").concat(user.user_id, "</td>\n        <td>").concat(user.role.name, "</td>\n        <td>\n          <button class=\"btn btn-danger btn-sm\" onclick=\"deleteEmployee(").concat(index, ")\">Delete</button>\n        </td>\n      </tr>");
+        var row = "\n      <tr>\n        <td>".concat(user.username, "</td>\n        <td>").concat(user.email, "</td>\n        <td>").concat(user.user_id, "</td>\n        <td>").concat(user.role.name, "</td>\n        <td>\n          <button class=\"btn btn-danger btn-sm\" onclick=\"deleteEmployee(").concat(index, ")\">Delete</button>\n        </td>\n      </tr>");
         userTableBody.innerHTML += row;
     });
-    console.log("Employees rendered on the table:", employees);
     updateEmployeeCounters();
 };
 // Delete User
@@ -90,12 +84,8 @@ var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, 
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                console.log("Delete button clicked, index:", index);
-                console.log("Current employees array:", employees);
                 userToBeDeleted = employees[index];
-                console.log("Attempting to delete user:", userToBeDeleted);
                 if (!userToBeDeleted) {
-                    console.error("User not found at index:", index);
                     return [2 /*return*/];
                 }
                 _a.label = 1;
@@ -117,11 +107,10 @@ var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, 
                 }
                 employees.splice(index, 1);
                 renderEmployees(employees);
-                console.log("Updated Employees List:", employees);
                 return [3 /*break*/, 4];
             case 3:
                 error_2 = _a.sent();
-                console.error("Error deleting user:", error_2);
+                console.log(error_2);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
@@ -130,13 +119,11 @@ var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, 
 // Filter employees
 function filterEmployees() {
     var searchValue = document.getElementById("searchInput").value.toLowerCase();
-    console.log("Filtering employees with search value:", searchValue);
     var filteredUsers = employees.filter(function (user) {
         return user.name.toLowerCase().startsWith(searchValue) ||
             user.email.toLowerCase().startsWith(searchValue) ||
             user.role.name.toLowerCase().startsWith(searchValue);
     });
-    console.log("Filtered users:", filteredUsers);
     renderEmployees(filteredUsers);
 }
 // Update counters
@@ -145,7 +132,6 @@ function updateEmployeeCounters() {
         totalDoctors.toString();
     document.getElementById("totalReceptionists").innerText =
         totalReceptionists.toString();
-    console.log("Employee counters updated: Doctors", totalDoctors, "Receptionists", totalReceptionists);
 }
 // Call the function to fetch and render employees on page load
 fetchEmployeesData();
