@@ -34,6 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var _a;
 var _this = this;
 // Global array for users
 var users = [];
@@ -230,6 +231,14 @@ function updateCounters() {
     document.getElementById("resolvedPending").innerText =
         resolvedPending.toString();
 }
+// Logs out the user by clearing the JWT and redirecting to the login page
+function logoutUser() {
+    localStorage.removeItem("jwtToken");
+    sessionStorage.removeItem("jwtToken");
+    window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
+}
+// Attach the logout function to the logout button
+(_a = document.getElementById("logout")) === null || _a === void 0 ? void 0 : _a.addEventListener("click", logoutUser);
 // Placeholder function to simulate fetching users from the database
 // function fetchUsersFromDatabase(): Promise<User[]> {
 //     // Replace this with actual database fetching logic
