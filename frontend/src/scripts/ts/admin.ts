@@ -95,24 +95,60 @@ function updateEmployeeCounters(): void {
 
 const deleteEmployee = async (index: number): Promise<void> => {
   const userToBeDeleted = employees[index];
+  console.log("Attempting to delete user:", userToBeDeleted);
 
   try {
-    await fetch(`http://localhost:4000/api/v1/users/${userToBeDeleted.user_id}`, {
-      // Check userId or user_id
+    const response = await fetch(`http://localhost:4000/api/v1/users/${userToBeDeleted.user_id}`, {
       method: "DELETE",
     });
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete user: ${response.statusText}`);
+    }
+
+    // Remove the user from the employees array
+    employees.splice(index, 1);
+    console.log("Deleted user:", userToBeDeleted);
+
+    // Update counters
     if (userToBeDeleted.role.name === "Doctor") {
       totalDoctors--;
-    } else {
+    } else if (userToBeDeleted.role.name === "Receptionist") {
       totalReceptionists--;
     }
-    // employees = employees.filter((user) => user !== userToBeDeleted);
-    employees.splice(index, 1);
+
+    // Re-render the updated employees list
     renderEmployees(employees);
+    console.log("Updated Employees List:", employees);
   } catch (error) {
     console.error("Error deleting user:", error);
   }
 };
+
+// Call the function to fetch and render employees on page load
+fetchEmployeesData();
+
+
+// const deleteEmployee = async (index: number): Promise<void> => {
+//   const userToBeDeleted = employees[index];
+
+//   try {
+//     await fetch(`http://localhost:4000/api/v1/users/${userToBeDeleted.user_id}`, {
+//       // Check userId or user_id
+//       method: "DELETE",
+//     });
+//     if (userToBeDeleted.role.name === "Doctor") {
+//       totalDoctors--;
+//     } else {
+//       totalReceptionists--;
+//     }
+//     // employees = employees.filter((user) => user !== userToBeDeleted);
+//     employees.splice(index, 1);
+//     renderEmployees(employees);
+//   } catch (error) {
+//     console.error("Error deleting user:", error);
+//   }
+// };
 
 // const deleteUser = async (index: number): Promise<void> => {
 //   const user = users[index];

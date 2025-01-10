@@ -101,29 +101,36 @@ function updateEmployeeCounters() {
 }
 // Delete User
 var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, function () {
-    var userToBeDeleted, error_2;
+    var userToBeDeleted, response, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 userToBeDeleted = employees[index];
+                console.log("Attempting to delete user:", userToBeDeleted);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
                 return [4 /*yield*/, fetch("http://localhost:4000/api/v1/users/".concat(userToBeDeleted.user_id), {
-                        // Check userId or user_id
                         method: "DELETE",
                     })];
             case 2:
-                _a.sent();
+                response = _a.sent();
+                if (!response.ok) {
+                    throw new Error("Failed to delete user: ".concat(response.statusText));
+                }
+                // Remove the user from the employees array
+                employees.splice(index, 1);
+                console.log("Deleted user:", userToBeDeleted);
+                // Update counters
                 if (userToBeDeleted.role.name === "Doctor") {
                     totalDoctors--;
                 }
-                else {
+                else if (userToBeDeleted.role.name === "Receptionist") {
                     totalReceptionists--;
                 }
-                // employees = employees.filter((user) => user !== userToBeDeleted);
-                employees.splice(index, 1);
+                // Re-render the updated employees list
                 renderEmployees(employees);
+                console.log("Updated Employees List:", employees);
                 return [3 /*break*/, 4];
             case 3:
                 error_2 = _a.sent();
@@ -133,6 +140,27 @@ var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, 
         }
     });
 }); };
+// Call the function to fetch and render employees on page load
+fetchEmployeesData();
+// const deleteEmployee = async (index: number): Promise<void> => {
+//   const userToBeDeleted = employees[index];
+//   try {
+//     await fetch(`http://localhost:4000/api/v1/users/${userToBeDeleted.user_id}`, {
+//       // Check userId or user_id
+//       method: "DELETE",
+//     });
+//     if (userToBeDeleted.role.name === "Doctor") {
+//       totalDoctors--;
+//     } else {
+//       totalReceptionists--;
+//     }
+//     // employees = employees.filter((user) => user !== userToBeDeleted);
+//     employees.splice(index, 1);
+//     renderEmployees(employees);
+//   } catch (error) {
+//     console.error("Error deleting user:", error);
+//   }
+// };
 // const deleteUser = async (index: number): Promise<void> => {
 //   const user = users[index];
 //   if (user.status === 2) {
