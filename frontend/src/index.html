@@ -9,7 +9,7 @@
 </head>
 <body>
   <header class="bg-primary text-white">
-    <div class=" top container d-flex justify-content-between align-items-center gradient-background">
+    <div class="top container d-flex justify-content-between align-items-center gradient-background">
       <h1 class="mb-0">Medical Scheduler</h1>
       <a href="signup.html" class="btn btn-light">Login/Signup</a>
     </div>
@@ -30,12 +30,13 @@
   </header>
 
   <main class="container my-5">
-    <div class="text-center" >
-      <h2>Welcome to Medical Scheduler</h2>
+    <div class="text-center">
+      <h2 class="gradient-text">Welcome to Medical Scheduler</h2>
       <div class="flex-part">
-        <p class="lead ">
-          Medical Scheduler is an easy-to-use system that helps patients book appointments with doctors in a simple and efficient way. It is designed to make the work of receptionists easier by managing schedules and keeping everything organized. This system allows patients and doctors to stay updated about appointments, making communication between them much smoother. Whether you are a patient looking for a quick way to book a visit, a doctor managing your schedule, or a receptionist coordinating everything, Medical Scheduler makes the process simple and stress-free. It saves time, avoids confusion, and ensures that everyone stays on the same page.
+        <p class="lead">
+          Medical Scheduler is a comprehensive solution designed to make healthcare appointments easy, efficient, and stress-free. Whether you are a patient seeking a doctor, a receptionist managing schedules, or a doctor organizing your time, our system offers powerful tools to meet your needs. From intuitive appointment booking to automatic reminders and updates, Medical Scheduler ensures that all stakeholders stay informed and connected.
         </p>
+        <button id="learnMoreBtn" class="btn btn-primary">Learn More</button>
         <img src="imgs/img1.jpg" alt="hospital_img" class="img-fluid rounded my-4" width="500">
       </div>
     </div>
@@ -46,29 +47,70 @@
         <div class="col-md-4 text-center">
           <div class="card p-3 shadow">
             <h5 class="card-title">Efficient Appointment Management</h5>
-            <p class="card-text">Book and manage appointments seamlessly.</p>
+            <p class="card-text">Book and manage appointments seamlessly with advanced scheduling tools that reduce no-shows and ensure timely reminders for all users.</p>
           </div>
         </div>
         <div class="col-md-4 text-center">
           <div class="card p-3 shadow">
             <h5 class="card-title">Coordination Simplified</h5>
-            <p class="card-text">Keeps patients and doctors connected.</p>
+            <p class="card-text">Our system bridges the gap between patients, doctors, and receptionists by offering real-time updates and smooth communication.</p>
           </div>
         </div>
         <div class="col-md-4 text-center">
           <div class="card p-3 shadow">
             <h5 class="card-title">User-Friendly Interface</h5>
-            <p class="card-text">Intuitive and easy to use for all roles.</p>
+            <p class="card-text">Enjoy a simple and intuitive interface designed for users of all skill levels. No more confusion—just effortless navigation.</p>
           </div>
         </div>
       </div>
     </section>
+
+    <section class="benefits my-5">
+      <h3 class="text-center">Additional Benefits</h3>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">✔ Automated email and SMS reminders for patients and doctors.</li>
+        <li class="list-group-item">✔ Easily customizable scheduling options to fit your needs.</li>
+        <li class="list-group-item">✔ Secure storage of medical records and appointment details.</li>
+      </ul>
+    </section>
+
+    <button id="toggleDarkMode" class="btn btn-secondary mt-4">Toggle Dark Mode</button>
   </main>
 
   <footer class="bg-dark text-white text-center py-3">
     <p>© 2025 Medical Scheduler. All Rights Reserved.</p>
   </footer>
+  <div class="modal fade" id="learnMoreModal" tabindex="-1" aria-labelledby="learnMoreModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="learnMoreModalLabel">More About Medical Scheduler</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Medical Scheduler is not just a tool—it's a solution. With advanced algorithms for optimizing schedules, instant notifications for last-minute changes, and robust security for protecting patient data, our system sets a new standard in healthcare management. Say goodbye to missed appointments, scheduling errors, and communication gaps. Experience the future of medical scheduling today.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="js/bootstrap.bundle.min.js"></script>
+  <script>
+    const toggleDarkMode = document.getElementById("toggleDarkMode");
+    toggleDarkMode.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+    });
+
+    const learnMoreBtn = document.getElementById("learnMoreBtn");
+    learnMoreBtn.addEventListener("click", () => {
+      const learnMoreModal = new bootstrap.Modal(document.getElementById("learnMoreModal"));
+      learnMoreModal.show();
+    });
+  </script>
 </body>
 </html>

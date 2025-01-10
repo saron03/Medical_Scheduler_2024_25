@@ -65,3 +65,32 @@
     .lead{
         text-align: start;
     }
+
+
+    body {
+      transition: background-color 0.5s, color 0.5s;
+    }
+    .card:hover {
+      transform: scale(1.1) rotate(2deg);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+    }
+    button {
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    button:hover {
+      background-color: #0056b3 !important;
+      transform: translateY(-2px);
+    }
+    .dark-mode {
+      background-color: #121212;
+      color: #ffffff;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #007bff, #00c853);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .modal-body p {
+      line-height: 1.6;
+    }
