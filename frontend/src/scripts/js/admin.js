@@ -120,7 +120,7 @@ var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, 
 function filterEmployees() {
     var searchValue = document.getElementById("searchInput").value.toLowerCase();
     var filteredUsers = employees.filter(function (user) {
-        return user.name.toLowerCase().startsWith(searchValue) ||
+        return user.username.toLowerCase().startsWith(searchValue) ||
             user.email.toLowerCase().startsWith(searchValue) ||
             user.role.name.toLowerCase().startsWith(searchValue);
     });
