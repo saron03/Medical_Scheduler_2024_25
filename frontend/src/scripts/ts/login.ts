@@ -78,7 +78,8 @@ if (
           window.location.href = "/headoffice";
           break;
         case 2:
-          window.location.href = "/branch";
+          window.location.href =
+            "http://127.0.0.1:5500/frontend/src/admin.html";
           break;
         case 3:
           window.location.href = "/patient";
@@ -144,7 +145,8 @@ if (
           window.location.href = "/headoffice";
           break;
         case 2:
-          window.location.href = "/branch";
+          window.location.href =
+            "http://127.0.0.1:5500/frontend/src/admin.html";
           break;
         case 3:
           window.location.href = "/patient";

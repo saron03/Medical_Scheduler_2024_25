@@ -207,6 +207,15 @@ function updateCounters(): void {
   (document.getElementById("resolvedPending") as HTMLElement).innerText =
     resolvedPending.toString();
 }
+// Logs out the user by clearing the JWT and redirecting to the login page
+function logoutUser(): void {
+  localStorage.removeItem("jwtToken");
+  sessionStorage.removeItem("jwtToken");
+
+  window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
+}
+// Attach the logout function to the logout button
+document.getElementById("logout")?.addEventListener("click", logoutUser);
 
 // Placeholder function to simulate fetching users from the database
 // function fetchUsersFromDatabase(): Promise<User[]> {
