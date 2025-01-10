@@ -1,7 +1,5 @@
 
-    /* Remove margins and padding between header and navbar */
-
-    header {
+      header {
       margin: 0;
       padding: 0;
     }
@@ -10,7 +8,6 @@
       margin: 0;
     }
 
-    /* Optional: Slight padding inside header for aesthetics */
     header {
       background: linear-gradient(135deg, #003366 0%, #6699CC 100%);
 
@@ -19,13 +16,13 @@
       padding-left: 0;
       padding-right: 0;
     }
-    /* Navbar link styling for better visibility */
+    
     .navbar-nav .nav-link {
-      color: #ffffff !important; /* White color for better contrast */
+      color: #ffffff !important; 
     }
 
     .navbar-nav .nav-link:hover {
-      color: #007bff !important; /* Blue color on hover */
+      color: #007bff !important; 
     }
     body {
       display: flex;
@@ -38,12 +35,12 @@
       margin-top: auto;
     }
     .features .card {
-      border: 2px solid #007bff; /* Example: Blue border */
-      transition: transform 0.3s ease; /* Smooth scaling on hover */
+      border: 2px solid #007bff;
+      transition: transform 0.3s ease;
     }
 
     .features .card:hover {
-      transform: scale(1.05); /* Slight scaling effect */
+      transform: scale(1.05);
     }
 
     .gradient-background {
@@ -109,13 +106,11 @@
       }
     }
 
-    /* Hover effect for navigation links */
     .navbar-nav .nav-link:hover {
       color: #ffc107;
       text-decoration: underline;
     }
 
-    /* Hover effect for list items */
     .list-group-item {
       transition: all 0.3s ease;
     }
@@ -124,7 +119,7 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* Scroll-to-top button */
+   
     #scrollToTop {
       position: fixed;
       bottom: 20px;
@@ -148,7 +143,6 @@
     }
 
 
-    /* Header Gradient Animation */
 .gradient-background {
 
   background-size: 200% 200%;
@@ -161,7 +155,6 @@
   100% { background-position: 0% 50%; }
 }
 
-/* Contact Form Styles */
 form {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -171,14 +164,12 @@ form:hover {
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Button Hover Effect */
 .btn-outline-primary:hover,
 .btn-outline-info:hover {
   background-color: #0056b3;
   color: #fff;
 }
 
-/* List Group Item Hover Effect */
 .list-group-item {
   transition: background-color 0.3s ease;
 }
@@ -187,7 +178,6 @@ form:hover {
   background-color: #f0f8ff;
 }
 
-/* Social Media Buttons */
 a.btn {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -197,7 +187,7 @@ a.btn:hover {
   box-shadow: 0px 3px 15px rgba(0, 123, 255, 0.3);
 }
 
-/* Heading Underline Animation */
+
 h2, h3 {
   position: relative;
   display: inline-block;
