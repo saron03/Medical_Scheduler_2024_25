@@ -6,6 +6,7 @@
   <title>About - Medical Scheduler</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/home.css">
+  
 </head>
 <body>
   <header class="bg-primary text-white">
@@ -54,6 +55,25 @@
     <p>© 2025 Medical Scheduler. All Rights Reserved.</p>
   </footer>
 
+  <!-- Scroll-to-top button -->
+  <button id="scrollToTop" title="Back to Top">↑</button>
+
   <script src="js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Show scroll-to-top button when scrolled down
+    const scrollToTopButton = document.getElementById('scrollToTop');
+    window.onscroll = () => {
+      if (window.scrollY > 200) {
+        scrollToTopButton.style.display = 'flex';
+      } else {
+        scrollToTopButton.style.display = 'none';
+      }
+    };
+
+    // Scroll to top when button is clicked
+    scrollToTopButton.onclick = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+  </script>
 </body>
 </html>
