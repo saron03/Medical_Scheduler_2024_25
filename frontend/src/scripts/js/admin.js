@@ -39,27 +39,31 @@ var _this = this;
 var employees = [];
 var totalDoctors = 0;
 var totalReceptionists = 0;
-// let restrictedAccounts: number = 0; Remove this
 // Fetch data from the API
-// My code
 var fetchEmployeesData = function () { return __awaiter(_this, void 0, void 0, function () {
-    var response, users, employees_1, error_1;
+    var response, users, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 3, , 4]);
+                console.log("Fetching employees data...");
                 return [4 /*yield*/, fetch("http://localhost:4000/api/v1/users")];
             case 1:
                 response = _a.sent();
                 return [4 /*yield*/, response.json()];
             case 2:
                 users = _a.sent();
-                employees_1 = users.filter(function (user) { return user.role.name === "Receptionist" || user.role.name === "Doctor"; });
+                console.log("Fetched users:", users);
+                // Filter users to show only Receptionists and Doctors
+                employees = users.filter(function (user) { return user.role.name === "Receptionist" || user.role.name === "Doctor"; });
+                console.log("Filtered employees:", employees);
                 // Update the counters based on the fetched users
-                totalDoctors = employees_1.filter(function (user) { return user.role.name === "Doctor"; }).length;
-                totalReceptionists = employees_1.filter(function (user) { return user.role.name === "Receptionist"; }).length;
-                // You can add a function to render or use these variables as needed
-                renderEmployees(employees_1);
+                totalDoctors = employees.filter(function (user) { return user.role.name === "Doctor"; }).length;
+                totalReceptionists = employees.filter(function (user) { return user.role.name === "Receptionist"; }).length;
+                console.log("Total Doctors:", totalDoctors);
+                console.log("Total Receptionists:", totalReceptionists);
+                // Render the filtered employees
+                renderEmployees(employees);
                 return [3 /*break*/, 4];
             case 3:
                 error_1 = _a.sent();
@@ -74,31 +78,12 @@ var renderEmployees = function (employees) {
     var userTableBody = document.getElementById("userTableBody");
     userTableBody.innerHTML = "";
     employees.forEach(function (user, index) {
-        var row = "\n        <tr>\n          <td>".concat(user.username, "</td>\n          <td>").concat(user.email, "</td>\n          <td>").concat(user.user_id, "</td> \n          <td>").concat(user.role.name, "</td>\n          <td>\n              <button class=\"btn btn-danger btn-sm\" onclick=\"deleteEmployee(").concat(index, ")\">Delete</button>\n          </td>\n      </tr>");
+        var row = "\n      <tr>\n        <td>".concat(user.name, "</td>\n        <td>").concat(user.email, "</td>\n        <td>").concat(user.user_id, "</td>\n        <td>").concat(user.role.name, "</td>\n        <td>\n          <button class=\"btn btn-danger btn-sm\" onclick=\"deleteEmployee(").concat(index, ")\">Delete</button>\n        </td>\n      </tr>");
         userTableBody.innerHTML += row;
     });
+    console.log("Employees rendered on the table:", employees);
     updateEmployeeCounters();
 };
-//  Filter emplyees
-function filterEmployees() {
-    var searchValue = document.getElementById("searchInput").value.toLowerCase();
-    var filteredUsers = employees.filter(function (user) {
-        return user.name.toLowerCase().startsWith(searchValue) ||
-            user.email.toLowerCase().startsWith(searchValue) ||
-            // user.accountStatus.toLowerCase().includes(searchValue) || remove
-            user.role.name.toLowerCase().startsWith(searchValue);
-    });
-    renderEmployees(filteredUsers);
-}
-//  Update counters
-function updateEmployeeCounters() {
-    document.getElementById("totalDoctors").innerText =
-        totalDoctors.toString();
-    document.getElementById("totalReceptionists").innerText =
-        totalReceptionists.toString();
-    // (document.getElementById("restrictedAccounts") as HTMLElement).innerText =
-    //   restrictedAccounts.toString(); remove
-}
 // Delete User
 var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, function () {
     var userToBeDeleted, response, error_2;
@@ -142,8 +127,26 @@ var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, 
         }
     });
 }); };
-// Call the function to fetch and render employees on page load
-fetchEmployeesData();
+// Filter employees
+function filterEmployees() {
+    var searchValue = document.getElementById("searchInput").value.toLowerCase();
+    console.log("Filtering employees with search value:", searchValue);
+    var filteredUsers = employees.filter(function (user) {
+        return user.name.toLowerCase().startsWith(searchValue) ||
+            user.email.toLowerCase().startsWith(searchValue) ||
+            user.role.name.toLowerCase().startsWith(searchValue);
+    });
+    console.log("Filtered users:", filteredUsers);
+    renderEmployees(filteredUsers);
+}
+// Update counters
+function updateEmployeeCounters() {
+    document.getElementById("totalDoctors").innerText =
+        totalDoctors.toString();
+    document.getElementById("totalReceptionists").innerText =
+        totalReceptionists.toString();
+    console.log("Employee counters updated: Doctors", totalDoctors, "Receptionists", totalReceptionists);
+}
 // Call the function to fetch and render employees on page load
 fetchEmployeesData();
 // const deleteEmployee = async (index: number): Promise<void> => {
@@ -181,7 +184,6 @@ fetchEmployeesData();
 //     console.error("Error deleting user:", error);
 //   }
 // };
-fetchEmployeesData();
 // Nati
 // Fetches and renders the users from the API
 // document.addEventListener("DOMContentLoaded", function () {

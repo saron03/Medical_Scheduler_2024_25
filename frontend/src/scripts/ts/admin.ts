@@ -1,3 +1,4 @@
+// Define User interface
 interface User {
   user_id: number;
   name: string;
@@ -10,20 +11,22 @@ interface User {
 let employees: User[] = [];
 let totalDoctors: number = 0;
 let totalReceptionists: number = 0;
-// let restrictedAccounts: number = 0; Remove this
 
 // Fetch data from the API
-
-// My code
 const fetchEmployeesData = async (): Promise<void> => {
   try {
+    console.log("Fetching employees data...");
     const response = await fetch("http://localhost:4000/api/v1/users");
     const users: User[] = await response.json();
 
+    console.log("Fetched users:", users);
+
     // Filter users to show only Receptionists and Doctors
-    const employees = users.filter(
+    employees = users.filter(
       (user) => user.role.name === "Receptionist" || user.role.name === "Doctor"
     );
+
+    console.log("Filtered employees:", employees);
 
     // Update the counters based on the fetched users
     totalDoctors = employees.filter(
@@ -33,7 +36,10 @@ const fetchEmployeesData = async (): Promise<void> => {
       (user) => user.role.name === "Receptionist"
     ).length;
 
-    // You can add a function to render or use these variables as needed
+    console.log("Total Doctors:", totalDoctors);
+    console.log("Total Receptionists:", totalReceptionists);
+
+    // Render the filtered employees
     renderEmployees(employees);
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -41,55 +47,28 @@ const fetchEmployeesData = async (): Promise<void> => {
 };
 
 // Render employees
-
 const renderEmployees = (employees: User[]): void => {
-  const userTableBody = document.getElementById(
-    "userTableBody"
-  ) as HTMLTableSectionElement;
+  const userTableBody = document.getElementById("userTableBody") as HTMLTableSectionElement;
   userTableBody.innerHTML = "";
 
   employees.forEach((user, index) => {
     const row = `
-        <tr>
-          <td>${user.username}</td>
-          <td>${user.email}</td>
-          <td>${user.user_id}</td> 
-          <td>${user.role.name}</td>
-          <td>
-              <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${index})">Delete</button>
-          </td>
+      <tr>
+        <td>${user.name}</td>
+        <td>${user.email}</td>
+        <td>${user.user_id}</td>
+        <td>${user.role.name}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${index})">Delete</button>
+        </td>
       </tr>`;
     userTableBody.innerHTML += row;
   });
 
+  console.log("Employees rendered on the table:", employees);
+
   updateEmployeeCounters();
 };
-
-//  Filter emplyees
-
-function filterEmployees(): void {
-  const searchValue = (
-    document.getElementById("searchInput") as HTMLInputElement
-  ).value.toLowerCase();
-  const filteredUsers = employees.filter(
-    (user) =>
-      user.name.toLowerCase().startsWith(searchValue) ||
-      user.email.toLowerCase().startsWith(searchValue) ||
-      // user.accountStatus.toLowerCase().includes(searchValue) || remove
-      user.role.name.toLowerCase().startsWith(searchValue)
-  );
-  renderEmployees(filteredUsers);
-}
-
-//  Update counters
-function updateEmployeeCounters(): void {
-  (document.getElementById("totalDoctors") as HTMLElement).innerText =
-    totalDoctors.toString();
-  (document.getElementById("totalReceptionists") as HTMLElement).innerText =
-    totalReceptionists.toString();
-  // (document.getElementById("restrictedAccounts") as HTMLElement).innerText =
-  //   restrictedAccounts.toString(); remove
-}
 
 // Delete User
 const deleteEmployee = async (index: number): Promise<void> => {
@@ -127,12 +106,35 @@ const deleteEmployee = async (index: number): Promise<void> => {
   }
 };
 
-// Call the function to fetch and render employees on page load
-fetchEmployeesData();
+// Filter employees
+function filterEmployees(): void {
+  const searchValue = (
+    document.getElementById("searchInput") as HTMLInputElement
+  ).value.toLowerCase();
+  console.log("Filtering employees with search value:", searchValue);
+
+  const filteredUsers = employees.filter(
+    (user) =>
+      user.name.toLowerCase().startsWith(searchValue) ||
+      user.email.toLowerCase().startsWith(searchValue) ||
+      user.role.name.toLowerCase().startsWith(searchValue)
+  );
+  
+  console.log("Filtered users:", filteredUsers);
+  renderEmployees(filteredUsers);
+}
+
+// Update counters
+function updateEmployeeCounters(): void {
+  (document.getElementById("totalDoctors") as HTMLElement).innerText =
+    totalDoctors.toString();
+  (document.getElementById("totalReceptionists") as HTMLElement).innerText =
+    totalReceptionists.toString();
+  console.log("Employee counters updated: Doctors", totalDoctors, "Receptionists", totalReceptionists);
+}
 
 // Call the function to fetch and render employees on page load
 fetchEmployeesData();
-
 
 // const deleteEmployee = async (index: number): Promise<void> => {
 //   const userToBeDeleted = employees[index];
@@ -172,7 +174,6 @@ fetchEmployeesData();
 //   }
 // };
 
-fetchEmployeesData();
 
 // Nati
 
