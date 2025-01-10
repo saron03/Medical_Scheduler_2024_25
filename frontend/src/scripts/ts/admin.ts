@@ -92,10 +92,17 @@ function updateEmployeeCounters(): void {
 }
 
 // Delete User
-
 const deleteEmployee = async (index: number): Promise<void> => {
+  console.log("Delete button clicked, index:", index);
+  console.log("Current employees array:", employees);
+
   const userToBeDeleted = employees[index];
   console.log("Attempting to delete user:", userToBeDeleted);
+
+  if (!userToBeDeleted) {
+    console.error("User not found at index:", index);
+    return;
+  }
 
   try {
     const response = await fetch(`http://localhost:4000/api/v1/users/${userToBeDeleted.user_id}`, {
@@ -106,24 +113,22 @@ const deleteEmployee = async (index: number): Promise<void> => {
       throw new Error(`Failed to delete user: ${response.statusText}`);
     }
 
-    // Remove the user from the employees array
-    employees.splice(index, 1);
-    console.log("Deleted user:", userToBeDeleted);
-
-    // Update counters
     if (userToBeDeleted.role.name === "Doctor") {
       totalDoctors--;
     } else if (userToBeDeleted.role.name === "Receptionist") {
       totalReceptionists--;
     }
 
-    // Re-render the updated employees list
+    employees.splice(index, 1);
     renderEmployees(employees);
     console.log("Updated Employees List:", employees);
   } catch (error) {
     console.error("Error deleting user:", error);
   }
 };
+
+// Call the function to fetch and render employees on page load
+fetchEmployeesData();
 
 // Call the function to fetch and render employees on page load
 fetchEmployeesData();

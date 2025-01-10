@@ -105,8 +105,14 @@ var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, 
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                console.log("Delete button clicked, index:", index);
+                console.log("Current employees array:", employees);
                 userToBeDeleted = employees[index];
                 console.log("Attempting to delete user:", userToBeDeleted);
+                if (!userToBeDeleted) {
+                    console.error("User not found at index:", index);
+                    return [2 /*return*/];
+                }
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
@@ -118,17 +124,13 @@ var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, 
                 if (!response.ok) {
                     throw new Error("Failed to delete user: ".concat(response.statusText));
                 }
-                // Remove the user from the employees array
-                employees.splice(index, 1);
-                console.log("Deleted user:", userToBeDeleted);
-                // Update counters
                 if (userToBeDeleted.role.name === "Doctor") {
                     totalDoctors--;
                 }
                 else if (userToBeDeleted.role.name === "Receptionist") {
                     totalReceptionists--;
                 }
-                // Re-render the updated employees list
+                employees.splice(index, 1);
                 renderEmployees(employees);
                 console.log("Updated Employees List:", employees);
                 return [3 /*break*/, 4];
@@ -140,6 +142,8 @@ var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, 
         }
     });
 }); };
+// Call the function to fetch and render employees on page load
+fetchEmployeesData();
 // Call the function to fetch and render employees on page load
 fetchEmployeesData();
 // const deleteEmployee = async (index: number): Promise<void> => {
