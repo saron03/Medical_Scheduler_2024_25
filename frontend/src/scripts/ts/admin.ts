@@ -48,15 +48,15 @@ const renderEmployees = (employees: User[]): void => {
   ) as HTMLTableSectionElement;
   userTableBody.innerHTML = "";
 
-  employees.forEach((user) => {
+  employees.forEach((user, index) => {
     const row = `
         <tr>
-          <td>${user.username}</td>  // user_name doesnt exist
+          <td>${user.username}</td>
           <td>${user.email}</td>
           <td>${user.user_id}</td> 
           <td>${user.role.name}</td>
           <td>
-              <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${user.user_id})">Delete</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${index})">Delete</button>
           </td>
       </tr>`;
     userTableBody.innerHTML += row;
@@ -93,11 +93,11 @@ function updateEmployeeCounters(): void {
 
 // Delete User
 
-const deleteEmployee = async (user_id: number): Promise<void> => {
-  const userToBeDeleted = employees[user_id];
+const deleteEmployee = async (index: number): Promise<void> => {
+  const userToBeDeleted = employees[index];
 
   try {
-    await fetch(`http://localhost:4000/api/v1/users/${user_id}`, {
+    await fetch(`http://localhost:4000/api/v1/users/${userToBeDeleted.user_id}`, {
       // Check userId or user_id
       method: "DELETE",
     });
@@ -107,7 +107,7 @@ const deleteEmployee = async (user_id: number): Promise<void> => {
       totalReceptionists--;
     }
     // employees = employees.filter((user) => user !== userToBeDeleted);
-    employees.splice(user_id, 1);
+    employees.splice(index, 1);
     renderEmployees(employees);
   } catch (error) {
     console.error("Error deleting user:", error);
