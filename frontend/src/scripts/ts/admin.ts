@@ -22,8 +22,7 @@ const fetchEmployeesData = async (): Promise<void> => {
 
     // Filter users to show only Receptionists and Doctors
     const employees = users.filter(
-      (user) =>
-        user.role.name === "Receptionist" || user.role.name === "Doctor"
+      (user) => user.role.name === "Receptionist" || user.role.name === "Doctor"
     );
 
     // Update the counters based on the fetched users
@@ -35,7 +34,7 @@ const fetchEmployeesData = async (): Promise<void> => {
     ).length;
 
     // You can add a function to render or use these variables as needed
-
+    renderEmployees(employees);
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -44,7 +43,9 @@ const fetchEmployeesData = async (): Promise<void> => {
 // Render employees
 
 const renderEmployees = (employees: User[]): void => {
-  const userTableBody = document.getElementById("userTableBody") as HTMLTableSectionElement;
+  const userTableBody = document.getElementById(
+    "userTableBody"
+  ) as HTMLTableSectionElement;
   userTableBody.innerHTML = "";
 
   employees.forEach((user) => {
@@ -58,16 +59,18 @@ const renderEmployees = (employees: User[]): void => {
               <button class="btn btn-danger btn-sm" onclick="deleteEmployee(${user.user_id})">Delete</button>
           </td>
       </tr>`;
-      userTableBody.innerHTML += row;
+    userTableBody.innerHTML += row;
   });
 
   updateEmployeeCounters();
-}
+};
 
-//  Filter emplyees 
+//  Filter emplyees
 
 function filterEmployees(): void {
-  const searchValue = (document.getElementById("searchInput") as HTMLInputElement).value.toLowerCase();
+  const searchValue = (
+    document.getElementById("searchInput") as HTMLInputElement
+  ).value.toLowerCase();
   const filteredUsers = employees.filter(
     (user) =>
       user.name.toLowerCase().startsWith(searchValue) ||
@@ -94,26 +97,23 @@ const deleteEmployee = async (user_id: number): Promise<void> => {
   const userToBeDeleted = employees[user_id];
 
   try {
-    await fetch(`http://localhost:4000/api/v1/users/${user_id}`, {  // Check userId or user_id
+    await fetch(`http://localhost:4000/api/v1/users/${user_id}`, {
+      // Check userId or user_id
       method: "DELETE",
     });
     if (userToBeDeleted.role.name === "Doctor") {
       totalDoctors--;
-    }
-    else {
+    } else {
       totalReceptionists--;
     }
     employees = employees.filter((user) => user !== userToBeDeleted);
     renderEmployees(employees);
-
   } catch (error) {
     console.error("Error deleting user:", error);
   }
 };
 
 fetchEmployeesData();
-
-
 
 // Nati
 
@@ -156,7 +156,7 @@ fetchEmployeesData();
 //       const row = `<tr class="${rowClass}">
 //           <td>${user.username}</td>
 //           <td>${user.email}</td>
-//           <td>${user.user_id}</td> 
+//           <td>${user.user_id}</td>
 //           <td>${user.role.name}</td>
 //           <td>
 //               <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.user_id})">Delete</button>
@@ -196,7 +196,7 @@ fetchEmployeesData();
 //   renderUsers(employees);
 
 //   // Delete function defined globally
-  
+
 //   window.deleteUser = function deleteUser(userId: number): void {
 //     fetch(`http://localhost:4000/api/v1/users/${userId}`, {
 //       method: "DELETE",
