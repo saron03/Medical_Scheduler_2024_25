@@ -36,6 +36,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _a;
 var _this = this;
+// Check for JWT token on load
+var checkJwtToken = function () {
+    var jwtToken = localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
+    if (!jwtToken) {
+        window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
+    }
+};
+// Call the checkJwtToken function on load
+checkJwtToken();
 // Global array for users
 var users = [];
 var totalCompleted = 0;
