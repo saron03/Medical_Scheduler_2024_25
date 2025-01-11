@@ -1,3 +1,5 @@
+import { fetchQueues, registerPatient, addToQueue, updateUserStatus, deleteUserFromQueue } from './apis/api';
+
 // Interfaces for the Patient and Doctor Models
 interface Patient {
   patient_id: number;
@@ -38,9 +40,7 @@ let pendingEntries = 0;
 // Fetch data from the API
 const fetchData = async (): Promise<void> => {
   try {
-    const response = await fetch("http://localhost:4000/api/v1/queues");
-    const data: Queue[] = await response.json();
-    users = data;
+    users = await fetchQueues();
     activeEntries = users.length;
     pendingEntries = users.filter((user) => user.status === 2).length;
     renderUsers(users);
@@ -51,9 +51,7 @@ const fetchData = async (): Promise<void> => {
 
 // Render the users in the table
 const renderUsers = (users: Queue[]): void => {
-  const userTableBody = document.getElementById(
-    "userTableBody"
-  ) as HTMLTableSectionElement;
+  const userTableBody = document.getElementById("userTableBody") as HTMLTableSectionElement;
   userTableBody.innerHTML = "";
 
   users.forEach((user, index) => {
@@ -86,10 +84,8 @@ const renderUsers = (users: Queue[]): void => {
 
 // Update counters for active and pending entries
 const updateCounters = (): void => {
-  document.getElementById("activeEntries")!.innerText =
-    activeEntries.toString();
-  document.getElementById("pendingEntries")!.innerText =
-    pendingEntries.toString();
+  document.getElementById("activeEntries")!.innerText = activeEntries.toString();
+  document.getElementById("pendingEntries")!.innerText = pendingEntries.toString();
 };
 
 // Resolve pending user
@@ -98,11 +94,7 @@ const resolvePendingUser = async (index: number): Promise<void> => {
   if (user.status === 2) {
     user.status = 3;
     try {
-      await fetch(`http://localhost:4000/api/v1/queues/${user.queue_id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: 3 }),
-      });
+      await updateUserStatus(user.queue_id, 3);
       pendingEntries--;
       renderUsers(users);
     } catch (error) {
@@ -118,9 +110,7 @@ const deleteUser = async (index: number): Promise<void> => {
     pendingEntries--;
   }
   try {
-    await fetch(`http://localhost:4000/api/v1/queues/${user.queue_id}`, {
-      method: "DELETE",
-    });
+    await deleteUserFromQueue(user.queue_id);
     users.splice(index, 1);
     activeEntries--;
     renderUsers(users);
@@ -143,21 +133,14 @@ const addUser = async (event: Event): Promise<void> => {
   const payload = JSON.parse(atob(base64Payload));
   const registeredById = payload.user_id;
 
-  const firstName = (document.getElementById("firstName") as HTMLInputElement)
-    .value;
-  const lastName = (document.getElementById("lastName") as HTMLInputElement)
-    .value;
+  const firstName = (document.getElementById("firstName") as HTMLInputElement).value;
+  const lastName = (document.getElementById("lastName") as HTMLInputElement).value;
   const email = (document.getElementById("email") as HTMLInputElement).value;
-  const phoneNumber = (
-    document.getElementById("phoneNumber") as HTMLInputElement
-  ).value;
+  const phoneNumber = (document.getElementById("phoneNumber") as HTMLInputElement).value;
   const dob = (document.getElementById("dob") as HTMLInputElement).value;
   const gender = (document.getElementById("gender") as HTMLSelectElement).value;
-  const address = (document.getElementById("address") as HTMLInputElement)
-    .value;
-  const doctorId = parseInt(
-    (document.getElementById("doctorId") as HTMLSelectElement).value
-  );
+  const address = (document.getElementById("address") as HTMLInputElement).value;
+  const doctorId = parseInt((document.getElementById("doctorId") as HTMLSelectElement).value);
 
   const patientData = {
     first_name: firstName,
@@ -171,23 +154,7 @@ const addUser = async (event: Event): Promise<void> => {
   };
 
   try {
-    const patientResponse = await fetch(
-      "http://localhost:4000/api/v1/patients",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(patientData),
-      }
-    );
-
-    if (patientResponse.status !== 201) {
-      throw new Error("Failed to register patient");
-    }
-
-    const patient = await patientResponse.json();
+    const patient = await registerPatient(patientData, token);
 
     const queueData = {
       patient_id: patient.patient_id,
@@ -195,20 +162,7 @@ const addUser = async (event: Event): Promise<void> => {
       status: 1,
     };
 
-    const queueResponse = await fetch("http://localhost:4000/api/v1/queues", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(queueData),
-    });
-
-    if (queueResponse.status !== 201) {
-      throw new Error("Failed to add patient to queue");
-    }
-
-    const queueEntry: Queue = await queueResponse.json();
+    const queueEntry = await addToQueue(queueData, token);
     users.push(queueEntry);
     activeEntries++;
     renderUsers(users);
@@ -220,9 +174,7 @@ const addUser = async (event: Event): Promise<void> => {
 
 // Search and filter users
 const filterUsers = (): void => {
-  const searchValue = (
-    document.getElementById("searchInput") as HTMLInputElement
-  ).value.toLowerCase();
+  const searchValue = (document.getElementById("searchInput") as HTMLInputElement).value.toLowerCase();
 
   const filteredUsers = users.filter((user) => {
     return (

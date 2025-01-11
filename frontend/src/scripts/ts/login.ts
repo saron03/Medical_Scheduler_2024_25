@@ -1,10 +1,12 @@
+import { loginUser, signupUser } from './apis/api';
+
 // Grab the elements from the DOM and ensure they're properly typed
-const loginForm = document.getElementById("login") as HTMLFormElement | null;
-const signupForm = document.getElementById("signup") as HTMLFormElement | null;
-const toggleButton = document.getElementById("btn") as HTMLDivElement | null;
+const loginForm = document.getElementById("login") as HTMLFormElement;
+const signupForm = document.getElementById("signup") as HTMLFormElement;
+const toggleButton = document.getElementById("btn") as HTMLDivElement;
 const loginButton = document.querySelector(
   '.toggle-btn[onclick="login()"]'
-) as HTMLButtonElement | null;
+) as HTMLButtonElement;
 const signupButton = document.querySelector(
   '.toggle-btn[onclick="signup()"]'
 ) as HTMLButtonElement | null;
@@ -57,17 +59,7 @@ if (
     const loginData = { email, password, role };
 
     try {
-      const response = await fetch("http://localhost:4000/api/v1/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginData),
-      });
-
-      if (!response.ok) throw new Error("Login failed");
-
-      if (!response.ok) throw new Error("Login failed");
-
-      const { token } = await response.json();
+      const { token } = await loginUser(loginData);
       // Store the JWT token
       localStorage.setItem("jwtToken", token);
 
@@ -124,18 +116,7 @@ if (
     const userData = { email, username, password, roleId };
 
     try {
-      const response = await fetch(
-        "http://localhost:4000/api/v1/users/register",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(userData),
-        }
-      );
-
-      if (!response.ok) throw new Error("Signup failed");
-
-      const { token } = await response.json();
+      const { token } = await signupUser(userData);
       // Store the JWT token
       localStorage.setItem("jwtToken", token);
 
