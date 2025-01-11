@@ -40,29 +40,29 @@ const fetchCurrentUser = async (): Promise<User | undefined> => {
 // Render the profile for the current user
 const renderProfile = (user: User): void => {
   const profileSection = document.getElementById("profile") as HTMLElement;
-  const userName = document.getElementById("user-info") as HTMLElement | null;
-  if (!profileSection) {
+  const userInfo=document.getElementById("user-info") as HTMLElement;
+  if (!profileSection || !userInfo) {
     console.error("Profile section element not found.");
     return;
   }
 
   if (user) {
-    userName.innerHTML = `
-          <img src="imgs/profile.png" alt="Profile Picture" />
-          <h3>${user.username}</h3>
-        `;
+      userInfo.innerHTML=`
+                  <img src="imgs/profile.png" alt="Profile Picture">
+                  <h3>${user.username}</h3>`;
     profileSection.innerHTML = `
-        <img src="imgs/profile.png" alt="Profile Picture" />
+      <img src="imgs/profile.png" alt="Profile Picture">
         <h3>${user.username}</h3>
         <p>Role: ${user.role.name}</p>
         <p>Email: ${user.email}</p>
         <p>Created At: ${new Date(user.created_at).toLocaleString()}</p>
       `;
   } else {
-    userName.innerHTML = `<h3>User Not Found or Inactive</h3>`;
     profileSection.innerHTML = `<h3>User not found.</h3>`;
+    userInfo.innerHTML=`<h3>User not found.</h3>`
   }
 };
+
 
 // Edit the profile for the current user
 const editProfile = async (user: User): Promise<void> => {
@@ -75,18 +75,17 @@ const editProfile = async (user: User): Promise<void> => {
     console.error("Edit profile form or profile section element not found.");
     return;
   }
-
   editProfileForm.addEventListener("submit", async (e: Event) => {
     e.preventDefault();
 
     const formData = new FormData(editProfileForm);
-    const username = formData.get("username") as string;
+    const username = formData.get("name") as string;
     const email = formData.get("email") as string;
     const newPassword = formData.get("newPassword") as string;
     const confirmPassword = formData.get("confirmPassword") as string;
 
     // Validate password fields
-    if (newPassword !== confirmPassword) {
+    if (!newPassword && newPassword !== confirmPassword) {
       alert("New password and confirmation password do not match.");
       return;
     }
@@ -99,10 +98,10 @@ const editProfile = async (user: User): Promise<void> => {
 
     try {
       // Prepare updated data
-      const updatedData: { email?: string; username?: string; password?: string } = {
-        email: email || undefined,
-        username: username || undefined,
-        ...(newPassword && { password: newPassword }), // Include password only if provided
+      const updatedData = {
+        username:username,
+        email:email,
+        password: newPassword,
       };
 
       // Update the user profile
@@ -110,10 +109,6 @@ const editProfile = async (user: User): Promise<void> => {
         `http://localhost:4000/api/v1/users/${user.user_id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
           body: JSON.stringify(updatedData),
         }
       );
@@ -126,6 +121,7 @@ const editProfile = async (user: User): Promise<void> => {
       console.log("Profile updated successfully:", updatedUser);
 
       // Render the updated profile
+      
       renderProfile(updatedUser);
     } catch (error) {
       console.error("Error updating profile:", error);
@@ -139,24 +135,21 @@ const init = async (): Promise<void> => {
   const currentUser = await fetchCurrentUser();
   if (!currentUser) {
     console.error("Current user could not be loaded.");
-    return;
   }
 
-  
-const loginbtn= document.getElementById("login-btn") as HTMLImageElement | null;
-const signupbtn= document.getElementById("signup-btn") as HTMLImageElement | null;
+  const profileButton = document.getElementById(
+    "profile-button"
+  ) as HTMLButtonElement | null;
   const editProfileButton = document.getElementById(
     "edit-profile-button"
   ) as HTMLButtonElement | null;
-
-  if (loginbtn) {
-    loginbtn.addEventListener("click", () => renderProfile(currentUser));
-  } else {
-    console.error("Profile button element not found.");
-  }
-
-  if (signupbtn) {
-    signupbtn.addEventListener("click", () => renderProfile(currentUser));
+  const menuButton = document.getElementById(
+    "menu-btn"
+  )as HTMLButtonElement | null;
+  const Loginbutton=document.getElementById("login-btn") as HTMLButtonElement | null;
+  const signupbutton=document.getElementById("signupbtn") as HTMLButtonElement | null;
+  if (profileButton) {
+    profileButton.addEventListener("click", () => renderProfile(currentUser));
   } else {
     console.error("Profile button element not found.");
   }
@@ -166,6 +159,23 @@ const signupbtn= document.getElementById("signup-btn") as HTMLImageElement | nul
   } else {
     console.error("Edit profile button element not found.");
   }
+  if(menuButton){
+      menuButton.addEventListener("click",()=>renderProfile(currentUser));
+  }else{
+      console.error("menu button element not found.");
+  }
+  if(signupbutton){
+      signupbutton.addEventListener("click",()=>renderProfile(currentUser));
+  }else{
+      console.error("sign button element not found.");
+  }
+  if(Loginbutton){
+      Loginbutton.addEventListener("click",()=>renderProfile(currentUser));
+  }else{
+      console.error("login button element not found.");
+  }
 };
+
+
 
 init();

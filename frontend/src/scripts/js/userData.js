@@ -1,14 +1,3 @@
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -87,18 +76,18 @@ var fetchCurrentUser = function () { return __awaiter(_this, void 0, void 0, fun
 // Render the profile for the current user
 var renderProfile = function (user) {
     var profileSection = document.getElementById("profile");
-    var userName = document.getElementById("user-info");
-    if (!profileSection) {
+    var userInfo = document.getElementById("user-info");
+    if (!profileSection || !userInfo) {
         console.error("Profile section element not found.");
         return;
     }
     if (user) {
-        userName.innerHTML = "\n          <img src=\"imgs/profile.png\" alt=\"Profile Picture\" />\n          <h3>".concat(user.username, "</h3>\n        ");
-        profileSection.innerHTML = "\n        <img src=\"imgs/profile.png\" alt=\"Profile Picture\" />\n        <h3>".concat(user.username, "</h3>\n        <p>Role: ").concat(user.role.name, "</p>\n        <p>Email: ").concat(user.email, "</p>\n        <p>Created At: ").concat(new Date(user.created_at).toLocaleString(), "</p>\n      ");
+        userInfo.innerHTML = "\n                  <img src=\"imgs/profile.png\" alt=\"Profile Picture\">\n                  <h3>".concat(user.username, "</h3>");
+        profileSection.innerHTML = "\n      <img src=\"imgs/profile.png\" alt=\"Profile Picture\">\n        <h3>".concat(user.username, "</h3>\n        <p>Role: ").concat(user.role.name, "</p>\n        <p>Email: ").concat(user.email, "</p>\n        <p>Created At: ").concat(new Date(user.created_at).toLocaleString(), "</p>\n      ");
     }
     else {
-        userName.innerHTML = "<h3>User Not Found or Inactive</h3>";
         profileSection.innerHTML = "<h3>User not found.</h3>";
+        userInfo.innerHTML = "<h3>User not found.</h3>";
     }
 };
 // Edit the profile for the current user
@@ -119,12 +108,12 @@ var editProfile = function (user) { return __awaiter(_this, void 0, void 0, func
                     case 0:
                         e.preventDefault();
                         formData = new FormData(editProfileForm);
-                        username = formData.get("username");
+                        username = formData.get("name");
                         email = formData.get("email");
                         newPassword = formData.get("newPassword");
                         confirmPassword = formData.get("confirmPassword");
                         // Validate password fields
-                        if (newPassword !== confirmPassword) {
+                        if (!newPassword && newPassword !== confirmPassword) {
                             alert("New password and confirmation password do not match.");
                             return [2 /*return*/];
                         }
@@ -136,13 +125,13 @@ var editProfile = function (user) { return __awaiter(_this, void 0, void 0, func
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 4, , 5]);
-                        updatedData = __assign({ email: email || undefined, username: username || undefined }, (newPassword && { password: newPassword }));
+                        updatedData = {
+                            username: username,
+                            email: email,
+                            password: newPassword,
+                        };
                         return [4 /*yield*/, fetch("http://localhost:4000/api/v1/users/".concat(user.user_id), {
                                 method: "PUT",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    Authorization: "Bearer ".concat(token),
-                                },
                                 body: JSON.stringify(updatedData),
                             })];
                     case 2:
@@ -171,7 +160,7 @@ var editProfile = function (user) { return __awaiter(_this, void 0, void 0, func
 }); };
 // Initialize the application
 var init = function () { return __awaiter(_this, void 0, void 0, function () {
-    var currentUser, loginbtn, signupbtn, editProfileButton;
+    var currentUser, profileButton, editProfileButton, menuButton, Loginbutton, signupbutton;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, fetchCurrentUser()];
@@ -179,19 +168,14 @@ var init = function () { return __awaiter(_this, void 0, void 0, function () {
                 currentUser = _a.sent();
                 if (!currentUser) {
                     console.error("Current user could not be loaded.");
-                    return [2 /*return*/];
                 }
-                loginbtn = document.getElementById("login-btn");
-                signupbtn = document.getElementById("signup-btn");
+                profileButton = document.getElementById("profile-button");
                 editProfileButton = document.getElementById("edit-profile-button");
-                if (loginbtn) {
-                    loginbtn.addEventListener("click", function () { return renderProfile(currentUser); });
-                }
-                else {
-                    console.error("Profile button element not found.");
-                }
-                if (signupbtn) {
-                    signupbtn.addEventListener("click", function () { return renderProfile(currentUser); });
+                menuButton = document.getElementById("menu-btn");
+                Loginbutton = document.getElementById("login-btn");
+                signupbutton = document.getElementById("signupbtn");
+                if (profileButton) {
+                    profileButton.addEventListener("click", function () { return renderProfile(currentUser); });
                 }
                 else {
                     console.error("Profile button element not found.");
@@ -201,6 +185,24 @@ var init = function () { return __awaiter(_this, void 0, void 0, function () {
                 }
                 else {
                     console.error("Edit profile button element not found.");
+                }
+                if (menuButton) {
+                    menuButton.addEventListener("click", function () { return renderProfile(currentUser); });
+                }
+                else {
+                    console.error("menu button element not found.");
+                }
+                if (signupbutton) {
+                    signupbutton.addEventListener("click", function () { return renderProfile(currentUser); });
+                }
+                else {
+                    console.error("sign button element not found.");
+                }
+                if (Loginbutton) {
+                    Loginbutton.addEventListener("click", function () { return renderProfile(currentUser); });
+                }
+                else {
+                    console.error("login button element not found.");
                 }
                 return [2 /*return*/];
         }
