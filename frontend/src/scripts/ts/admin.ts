@@ -1,3 +1,5 @@
+import { fetchUsers, deleteUser, User } from './apis/api';
+
 // Check for JWT token on load
 const checkJwtToken = (): void => {
   const jwtToken = localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
@@ -8,14 +10,6 @@ const checkJwtToken = (): void => {
 
 // Call the checkJwtToken function on load
 checkJwtToken();
-// Define User interface
-interface User {
-  user_id: number;
-  name: string;
-  email: string;
-  accountStatus: string;
-  role: { name: string };
-}
 
 // Sample data (initially empty)
 let employees: User[] = [];
@@ -25,15 +19,12 @@ let totalReceptionists: number = 0;
 // Fetch data from the API
 const fetchEmployeesData = async (): Promise<void> => {
   try {
-    const response = await fetch("http://localhost:4000/api/v1/users");
-    const users: User[] = await response.json();
-
+    const users: User[] = await fetchUsers();
 
     // Filter users to show only Receptionists and Doctors
     employees = users.filter(
       (user) => user.role.name === "Receptionist" || user.role.name === "Doctor"
     );
-
 
     // Update the counters based on the fetched users
     totalDoctors = employees.filter(
@@ -42,7 +33,6 @@ const fetchEmployeesData = async (): Promise<void> => {
     totalReceptionists = employees.filter(
       (user) => user.role.name === "Receptionist"
     ).length;
-
 
     // Render the filtered employees
     renderEmployees(employees);
@@ -70,15 +60,11 @@ const renderEmployees = (employees: User[]): void => {
     userTableBody.innerHTML += row;
   });
 
-
   updateEmployeeCounters();
 };
 
-
-
 // Delete User
 const deleteEmployee = async (index: number): Promise<void> => {
-
   const userToBeDeleted = employees[index];
 
   if (!userToBeDeleted) {
@@ -86,13 +72,7 @@ const deleteEmployee = async (index: number): Promise<void> => {
   }
 
   try {
-    const response = await fetch(`http://localhost:4000/api/v1/users/${userToBeDeleted.user_id}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to delete user: ${response.statusText}`);
-    }
+    await deleteUser(userToBeDeleted.user_id);
 
     if (userToBeDeleted.role.name === "Doctor") {
       totalDoctors--;
@@ -103,7 +83,7 @@ const deleteEmployee = async (index: number): Promise<void> => {
     employees.splice(index, 1);
     renderEmployees(employees);
   } catch (error) {
-    console.log(error);
+    console.error("Error deleting user:", error);
   }
 };
 
@@ -138,6 +118,7 @@ function logoutUser(): void {
 
   window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
 }
+
 // Attach the logout function to the logout button
 document.getElementById("logout")?.addEventListener("click", logoutUser);
 

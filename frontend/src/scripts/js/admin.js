@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,7 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var _a;
-var _this = this;
+Object.defineProperty(exports, "__esModule", { value: true });
+var api_1 = require("./apis/api");
 // Check for JWT token on load
 var checkJwtToken = function () {
     var jwtToken = localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
@@ -50,17 +52,14 @@ var employees = [];
 var totalDoctors = 0;
 var totalReceptionists = 0;
 // Fetch data from the API
-var fetchEmployeesData = function () { return __awaiter(_this, void 0, void 0, function () {
-    var response, users, error_1;
+var fetchEmployeesData = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var users, error_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, fetch("http://localhost:4000/api/v1/users")];
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, (0, api_1.fetchUsers)()];
             case 1:
-                response = _a.sent();
-                return [4 /*yield*/, response.json()];
-            case 2:
                 users = _a.sent();
                 // Filter users to show only Receptionists and Doctors
                 employees = users.filter(function (user) { return user.role.name === "Receptionist" || user.role.name === "Doctor"; });
@@ -69,12 +68,12 @@ var fetchEmployeesData = function () { return __awaiter(_this, void 0, void 0, f
                 totalReceptionists = employees.filter(function (user) { return user.role.name === "Receptionist"; }).length;
                 // Render the filtered employees
                 renderEmployees(employees);
-                return [3 /*break*/, 4];
-            case 3:
+                return [3 /*break*/, 3];
+            case 2:
                 error_1 = _a.sent();
                 console.error("Error fetching data:", error_1);
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
         }
     });
 }); };
@@ -89,8 +88,8 @@ var renderEmployees = function (employees) {
     updateEmployeeCounters();
 };
 // Delete User
-var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, function () {
-    var userToBeDeleted, response, error_2;
+var deleteEmployee = function (index) { return __awaiter(void 0, void 0, void 0, function () {
+    var userToBeDeleted, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -101,14 +100,9 @@ var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, 
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, fetch("http://localhost:4000/api/v1/users/".concat(userToBeDeleted.user_id), {
-                        method: "DELETE",
-                    })];
+                return [4 /*yield*/, (0, api_1.deleteUser)(userToBeDeleted.user_id)];
             case 2:
-                response = _a.sent();
-                if (!response.ok) {
-                    throw new Error("Failed to delete user: ".concat(response.statusText));
-                }
+                _a.sent();
                 if (userToBeDeleted.role.name === "Doctor") {
                     totalDoctors--;
                 }
@@ -120,7 +114,7 @@ var deleteEmployee = function (index) { return __awaiter(_this, void 0, void 0, 
                 return [3 /*break*/, 4];
             case 3:
                 error_2 = _a.sent();
-                console.log(error_2);
+                console.error("Error deleting user:", error_2);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }
