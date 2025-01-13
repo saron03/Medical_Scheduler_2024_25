@@ -1,72 +1,73 @@
 .card {
-    margin-bottom: 1rem;
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-    background: linear-gradient(135deg, #003366 0%, #6699CC 100%);
-    color: white;
+  margin-bottom: 1rem;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+  background: linear-gradient(135deg, #003366 0%, #6699cc 100%);
+  color: white;
 }
 
 .card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .card-body h5 {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .card-text {
-    margin-left: 2rem;
+  margin-left: 2rem;
 }
 
 .table thead tr > th {
-    color: white;
+  color: white;
 }
 
-.table thead tr > th, .table tbody tr > th {
-    background-color: transparent;
+.table thead tr > th,
+.table tbody tr > th {
+  background-color: transparent;
 }
 
 .table thead {
-    background-color: #003366;
-    color: white;
+  background-color: #003366;
+  color: white;
 }
 
 .table tbody tr {
-    transition: background-color 0.3s, transform 0.3s;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
 .table tbody tr:hover {
-    translate: scale(1.02);
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  translate: scale(1.02);
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
 .table tbody tr:hover > td {
-    background-color: transparent;
+  background-color: transparent;
 }
 
-
 .table tbody tr.pending {
-    border-left: 7px solid yellow;
-    border-radius: 0 10px 10px 0;
+  border-left: 7px solid yellow;
+  border-radius: 0 10px 10px 0;
 }
 
 .table tbody tr.resolved {
-    border-left: 7px solid green;
-    border-radius: 0 10px 10px 0;
+  border-left: 7px solid green;
+  border-radius: 0 10px 10px 0;
 }
 
 .btn {
-    background: linear-gradient(135deg, #003366 0%, #6699CC 100%);
-    color: white;
-    border: none;
-    transition: background 0.3s ease-in-out, transform 0.3s;
+  background: linear-gradient(135deg, #003366 0%, #6699cc 100%);
+  color: white;
+  border: none;
+  transition: background 0.3s ease-in-out, transform 0.3s;
 }
 
 .btn:hover {
-    background: linear-gradient(135deg, #6699CC 0%, #003366 100%);
+  background: linear-gradient(135deg, #6699cc 0%, #003366 100%);
 }
 
 .btn:active {
-    transform: scale(0.95);
+  transform: scale(0.95);
 }
