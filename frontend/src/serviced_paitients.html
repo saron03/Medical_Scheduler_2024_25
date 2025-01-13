@@ -11,6 +11,8 @@
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
 
 </head>
+
+
 <body>
     <div class="wrapper">
         <aside id="sidebar">
@@ -22,6 +24,8 @@
                     <a href="#">Medicare</a>
                 </div>
             </div>
+
+
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
                     <a href="profile.html" class="sidebar-link">
@@ -29,12 +33,14 @@
                         <span>Profile</span>
                     </a>
                 </li>
+
                 <li class="sidebar-item">
                     <a href="serviced_paitients.html" class="sidebar-link">
                         <i class="lni lni-users"></i>
                         <span>Serviced Patients</span>
                     </a>
                 </li>
+
                 <li class="sidebar-item">
                     <a href="index.html" id="logout" class="sidebar-link">
                         <i class="lni lni-exit"></i>
@@ -43,16 +49,21 @@
                 </li>
             </ul>
         </aside>
+
+
         <div class="main">
             <header>
                 <img src="imgs/profile.png"  onclick="toggleMenu()" alt="Profile Picture">
         </header>
+
+
         <div class="sub-menu-wrap" id="subMenu">
             <div class="sub-menu">
                 <div class="user-info">
                     <img src="imgs/profile.png" alt="Profile Picture">
                     <h3>John Doe</h3>
                 </div>
+
                 <hr>
                 <a onclick="storeActionAndNavigate()" class="sub-menu-link">
                     <img src="imgs/profile.png" alt="Profile Picture">
@@ -61,6 +72,8 @@
                 </a>
             </div> 
         </div>
+
+
             <div class="container mt-5">
                 <h2 class="mb-4">Completed Users</h2>
                 <table class="table table-bordered">
@@ -72,6 +85,7 @@
                             <th>Completion Time</th>
                         </tr>
                     </thead>
+                    
                     <tbody id="completedUserTableBody">
                         <!-- Rows will be dynamically added here -->
                     </tbody>
