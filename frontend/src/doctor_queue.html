@@ -23,10 +23,12 @@
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M15.1035 12.75C13.8609 12.75 12.8535 13.7574 12.8535 15V18.5C12.8535 19.7426 13.8609 20.75 15.1035 20.75H18.6035C19.8462 20.75 20.8535 19.7426 20.8535 18.5V15C20.8535 13.7574 19.8462 12.75 18.6035 12.75H15.1035ZM14.3535 15C14.3535 14.5858 14.6893 14.25 15.1035 14.25H18.6035C19.0177 14.25 19.3535 14.5858 19.3535 15V18.5C19.3535 18.9142 19.0177 19.25 18.6035 19.25H15.1035C14.6893 19.25 14.3535 18.9142 14.3535 18.5V15Z" fill="#fff"/>
                     </svg>
                 </button>
+
                 <div class="sidebar-logo">
                     <a href="#">Medicare</a>
                 </div>
             </div>
+
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
                     <a href="profile.html#profile-button" class="sidebar-link">
@@ -37,6 +39,7 @@
                         <span>Profile</span>
                     </a>
                 </li>
+
                 <li class="sidebar-item">
                     <a href="serviced_paitients.html" class="sidebar-link">
                         <svg width="25" height="25" viewBox="0 0 25 24" fill="#343C54" xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
@@ -50,6 +53,7 @@
                         <span>Serviced Patients</span>
                     </a>
                 </li>
+
                 <li class="sidebar-item">
                     <a href="index.html" id="logout" class="sidebar-link">
                         <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,10 +65,14 @@
                 </li>
             </ul>
         </aside>
+
+
         <div class="main">
         <header>
             <img src="imgs/profile.png" onclick="toggleMenu()" id="menu-btn" alt="Profile Picture">
         </header>
+
+
         <div class="sub-menu-wrap" id="subMenu">
             <div class="sub-menu">
                 <div class="user-info" id="user-info">
@@ -77,6 +85,8 @@
                 </a>
             </div> 
         </div>
+
+
         <div class="container mt-5">
             <h2 class="mb-4">Doctor Queue</h2>
             <!-- Cards Section -->
@@ -92,6 +102,8 @@
                         <p class="card-text" id="totalCompleted">0</p>
                     </div>
                 </div>
+
+
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">
@@ -108,6 +120,8 @@
                         <p class="card-text" id="totalPending">0</p>
                     </div>
                 </div>
+
+
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">
@@ -121,6 +135,7 @@
                 </div>
             </div>
         
+            
             <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search for users..." oninput="filterUsers()">
             <table class="table table-bordered">
                 <thead>
