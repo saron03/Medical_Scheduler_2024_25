@@ -1,188 +1,173 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: azure;
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: azure;
 }
 
-.page{
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.page {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.form-box{
-    width: 400px;
-    height: 500px;
-    border-radius: 10px;
-    position: relative;
-    margin: 2rem;
-    background-color: #fff;
-    overflow: hidden;
-    padding: 2rem;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+.form-box {
+  width: 400px;
+  height: 500px;
+  border-radius: 10px;
+  position: relative;
+  margin: 2rem;
+  background-color: #fff;
+  overflow: hidden;
+  padding: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-.button{
-    position: relative;
-    width: 220px;
-    margin: 1rem auto;
-    box-shadow: 0 0 20px 9px rgba(106, 17, 203, 0.12);
-    border-radius: 20px;
-    background-color: transparent;
-    border: 2px solid #003366; /* Dark blue */
+.button {
+  position: relative;
+  width: 220px;
+  margin: 1rem auto;
+  box-shadow: 0 0 20px 9px rgba(106, 17, 203, 0.12);
+  border-radius: 20px;
+  background-color: transparent;
+  border: 2px solid #003366; /* Dark blue */
 }
 
-#btn{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #003366 0%, #6699CC 100%);
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
+#btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #003366 0%, #6699cc 100%);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
 
-
-.button .toggle-btn.active { color: #fff; }
-.toggle-btn{
-    padding: 10px 30px;
-    cursor: pointer;
-    background: transparent;
-    border: 0;
-    outline: none;
-    position: relative;
+.button .toggle-btn.active {
+  color: #fff;
+}
+.toggle-btn {
+  padding: 10px 30px;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  outline: none;
+  position: relative;
 }
 
-#btn:hover{
-    background: linear-gradient(135deg, #6699CC 0%, #003366 100%);
+#btn:hover {
+  background: linear-gradient(135deg, #6699cc 0%, #003366 100%);
 }
 
-
-#btn:active{
-    transform: scale(0.95);
+#btn:active {
+  transform: scale(0.95);
 }
 
-
-.input-group{
-    position: absolute;
-    width: 300px;
-    top: 100px;
-    transition: all 0.3s ease-in-out;
+.input-group {
+  position: absolute;
+  width: 300px;
+  top: 100px;
+  transition: all 0.3s ease-in-out;
 }
-
 
 button[class="submit-btn"] {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
-
-.input-field{
-    width: 100%;
-    padding: 10px 0;
-    margin: 5px 0;
-    border-left: 0;
-    border-right: 0;
-    border-top: 0;
-    border-bottom: 1px solid #999;
-    outline: none;
-    background: transparent;
+.input-field {
+  width: 100%;
+  padding: 10px 0;
+  margin: 5px 0;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  border-bottom: 1px solid #999;
+  outline: none;
+  background: transparent;
 }
 
-
-.submit-btn{
-    width: 100%;
-    padding: 10px 0;
-    margin: 5px 0;
-    border: none;
-    outline: none;
-    background: linear-gradient(135deg, #003366 0%, #6699CC 100%);
-    color: #fff;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
+.submit-btn {
+  width: 100%;
+  padding: 10px 0;
+  margin: 5px 0;
+  border: none;
+  outline: none;
+  background: linear-gradient(135deg, #003366 0%, #6699cc 100%);
+  color: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
-
-.submit-btn:hover{
-    background: linear-gradient(135deg, #6699CC 0%, #003366 100%);
+.submit-btn:hover {
+  background: linear-gradient(135deg, #6699cc 0%, #003366 100%);
 }
 
-
-.submit-btn:active{
-    transform: scale(0.95);
+.submit-btn:active {
+  transform: scale(0.95);
 }
 
-
-.check-box{
-    margin: 30px 0px 30px 0px;
+.check-box {
+  margin: 30px 0px 30px 0px;
 }
 
-
-span{
-    color: #777;
-    font-size: 12px;
-    position: absolute;
-    bottom: 76px;
-    left: 15px;
+span {
+  color: #777;
+  font-size: 12px;
+  position: absolute;
+  bottom: 76px;
+  left: 15px;
 }
 
-
-p{
-    color: #777;
-    font-size: 12px;
-    position: absolute;
-    top: 150px;
-    left: 0;
-    text-align: center; 
+p {
+  color: #777;
+  font-size: 12px;
+  position: absolute;
+  top: 150px;
+  left: 0;
+  text-align: center;
 }
 
-
-#login{
-    left: 50px;
+#login {
+  left: 50px;
 }
 
-
-#signup{
-    left: 450px;
+#signup {
+  left: 450px;
 }
-
 
 button[onclick="signup()"] {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 
-
-.back-to-home{
-    position: fixed;
-    top:20px;
-    right: 20px;  
-    background-color: #003366;
-    padding: 10px;
-    border-radius: 15px;
-    color: azure;
-    width: 150px;
-    text-decoration: underline;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+.back-to-home {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #003366;
+  padding: 10px;
+  border-radius: 15px;
+  color: azure;
+  width: 150px;
+  text-decoration: underline;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-
-.back-to-home:hover{
-    background-color: #6699CC; 
-    transform: scale(1.1);
+.back-to-home:hover {
+  background-color: #6699cc;
+  transform: scale(1.1);
 }
-
