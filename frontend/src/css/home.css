@@ -12,6 +12,7 @@
       background: linear-gradient(135deg, #003366 0%, #6699CC 100%);
 
     }
+
     .container {
       padding-left: 0;
       padding-right: 0;
@@ -24,6 +25,7 @@
     .navbar-nav .nav-link:hover {
       color: #007bff !important; 
     }
+
     body {
       display: flex;
       flex-direction: column;
@@ -34,6 +36,7 @@
     footer {
       margin-top: auto;
     }
+
     .features .card {
       border: 2px solid #007bff;
       transition: transform 0.3s ease;
@@ -67,27 +70,34 @@
     body {
       transition: background-color 0.5s, color 0.5s;
     }
+
     .card:hover {
       transform: scale(1.1) rotate(2deg);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
       box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
     }
+
     button {
       transition: background-color 0.3s ease, transform 0.3s ease;
     }
+
     button:hover {
       background-color: #0056b3 !important;
       transform: translateY(-2px);
     }
+
     .dark-mode {
       background-color: #121212;
       color: #ffffff;
     }
+
     .gradient-text {
       background: linear-gradient(90deg, #007bff, #00c853);
       -webkit-background-clip: text;
+      background-clip: text;
       color: transparent;
     }
+
     .modal-body p {
       line-height: 1.6;
     }
@@ -95,11 +105,13 @@
     main {
       animation: fadeIn 1.5s ease-in-out;
     }
+    
     @keyframes fadeIn {
       from {
         opacity: 0;
         transform: translateY(20px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -114,6 +126,7 @@
     .list-group-item {
       transition: all 0.3s ease;
     }
+
     .list-group-item:hover {
       background-color: #f8f9fa;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -138,6 +151,7 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
       transition: all 0.3s ease;
     }
+
     #scrollToTop:hover {
       background-color: #0056b3;
     }
@@ -211,6 +225,7 @@ h2:hover::after, h3:hover::after {
 main {
   animation: fadeIn 1.5s ease-in-out;
 }
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -230,10 +245,12 @@ main {
 .list-group-item {
   transition: all 0.3s ease;
 }
+
 .list-group-item:hover {
   background-color: #f8f9fa;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 #scrollToTop {
   position: fixed;
   bottom: 20px;
@@ -252,6 +269,7 @@ main {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 }
+
 #scrollToTop:hover {
   background-color: #0056b3;
 }

@@ -35,6 +35,7 @@
 .main{
     background-color: azure;
 }
+
 .user-info{
     display: flex;
     align-items: center;
@@ -117,6 +118,7 @@
     overflow: hidden;
 }
 
+
 .button{
     position: relative;
     width: 240px;
@@ -126,6 +128,8 @@
     background-color: transparent;
     border: 2px solid #6a11cb;
 }
+
+
 #btn{
     position: absolute;
     top: 0;
@@ -138,6 +142,7 @@
     cursor: pointer;
 }
 
+
 .toggle-btn-profile{
     padding: 5px 20px 5px 30px ;
     cursor: pointer;
@@ -147,15 +152,18 @@
     position: relative;
 }
 
+
 .box {
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
 
+
 #btn:hover{
     background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
 }
+
 
 #btn:active{
     transform: scale(0.95);
@@ -172,17 +180,20 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+
 .profile img {
     width: 100px;
     border-radius: 50%;
     margin-bottom: 10px;
 }
 
+
 .profile h3 {
     margin: 10px 0 5px;
     font-size: 1.5rem;
     color: #333;
 }
+
 
 .profile p {
     margin: 5px 0;
@@ -199,6 +210,7 @@
     transition: all 0.3s ease-in-out;
 }
 
+
 .input-field{
     width: 100%;
     padding: 10px 0;
@@ -210,6 +222,7 @@
     outline: none;
     background: transparent;
 }
+
 
 .submit-btn{
     width: 100%;
@@ -224,9 +237,11 @@
     transition: all 0.3s ease-in-out;
 }
 
+
 .submit-btn:hover{
     background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
 }
+
 
 .submit-btn:active{
     transform: scale(0.95);
@@ -237,6 +252,7 @@
 #profile{
     left: 50px;
 }
+
 
 #edit-profile{
     left: 450px;

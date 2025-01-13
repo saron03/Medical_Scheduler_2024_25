@@ -44,6 +44,7 @@ body{
     background-color: transparent;
     border: 2px solid #003366; /* Dark blue */
 }
+
 #btn{
     position: absolute;
     top: 0;
@@ -55,6 +56,8 @@ body{
     transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
+
+
 .button .toggle-btn.active { color: #fff; }
 .toggle-btn{
     padding: 10px 30px;
@@ -69,9 +72,11 @@ body{
     background: linear-gradient(135deg, #6699CC 0%, #003366 100%);
 }
 
+
 #btn:active{
     transform: scale(0.95);
 }
+
 
 .input-group{
     position: absolute;
@@ -80,9 +85,11 @@ body{
     transition: all 0.3s ease-in-out;
 }
 
+
 button[class="submit-btn"] {
     margin-top: 2rem;
 }
+
 
 .input-field{
     width: 100%;
@@ -95,6 +102,7 @@ button[class="submit-btn"] {
     outline: none;
     background: transparent;
 }
+
 
 .submit-btn{
     width: 100%;
@@ -109,17 +117,21 @@ button[class="submit-btn"] {
     transition: all 0.3s ease-in-out;
 }
 
+
 .submit-btn:hover{
     background: linear-gradient(135deg, #6699CC 0%, #003366 100%);
 }
+
 
 .submit-btn:active{
     transform: scale(0.95);
 }
 
+
 .check-box{
     margin: 30px 0px 30px 0px;
 }
+
 
 span{
     color: #777;
@@ -128,6 +140,7 @@ span{
     bottom: 76px;
     left: 15px;
 }
+
 
 p{
     color: #777;
@@ -138,17 +151,21 @@ p{
     text-align: center; 
 }
 
+
 #login{
     left: 50px;
 }
+
 
 #signup{
     left: 450px;
 }
 
+
 button[onclick="signup()"] {
     margin-left: 1rem;
 }
+
 
 .back-to-home{
     position: fixed;
@@ -162,6 +179,7 @@ button[onclick="signup()"] {
     text-decoration: underline;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
+
 
 .back-to-home:hover{
     background-color: #6699CC; 
