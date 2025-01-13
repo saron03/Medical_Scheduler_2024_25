@@ -1,34 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Page title -->
   <title>Contact - Medical Scheduler</title>
+  
+  <!-- Linking CSS files -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/home.css">
+  
+  <!-- Smooth scrolling JavaScript -->
   <script>
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener("click", function(e) {
-    e.preventDefault();
-    document.querySelector(this.getAttribute("href")).scrollIntoView({
-      behavior: "smooth"
+      anchor.addEventListener("click", function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute("href")).scrollIntoView({
+          behavior: "smooth"
+        });
+      });
     });
-  });
-});
-
   </script>
 </head>
 <body>
+  <!-- Header section -->
   <header class="bg-primary text-white">
     <div class="container d-flex justify-content-between align-items-center gradient-background py-3">
+      <!-- Logo or title -->
       <h1 class="mb-0">Medical Scheduler</h1>
+      <!-- Login/Signup button -->
       <a href="signup.html" class="btn btn-light">Login/Signup</a>
     </div>
+    
+    <!-- Navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
+        <!-- Navbar toggle button -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
+        
+        <!-- Navbar links -->
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
@@ -40,12 +54,19 @@
     </nav>
   </header>
 
+  <!-- Main content -->
   <main class="container my-5">
+    <!-- Contact section -->
     <section class="contact">
+      <!-- Section title -->
       <h2 class="text-center mb-4">Contact Us</h2>
+      
+      <!-- Section description -->
       <p class="lead text-center">If you have any questions or feedback about Medical Scheduler, feel free to reach out to us. We’d love to hear from you!</p>
 
+      <!-- Contact details and form -->
       <div class="row my-4">
+        <!-- Contact information -->
         <div class="col-md-6">
           <h3>Get in Touch</h3>
           <ul class="list-group">
@@ -54,6 +75,8 @@
             <li class="list-group-item"><strong>Address:</strong> 5 kilo, Addis Ababa, Ethiopia</li>
           </ul>
         </div>
+        
+        <!-- Contact form -->
         <div class="col-md-6">
           <h3>Contact Form</h3>
           <form action="submit_form.php" method="post" class="p-3 border rounded">
@@ -74,6 +97,7 @@
         </div>
       </div>
 
+      <!-- Social media links -->
       <div class="text-center mt-4">
         <h3>Follow Us</h3>
         <p>Stay updated by following us on social media:</p>
@@ -84,10 +108,12 @@
     </section>
   </main>
 
+  <!-- Footer -->
   <footer class="bg-dark text-white text-center py-3">
     <p>© 2025 Medical Scheduler. All Rights Reserved.</p>
   </footer>
 
+  <!-- Linking JavaScript files -->
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/effects.js"></script>
 </body>
