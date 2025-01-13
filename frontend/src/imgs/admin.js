@@ -4,20 +4,24 @@ var employees = [];
 var totalDoctors = 0;
 var totalReceptionists = 0;
 var restrictedAccounts = 0;
+
 // Fetches and renders the users from the API
 document.addEventListener("DOMContentLoaded", function () {
   var userListElement = document.getElementById("userList");
   var userTableBody = document.getElementById("userTableBody");
+
   // Fetch the list of users
   fetch("http://localhost:4000/api/v1/users")
     .then(function (response) {
       return response.json();
     })
+
     .then(function (users) {
       // Filter users to show only Receptionists and Doctors
       employees = users.filter(function (user) {
         return user.role.name === "Receptionist" || user.role.name === "Doctor";
       });
+
       // Update the counters based on the fetched users
       totalDoctors = employees.filter(function (user) {
         return user.role.name === "Doctor";
@@ -31,9 +35,11 @@ document.addEventListener("DOMContentLoaded", function () {
       // Render the users
       renderUsers(employees);
     })
+
     .catch(function (error) {
       return console.error("Error fetching users:", error);
     });
+
   // Renders the user table
   function renderUsers(employees) {
     userTableBody.innerHTML = "";
@@ -56,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     updateCounters();
   }
+
   // Implements search functionality
   function filterUsers() {
     var searchValue = document
@@ -71,6 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     renderUsers(filteredUsers);
   }
+
   // Updates the counters for total doctors, receptionists, and restricted accounts
   function updateCounters() {
     document.getElementById("totalDoctors").innerText = totalDoctors.toString();
@@ -79,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("restrictedAccounts").innerText =
       restrictedAccounts.toString();
   }
+
   // Initial rendering of users
   renderUsers(employees);
   // Delete function defined globally
@@ -103,6 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   };
 });
+
 // Search input event listener
 (_a = document.getElementById("searchInput")) === null || _a === void 0
   ? void 0
