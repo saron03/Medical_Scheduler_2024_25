@@ -1,4 +1,10 @@
-import { fetchQueues, registerPatient, addToQueue, updateUserStatus, deleteUserFromQueue } from './apis/api';
+import {
+  fetchQueues,
+  registerPatient,
+  addToQueue,
+  updateUserStatus,
+  deleteUserFromQueue,
+} from "./apis/api";
 
 // Interfaces for the Patient and Doctor Models
 interface Patient {
@@ -51,7 +57,9 @@ const fetchData = async (): Promise<void> => {
 
 // Render the users in the table
 const renderUsers = (users: Queue[]): void => {
-  const userTableBody = document.getElementById("userTableBody") as HTMLTableSectionElement;
+  const userTableBody = document.getElementById(
+    "userTableBody"
+  ) as HTMLTableSectionElement;
   userTableBody.innerHTML = "";
 
   users.forEach((user, index) => {
@@ -63,11 +71,12 @@ const renderUsers = (users: Queue[]): void => {
           <td>${user.patient.first_name} ${user.patient.last_name}</td>
           <td>${new Date(user.created_at).toLocaleString()}</td>
           <td>${
-                user.status === 1
-                  ? "Not Pending"
-                  : user.status === 2
-                  ? "Pending"
-                  : "Resolved Pending"}
+            user.status === 1
+              ? "Not Pending"
+              : user.status === 2
+              ? "Pending"
+              : "Resolved Pending"
+          }
           </td>
           <td>
             <button class="btn btn-sm" onclick="resolvePendingUser(${index})" ${
@@ -84,8 +93,10 @@ const renderUsers = (users: Queue[]): void => {
 
 // Update counters for active and pending entries
 const updateCounters = (): void => {
-  document.getElementById("activeEntries")!.innerText = activeEntries.toString();
-  document.getElementById("pendingEntries")!.innerText = pendingEntries.toString();
+  document.getElementById("activeEntries")!.innerText =
+    activeEntries.toString();
+  document.getElementById("pendingEntries")!.innerText =
+    pendingEntries.toString();
 };
 
 // Resolve pending user
@@ -133,14 +144,21 @@ const addUser = async (event: Event): Promise<void> => {
   const payload = JSON.parse(atob(base64Payload));
   const registeredById = payload.user_id;
 
-  const firstName = (document.getElementById("firstName") as HTMLInputElement).value;
-  const lastName = (document.getElementById("lastName") as HTMLInputElement).value;
+  const firstName = (document.getElementById("firstName") as HTMLInputElement)
+    .value;
+  const lastName = (document.getElementById("lastName") as HTMLInputElement)
+    .value;
   const email = (document.getElementById("email") as HTMLInputElement).value;
-  const phoneNumber = (document.getElementById("phoneNumber") as HTMLInputElement).value;
+  const phoneNumber = (
+    document.getElementById("phoneNumber") as HTMLInputElement
+  ).value;
   const dob = (document.getElementById("dob") as HTMLInputElement).value;
   const gender = (document.getElementById("gender") as HTMLSelectElement).value;
-  const address = (document.getElementById("address") as HTMLInputElement).value;
-  const doctorId = parseInt((document.getElementById("doctorId") as HTMLSelectElement).value);
+  const address = (document.getElementById("address") as HTMLInputElement)
+    .value;
+  const doctorId = parseInt(
+    (document.getElementById("doctorId") as HTMLSelectElement).value
+  );
 
   const patientData = {
     first_name: firstName,
@@ -174,7 +192,9 @@ const addUser = async (event: Event): Promise<void> => {
 
 // Search and filter users
 const filterUsers = (): void => {
-  const searchValue = (document.getElementById("searchInput") as HTMLInputElement).value.toLowerCase();
+  const searchValue = (
+    document.getElementById("searchInput") as HTMLInputElement
+  ).value.toLowerCase();
 
   const filteredUsers = users.filter((user) => {
     return (

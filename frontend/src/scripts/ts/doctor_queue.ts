@@ -4,11 +4,12 @@ import {
   fetchUserDetails,
   updateUserStatus,
   Queue,
-} from './apis/api';
+} from "./apis/api";
 
 // Check for JWT token on load
 const checkJwtToken = (): void => {
-  const jwtToken = localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
+  const jwtToken =
+    localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
   if (!jwtToken) {
     window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
   }

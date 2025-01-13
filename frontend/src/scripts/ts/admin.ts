@@ -1,8 +1,9 @@
-import { fetchUsers, deleteUser, User } from './apis/api';
+import { fetchUsers, deleteUser, User } from "./apis/api";
 
 // Check for JWT token on load
 const checkJwtToken = (): void => {
-  const jwtToken = localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
+  const jwtToken =
+    localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
   if (!jwtToken) {
     window.location.href = "http://127.0.0.1:5500/frontend/src/index.html";
   }
@@ -43,7 +44,9 @@ const fetchEmployeesData = async (): Promise<void> => {
 
 // Render employees
 const renderEmployees = (employees: User[]): void => {
-  const userTableBody = document.getElementById("userTableBody") as HTMLTableSectionElement;
+  const userTableBody = document.getElementById(
+    "userTableBody"
+  ) as HTMLTableSectionElement;
   userTableBody.innerHTML = "";
 
   employees.forEach((user, index) => {
@@ -99,7 +102,7 @@ function filterEmployees(): void {
       user.email.toLowerCase().startsWith(searchValue) ||
       user.role.name.toLowerCase().startsWith(searchValue)
   );
-  
+
   renderEmployees(filteredUsers);
 }
 
